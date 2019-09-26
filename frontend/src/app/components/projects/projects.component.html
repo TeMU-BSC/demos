@@ -1,0 +1,7 @@
+<section fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="center start" fxLayoutGap="2em" class="p-3">
+  <mat-card *ngFor="let project of projects" [routerLink]="project.routerLink" fxFlex="20" fxFlex.xs="100"
+    class="mb-3">
+    <mat-card-title>{{ project.name }}</mat-card-title>
+    <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
+  </mat-card>
+</section>

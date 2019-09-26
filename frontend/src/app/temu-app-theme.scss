@@ -1,0 +1,57 @@
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+$bsc-blue: (
+//   50: #fff3e0,
+  100: #467dcf,
+//   200: #ffcc80,
+//   300: #ffb74d,
+//   400: #ffa726,
+  500: #05357d,
+//   600: #fb8c00,
+//   700: #f57c00,
+//   800: #ef6c00,
+//   900: #e65100,
+//   A100: #ffd180,
+//   A200: #ffab40,
+//   A400: #ff9100,
+//   A700: #ff6d00,
+  contrast: (
+    // 50: $dark-primary-text,
+    // 100: $dark-primary-text,
+    // 200: $dark-primary-text,
+    // 300: $dark-primary-text,
+    // 400: $dark-primary-text,
+    500: $light-primary-text,
+    // 600: $dark-primary-text,
+    // 700: $dark-primary-text,
+    // 800: $light-primary-text,
+    // 900: $light-primary-text,
+    // A100: $dark-primary-text,
+    // A200: $dark-primary-text,
+    // A400: $dark-primary-text,
+    A700: black,
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$temu-app-primary: mat-palette($bsc-blue, 500, 100);
+$temu-app-accent: mat-palette($mat-amber);
+
+// The warn palette is optional (defaults to red).
+$temu-app-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$temu-app-theme: mat-light-theme($temu-app-primary, $temu-app-accent, $temu-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($temu-app-theme);

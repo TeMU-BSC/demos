@@ -1,0 +1,75 @@
+# https://github.com/delsner/python-flask-angular-starter/blob/master/docker-compose.dev.yml
+
+version: '3'
+
+services:
+
+  frontend:
+    image: bsctemu/frontend
+    build: ./frontend
+    container_name: "frontend"
+    volumes:
+      # - /app/node_modules
+      - ./frontend:/app
+    ports:
+      - 4200:4200
+    # networks:
+    #   - frontend
+    # deploy:
+    #   replicas: 2
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure
+
+  # freeling-cnio:
+  #   image: bsctemu/freeling-cnio:1.0.0
+  #   ports:
+  #     - 4000:4000
+
+  spaccc-pos-tagger-api:
+    image: bsctemu/spaccc-pos-tagger
+    build: ./backend/spaccc-pos-tagger
+    container_name: spaccc-pos-tagger-api
+    volumes:
+        - ./backend/spaccc-pos-tagger:/app
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - 5000:5000
+    # networks:
+    #   - backend
+
+  # translator:
+  #   # image: bsctemu/translator-api
+  #   build: ./backend/translator
+  #   container_name: translator
+  #   volumes:
+  #       - ./backend/translator:/usr/src/app
+  #   # environment:
+  #   #   - FLASK_ENV=development
+  #   ports:
+  #     - "5001:5000"
+  #   networks:
+  #     - backend
+
+  # pharmaconer-tagger:
+  #   # image: bsctemu/pharmaconer-tagger-api
+  #   build: ./backend/pharmaconer-tagger
+  #   container_name: pharmaconer-tagger-api
+  #   volumes:
+  #       - ./backend/pharmaconer-tagger:/usr/src/app
+  #   # environment:
+  #   #   - FLASK_ENV=development
+  #   ports:
+  #     - "5002:5000"
+  #   networks:
+  #     - backend
+
+# networks:
+#   frontend:
+#   backend:
+
+# volumes:
+#   db-data:

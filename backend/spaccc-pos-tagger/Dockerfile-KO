@@ -1,0 +1,14 @@
+FROM gliderlabs/alpine:3.3
+
+WORKDIR /myapp
+COPY . /myapp
+
+RUN apk --update add python3 py-pip openssl ca-certificates
+RUN apk --update add --virtual build-dependencies python-dev build-base wget \
+  && pip install --upgrade pip \
+  && pip install -r requirements.txt
+#   && python setup.py install \
+#   && apk del build-dependencies
+
+# CMD ["myapp", "start"]
+CMD flask run

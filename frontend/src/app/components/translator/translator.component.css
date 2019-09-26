@@ -1,0 +1,8 @@
+.negative-margin-bottom {
+  margin-bottom: -2em;
+}
+
+/* Override padding-top of the material card of the translator component */
+.app-no-padding-top-card {
+  padding-top: 0;
+}
