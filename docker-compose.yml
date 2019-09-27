@@ -4,29 +4,12 @@ version: '3'
 
 services:
 
-  frontend:
-    image: bsctemu/frontend
-    build: ./frontend
-    container_name: "frontend"
-    volumes:
-      # - /app/node_modules
-      - ./frontend:/app
+  freeling-cnio:
+    image: bsctemu/freeling-cnio:1.0.0
     ports:
-      - 4200:4200
-    # networks:
-    #   - frontend
-    # deploy:
-    #   replicas: 2
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure
-
-  # freeling-cnio:
-  #   image: bsctemu/freeling-cnio:1.0.0
-  #   ports:
-  #     - 4000:4000
+      - 4000:4000
+    networks:
+      - demos
 
   spaccc-pos-tagger-api:
     image: bsctemu/spaccc-pos-tagger
@@ -38,8 +21,8 @@ services:
       - FLASK_ENV=development
     ports:
       - 5000:5000
-    # networks:
-    #   - backend
+    networks:
+      - demos
 
   # translator:
   #   # image: bsctemu/translator-api
@@ -67,9 +50,29 @@ services:
   #   networks:
   #     - backend
 
-# networks:
-#   frontend:
-#   backend:
+  frontend:
+    image: bsctemu/frontend
+    build: ./frontend
+    container_name: "frontend"
+    volumes:
+      # - /app/node_modules
+      - ./frontend:/app
+    ports:
+      - 4200:4200
+    networks:
+      - demos
+    depends_on:
+      - spaccc-pos-tagger-api
+    # deploy:
+    #   replicas: 2
+    #   update_config:
+    #     parallelism: 2
+    #     delay: 10s
+    #   restart_policy:
+    #     condition: on-failure
+
+networks:
+  demos:
 
 # volumes:
 #   db-data:

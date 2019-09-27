@@ -2,7 +2,6 @@
 Medical Tagger module
 '''
 
-from typing import List
 import subprocess
 import os
 from threading import Thread
@@ -20,7 +19,7 @@ class NonBlockingStreamReader:
         stream: the stream to read from.
                 Usually a process' stdout or stderr.
         '''
-        self._s = stream
+        self._s = stream      
         self._q = Queue()
 
         def _populate_queue(stream, queue):
@@ -114,7 +113,7 @@ class MedTagger:
 
     # -------------------------------------------------------------------------
 
-    def parse(self, text) -> List[List[tuple]]:
+    def parse(self, text):
         '''
         Function to parse a single string using the tagger.
         In order to give consistency to the output, this function always

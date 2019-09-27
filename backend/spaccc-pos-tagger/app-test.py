@@ -7,10 +7,9 @@ Author:
 '''
 
 from os import path, walk
-from typing import Dict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from med_tagger_wrapper import MedTagger
+from med_tagger import Med_Tagger/Med_Tagger
 
 APP = Flask(__name__)
 CORS(APP)

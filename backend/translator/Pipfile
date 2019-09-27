@@ -6,12 +6,12 @@ verify_ssl = true
 [dev-packages]
 pylint = "*"
 autopep8 = "*"
+python-dotenv = "*"
 
 [packages]
 flask = "*"
 flask-cors = "*"
 requests = "*"
-python-dotenv = "*"
 nltk = "*"
 
 [requires]
