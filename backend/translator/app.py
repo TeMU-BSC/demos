@@ -10,9 +10,12 @@ from os import path, walk
 from statistics import mean
 from time import time
 from typing import Dict, List
+
 from flask import Flask, g, request, jsonify
 from flask_cors import CORS
 from nltk import sent_tokenize
+# import ntlk
+# nltk.download('punkt')
 
 import opennmt_caller
 
