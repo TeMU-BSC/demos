@@ -1,4 +1,4 @@
-# Demo
+# Demos
 
 This is the Frontend that consume the Text Mining Unit RESTful APIs.
 
