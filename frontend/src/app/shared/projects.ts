@@ -23,7 +23,7 @@ export const PROJECTS: Project[] = [
         routerLink: '/translator',
         materialIcon: 'check',
         description: 'Translate text using an open-source toolkit for neural machine translation (NMT).',
-        github: 'https://github.com/PlanTL-SANIDAD/Medical-Translator'
+        github: 'https://github.com/PlanTL-SANIDAD/Medical-Translator-WMT19'
     },
 
     // Coming soon... materialIcon: 'warning'; TODO: CHANGE routerLink WHEN DONE

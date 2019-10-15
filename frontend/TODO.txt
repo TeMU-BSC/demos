@@ -1,59 +1,53 @@
 MAIN OBJECTIVES OF DEMOS
+
 instant results text 
-interes en tecnologia usada share results among comunity /// screenshots
-json download button
-
-
-PLAN TL and TEXT MINING social media links
-linkedin
-twitter
-facebook
+interes en tecnologia usada
+share results among comunity
+provide some screenshots
 
 
 GOOGLE ANALYTICS
+
 en cada recurso y recopilar number of requests to our APIs
 
 
 API DOCUMENTATION
+
 input parameters to API
 expected output
 
-
-columns alternate color
 
 ============================
 DEMOS
 ============================
 
-TRANSLATOR (1)
-banderitas
-
-
 SPELL CHECKER
+
 similar a translator
 corrected text (output)
 
+
 CUTEXT siguiente (2) en hacer ! AITOR ?
+
 https://github.com/PlanTL-SANIDAD/CUTEXT
 similar al pos medical tagger
 multipalabras
 json download button tambien
 table solo los tokens (terminos)
 tener el texto original con highlights indicando el token
-inspitacion en https://regex101.com/
+posible inspiracion en https://regex101.com/
 
 
-PHARMACONER
-Jordi Armengol (preguntar a Marta su email)
-https://github.com/PlanTL-SANIDAD/PharmaCoNER
-
-
-AITOR ?
+TENTE
 https://github.com/PlanTL-SANIDAD/TENTE
 
-AITOR ?
+
+ABRE
 https://github.com/PlanTL-SANIDAD/AbreMES-X
 
+
+NORMALIZER
 https://github.com/PlanTL-SANIDAD/EHR-normalizer
+
 
 ZENODO (sectionizer)

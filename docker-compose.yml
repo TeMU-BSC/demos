@@ -4,12 +4,12 @@ version: '3'
 
 services:
 
-  freeling-cnio:
-    image: bsctemu/freeling-cnio:1.0.0
-    ports:
-      - 4000:4000
-    networks:
-      - demos
+  # freeling-cnio:
+  #   image: bsctemu/freeling-cnio:1.0.0
+  #   ports:
+  #     - 4000:4000
+  #   networks:
+  #     - demos
 
   spaccc-pos-tagger-api:
     image: bsctemu/spaccc-pos-tagger
@@ -24,18 +24,18 @@ services:
     networks:
       - demos
 
-  # translator:
-  #   # image: bsctemu/translator-api
-  #   build: ./backend/translator
-  #   container_name: translator
-  #   volumes:
-  #       - ./backend/translator:/usr/src/app
-  #   # environment:
-  #   #   - FLASK_ENV=development
-  #   ports:
-  #     - "5001:5000"
-  #   networks:
-  #     - backend
+  translator-api:
+    image: bsctemu/translator-api
+    build: ./backend/translator
+    container_name: translator-api
+    volumes:
+        - ./backend/translator:/usr/src/app
+    environment:
+      - FLASK_ENV=development
+    ports:
+      - 5001:5000
+    networks:
+      - demos
 
   # pharmaconer-tagger:
   #   # image: bsctemu/pharmaconer-tagger-api
@@ -46,14 +46,14 @@ services:
   #   # environment:
   #   #   - FLASK_ENV=development
   #   ports:
-  #     - "5002:5000"
+  #     - 5002:5000
   #   networks:
   #     - backend
 
   frontend:
     image: bsctemu/frontend
     build: ./frontend
-    container_name: "frontend"
+    container_name: frontend
     volumes:
       # - /app/node_modules
       - ./frontend:/app
@@ -61,8 +61,8 @@ services:
       - 4200:4200
     networks:
       - demos
-    depends_on:
-      - spaccc-pos-tagger-api
+    # depends_on:
+    #   - translator-api
     # deploy:
     #   replicas: 2
     #   update_config:
