@@ -68,7 +68,7 @@ export class SpacccPosTaggerComponent implements OnInit {
   // --------------------------------------------------------------------------
 
   constructor(
-    private freelingService: SpacccPosTaggerService,
+    private spacccPosTaggerService: SpacccPosTaggerService,
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
@@ -84,7 +84,7 @@ export class SpacccPosTaggerComponent implements OnInit {
       })
 
     // Get the sample texts to test the app
-    this.freelingService.getSampleTexts()
+    this.spacccPosTaggerService.getSampleTexts()
       .subscribe(
         response => this.samples = response.data
       )
@@ -117,7 +117,7 @@ export class SpacccPosTaggerComponent implements OnInit {
    * Get the resulting POS tags from our REST API through the Freeling service.
    */
   getPosTags() {
-    this.freelingService.getPosTags(this.freelingForm.value)
+    this.spacccPosTaggerService.getPosTags(this.freelingForm.value)
       .subscribe(
         // 1. API response
         response => {
