@@ -1,13 +1,48 @@
-<header>
-  <mat-toolbar color="primary" style="height: 10vh">
-    <mat-toolbar-row class="h-100">
-      <a href="https://www.bsc.es" target="_blank" class="custom-h-80">
-        <img src="assets/images/bsc/BSC-white.svg" alt="BSC-white" class="h-100">
-      </a>
-      <span style="flex: auto"></span>
-      <a href="https://www.plantl.gob.es/" target="_blank" class="custom-h-80" fxHide.xs>
-        <img src="assets/images/temu/plantl.png" alt="plantl" class="h-100 bg-white rounded">
-      </a>
-    </mat-toolbar-row>
-  </mat-toolbar>
-</header>
+<mat-toolbar color="primary">
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between" class="my-2">
+    <a href="https://www.bsc.es">
+      <img
+        src="assets/images/bsc/BSC-white.svg"
+        alt="Barcelona Supercomputing Center"
+        class="h-100"
+      />
+    </a>
+    <!-- <span style="flex: auto"></span> -->
+    <a href="https://www.plantl.gob.es/" fxHide.xs>
+      <img
+        src="assets/images/temu/plantl.png"
+        alt="Plan de Impulso de las Tecnologías del Lenguaje"
+        class="h-100 bg-light rounded"
+      />
+    </a>
+  </mat-toolbar-row>
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+    <a
+      mat-button
+      class="text-decoration-none text-reset"
+      href="https://www.bsc.es/discover-bsc/organisation/scientific-structure/text-mining"
+    >
+      Text Mining Unit
+    </a>
+    <!-- <span style="flex: auto"></span> -->
+    <div>
+      <button mat-button routerLink="/">Home</button>
+      <button
+        mat-button
+        [matMenuTriggerFor]="menu"
+        aria-label="Icon-button with a menu"
+      >
+        Demos
+      </button>
+      <mat-menu #menu="matMenu">
+        <button
+          mat-menu-item
+          *ngFor="let demo of demos"
+          [routerLink]="demo.routerLink"
+        >
+          {{ demo.name }}
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

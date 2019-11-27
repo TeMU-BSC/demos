@@ -1,27 +1,29 @@
-
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { TemuResponse } from 'src/app/shared/api.shared'
 import { Project, PROJECTS } from 'src/app/shared/projects'
-import { Language, LANGUAGES, Sample, SampleGroup } from 'src/app/components/translator/translator.model'
+import {
+  Language,
+  LANGUAGES,
+  Sample,
+  SampleGroup,
+} from 'src/app/components/translator/translator.model'
 import { TranslatorService } from 'src/app/components/translator/translator.service'
 import { Utils } from 'src/app/shared/utils'
-
 
 @Component({
   selector: 'app-translator',
   templateUrl: './translator.component.html',
-  styleUrls: ['./translator.component.css']
+  styleUrls: ['./translator.component.css'],
 })
 export class TranslatorComponent implements OnInit {
-
   project: Project
   languages: Language[]
   translatorForm: FormGroup
   sampleGroups: SampleGroup[]
-  MAX_CHARACTERS = 10000
+  MAX_CHARACTERS = 5000
   response: TemuResponse
   sourceText: string
   translatedText: string
@@ -36,17 +38,16 @@ export class TranslatorComponent implements OnInit {
     private translatorService: TranslatorService,
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
-  ) { }
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit() {
     // Set the current project demo
-    PROJECTS.forEach(
-      (project, index) => {
-        if (project.name === 'Translator') {
-          this.project = PROJECTS[index]
-        }
-      })
+    PROJECTS.forEach((project, index) => {
+      if (project.name === 'Translator') {
+        this.project = PROJECTS[index]
+      }
+    })
 
     // Set the available languages
     this.languages = LANGUAGES
@@ -59,7 +60,10 @@ export class TranslatorComponent implements OnInit {
       sourceLanguageCode: ['es', Validators.required],
       targetLanguageCode: ['en', Validators.required],
       sample: [''],
-      text: ['', [Validators.required, Validators.maxLength(this.MAX_CHARACTERS)]],
+      text: [
+        '',
+        [Validators.required, Validators.maxLength(this.MAX_CHARACTERS)],
+      ],
     })
 
     // Init some string atributes
@@ -73,32 +77,35 @@ export class TranslatorComponent implements OnInit {
   /**
    * Convenience getter for easy access to form fields from HTML template.
    */
-  get f() { return this.translatorForm.controls }
+  get f() {
+    return this.translatorForm.controls
+  }
 
   /**
    * Get the sample texts to easily test the app
    */
   getSamplesGroup() {
     this.sampleGroups = []
-    this.languages.forEach(language => this.sampleGroups.push({ 'language': language, 'samples': [] }))
+    this.languages.forEach(lang =>
+      this.sampleGroups.push({ language: lang, samples: [] })
+    )
 
-    this.translatorService.getSamples()
-      .subscribe(response => {
-        // this.samples = response.data
-        this.sampleGroups.forEach(group => {
-          group.samples = []
-          response.data.forEach((sample: Sample) => {
-            if (group.language.label === sample.language) {
-              group.samples.push(sample)
-            }
-          })
+    this.translatorService.getSamples().subscribe(response => {
+      // this.samples = response.data
+      this.sampleGroups.forEach(group => {
+        group.samples = []
+        response.data.forEach((sample: Sample) => {
+          if (group.language.label === sample.language) {
+            group.samples.push(sample)
+          }
         })
       })
+    })
   }
 
   /**
    * Select the corresponding language to be the source or target.
-   * 
+   *
    * @param langType 'sourceLanguageCode'|'targetLanguageCode'
    * @param langLabel 'en'|'es'|'pt'
    */
@@ -129,29 +136,35 @@ export class TranslatorComponent implements OnInit {
   translate() {
     // Reset the translated text before the next translation
     this.translatedText = ''
+    this.response = null
 
     // Call the service
-    this.translatorService.translate(this.translatorForm.value)
-      .subscribe(
-        response => this.response = response,
-        error => alert(error),
-        () => {
-          this.response.data.translatedSentences.forEach((sentence: string) => {
-            this.translatedText += `${sentence} `
-          })
+    this.translatorService.translate(this.translatorForm.value).subscribe(
+      response => (this.response = response),
+      error => alert(error),
+      () => {
+        this.response.data.translatedSentences.forEach((sentence: string) => {
+          this.translatedText += `${sentence} `
+        })
 
-          // Round down to 4 digits the average pred score and translation time.
-          this.averageScore = Utils.round(this.response.data.predictionScore, 4)
-          this.translationTime = Utils.round(this.response.data.translationTime, 4)
+        // Round down to 4 digits the average pred score and translation time.
+        this.averageScore = Utils.round(this.response.data.predictionScore, 4)
+        this.translationTime = Utils.round(
+          this.response.data.translationTime,
+          4
+        )
 
-          // Inform the user when data has been retrieved.
-          this.snackBar.open(this.response.message, 'OK', {
-            duration: 4000
-          })
+        // Inform the user when data has been retrieved.
+        this.snackBar.open(this.response.message, 'OK', {
+          duration: 4000,
+        })
 
-          // Generate the download URI.
-          this.downloadLink = Utils.generateDownloadJsonUri(this.response, this.sanitizer)
-        }
-      )
+        // Generate the download URI.
+        this.downloadLink = Utils.generateDownloadJsonUri(
+          this.response,
+          this.sanitizer
+        )
+      }
+    )
   }
 }
