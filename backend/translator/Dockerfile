@@ -1,15 +1,12 @@
-# https://docs.docker.com/compose/gettingstarted/
+# Use the Python3.7 image
+FROM python:3.7-stretch
 
-FROM python:3.7-alpine
+# Set the working directory to /app
+WORKDIR /app
 
-# Copy necessary files for "nltk" python package
-COPY nltk_data /usr/local/nltk_data
+# Copy the current directory contents into the container at /app 
+ADD . /app
 
-WORKDIR /code
-RUN apk add --no-cache gcc musl-dev linux-headers
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY . .
-ENV FLASK_APP app.py
-ENV FLASK_RUN_HOST 0.0.0.0
-CMD ["flask", "run"]
+# Install the dependencies
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt

@@ -23,8 +23,8 @@ import opennmt_caller
 # https://stackoverflow.com/questions/52162882/set-flask-environment-to-development-mode-as-default/52164534
 # from dotenv import load_dotenv
 
-APP = Flask(__name__)
-CORS(APP)
+app = Flask(__name__)
+CORS(app)
 SAMPLES_DIR = 'samples/'
 
 # ----------------------------------------------------------------------------
@@ -44,7 +44,7 @@ def convert_data_to_response(data: Dict) -> Dict:
 # ----------------------------------------------------------------------------
 
 
-@APP.route('/samples', methods=['GET'])
+@app.route('/samples', methods=['GET'])
 def get_samples():
     '''
     Get all text samples inside './samples/' directory.
@@ -71,7 +71,7 @@ def get_samples():
 # ----------------------------------------------------------------------------
 
 
-@APP.route('/translate', methods=['POST'])
+@app.route('/translate', methods=['POST'])
 def translate():
     '''
     Returns the corresponding translation regarding the source and target
@@ -157,6 +157,12 @@ def translate():
 
 # ----------------------------------------------------------------------------
 
+@app.route('/', methods=['GET'])
+def hello():
+    return 'Hello from Translator!'
+
+# ----------------------------------------------------------------------------
+
 if __name__ == "__main__":
-    # APP.run()
-    APP.run(host='0.0.0.0', port=5001, debug=True)
+    # app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run()

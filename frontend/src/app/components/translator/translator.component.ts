@@ -23,7 +23,7 @@ export class TranslatorComponent implements OnInit {
   languages: Language[]
   translatorForm: FormGroup
   sampleGroups: SampleGroup[]
-  MAX_CHARACTERS = 5000
+  MAX_CHARACTERS = 10000
   response: TemuResponse
   sourceText: string
   translatedText: string

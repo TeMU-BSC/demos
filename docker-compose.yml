@@ -1,9 +1,8 @@
 # https://github.com/delsner/python-flask-angular-starter/blob/master/docker-compose.dev.yml
 
-version: '3'
+version: "3.7"
 
 services:
-
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
   #   ports:
@@ -11,31 +10,40 @@ services:
   #   networks:
   #     - demos
 
-  spaccc-pos-tagger-api:
-    image: bsctemu/spaccc-pos-tagger
-    build: ./backend/spaccc-pos-tagger
-    container_name: spaccc-pos-tagger-api
-    volumes:
-        - ./backend/spaccc-pos-tagger:/app
-    environment:
-      - FLASK_ENV=development
-    ports:
-      - 5000:5000
-    networks:
-      - demos
+  # spaccc-pos-tagger-api:
+  #   image: bsctemu/spaccc-pos-tagger
+  #   build: ./backend/spaccc-pos-tagger
+  #   container_name: spaccc-pos-tagger-api
+  #   volumes:
+  #       - ./backend/spaccc-pos-tagger:/app
+  #   environment:
+  #     - FLASK_ENV=development
+  #   ports:
+  #     - 5000:5000
+  #   networks:
+  #     - demos
 
-  translator-api:
-    image: bsctemu/translator-api
+  flask-translator:
     build: ./backend/translator
-    container_name: translator-api
-    volumes:
-        - ./backend/translator:/usr/src/app
+    container_name: flask-translator
     environment:
       - FLASK_ENV=development
+    command: flask run --host 0.0.0.0
     ports:
       - 5001:5000
-    networks:
-      - demos
+    volumes:
+      - ./backend/translator:/app
+
+  # translator-api:
+  #   image: bsctemu/translator-api
+  #   build: ./backend/translator
+  #   container_name: translator-api
+  #   volumes:
+  #       - ./backend/translator:/usr/src/app
+  #   environment:
+  #     - FLASK_ENV=development
+  #   ports:
+  #     - 5001:5000
 
   # pharmaconer-tagger:
   #   # image: bsctemu/pharmaconer-tagger-api
@@ -50,29 +58,31 @@ services:
   #   networks:
   #     - backend
 
-  frontend:
-    image: bsctemu/frontend
+  # frontend:
+  #   image: bsctemu/frontend
+  #   build: ./frontend
+  #   container_name: frontend
+  #   volumes:
+  #     # - /app/node_modules
+  #     - ./frontend:/app
+  #   ports:
+  #     - 4200:4200
+
+  angular:
     build: ./frontend
-    container_name: frontend
-    volumes:
-      # - /app/node_modules
-      - ./frontend:/app
+    container_name: angular
+    # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
+    environment:
+      - REST_API_URL=http://localhost:5000
+      - BROWSER_SESSION_KEY=user
+    command: ng serve --host 0.0.0.0
     ports:
       - 4200:4200
-    networks:
-      - demos
-    # depends_on:
-    #   - translator-api
-    # deploy:
-    #   replicas: 2
-    #   update_config:
-    #     parallelism: 2
-    #     delay: 10s
-    #   restart_policy:
-    #     condition: on-failure
-
-networks:
-  demos:
-
-# volumes:
-#   db-data:
+    volumes:
+      - ./frontend:/app
+  # nginx:
+  #   build: ./server
+  #   hostname: nginx
+  #   container_name: nginx
+  #   ports:
+  #     - 8080:80

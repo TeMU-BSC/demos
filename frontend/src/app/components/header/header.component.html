@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" fxLayout="column">
   <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between" class="my-2">
     <a href="https://www.bsc.es">
       <img
@@ -8,22 +8,28 @@
       />
     </a>
     <!-- <span style="flex: auto"></span> -->
-    <a href="https://www.plantl.gob.es/" fxHide.xs>
+    <a href="https://www.plantl.gob.es/" fxHide.xs class="h-100">
       <img
         src="assets/images/temu/plantl.png"
-        alt="Plan de Impulso de las Tecnologías del Lenguaje"
+        alt="PlanTL"
         class="h-100 bg-light rounded"
       />
     </a>
   </mat-toolbar-row>
-  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
-    <a
-      mat-button
-      class="text-decoration-none text-reset"
-      href="https://www.bsc.es/discover-bsc/organisation/scientific-structure/text-mining"
-    >
-      Text Mining Unit
+  <mat-toolbar-row fxHide.gt-xs>
+    <a href="https://www.plantl.gob.es/" class="h-100">
+      <img
+        src="assets/images/temu/plantl.png"
+        alt="PlanTL"
+        class="h-100 bg-light rounded"
+      />
     </a>
+  </mat-toolbar-row>
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="end center">
+    <!-- <a mat-button class="text-decoration-none text-reset"
+      href="https://www.bsc.es/discover-bsc/organisation/scientific-structure/text-mining">
+      Text Mining Unit
+    </a> -->
     <!-- <span style="flex: auto"></span> -->
     <div>
       <button mat-button routerLink="/">Home</button>
