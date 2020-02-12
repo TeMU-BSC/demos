@@ -6,16 +6,12 @@ import { TableColumn, Width, ButtonType } from 'simplemattable'
 import { TemuResponse } from 'src/app/shared/api.shared'
 import { Utils } from 'src/app/shared/utils'
 import {
-  SpacccPosTaggerService,
+  PosService,
   CATEGORIES,
   FREELING_USER_MANUAL_SPANISH_TAGSET_URL,
   TAG_ANCHOR_BASE,
-} from 'src/app/components/spaccc-pos-tagger/spaccc-pos-tagger.service'
-import {
-  SampleText,
-  Word,
-  Sentence,
-} from 'src/app/components/spaccc-pos-tagger/spaccc-pos-tagger.model'
+} from 'src/app/components/pos/pos.service'
+import { SampleText, Word, Sentence } from 'src/app/components/pos/pos.model'
 import { PROJECTS, Project } from 'src/app/shared/projects'
 
 /**
@@ -28,11 +24,11 @@ import { PROJECTS, Project } from 'src/app/shared/projects'
  * @author Alejandro Asensio <https://github.com/aasensios>
  */
 @Component({
-  selector: 'app-spaccc-pos-tagger',
-  templateUrl: './spaccc-pos-tagger.component.html',
-  styleUrls: ['./spaccc-pos-tagger.component.scss'],
+  selector: 'app-pos',
+  templateUrl: './pos.component.html',
+  styleUrls: ['./pos.component.scss'],
 })
-export class SpacccPosTaggerComponent implements OnInit {
+export class PosComponent implements OnInit {
   project: Project
   freelingForm: FormGroup
   samples: SampleText[]
@@ -90,7 +86,7 @@ export class SpacccPosTaggerComponent implements OnInit {
   // --------------------------------------------------------------------------
 
   constructor(
-    private spacccPosTaggerService: SpacccPosTaggerService,
+    private spacccPosTaggerService: PosService,
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder

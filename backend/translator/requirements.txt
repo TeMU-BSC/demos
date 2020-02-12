@@ -1,16 +1,10 @@
--i https://pypi.org/simple
-certifi==2019.9.11
-chardet==3.0.4
-click==7.0
-flask-cors==3.0.8
-flask==1.1.1
-idna==2.8
+Click==7.0
+Flask==1.1.1
+Flask-Cors==3.0.8
 itsdangerous==1.1.0
-jinja2==2.10.1
-markupsafe==1.1.1
+Jinja2==2.11.1
+MarkupSafe==1.1.1
 nltk==3.4.5
-python-dotenv==0.10.3
-requests==2.22.0
-six==1.12.0
-urllib3==1.25.3
-werkzeug==0.15.6
+six==1.14.0
+uWSGI==2.0.18
+Werkzeug==1.0.0

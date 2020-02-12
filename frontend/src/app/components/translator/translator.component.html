@@ -50,12 +50,32 @@
 
       <mat-card-content
         fxLayout="row"
-        fxLayoutAlign="center start"
+        fxLayoutAlign="space-between"
         fxLayoutGap="3em"
         class="p-2"
       >
         <!-- Input -->
-        <section fxFlex="50">
+        <section fxFlex="50" fxLayout="column">
+          <!-- Textarea -->
+          <mat-form-field floatLabel="never">
+            <textarea
+              matInput
+              rows="10"
+              formControlName="text"
+              placeholder="Enter your text"
+              required
+              >{{ sourceText }}</textarea
+            >
+            <mat-error>
+              <span *ngIf="f['text'].errors?.required">
+                Input text is <strong>required</strong>.
+              </span>
+              <span *ngIf="f['text'].errors?.maxlength">
+                Input text exeeds the maximum of
+                <strong>{{ MAX_CHARACTERS }} characters</strong>.
+              </span>
+            </mat-error>
+          </mat-form-field>
           <!-- Sample text selector -->
           <div>
             <mat-form-field>
@@ -95,76 +115,58 @@
               <mat-icon>close</mat-icon>
             </button>
           </div>
-          <!-- Textarea -->
-          <mat-form-field floatLabel="never" fxFill>
-            <textarea
-              matInput
-              rows="10"
-              formControlName="text"
-              placeholder="Enter your text"
-              required
-              >{{ sourceText }}</textarea
-            >
-            <mat-error>
-              <span *ngIf="f['text'].errors?.required">
-                Input text is <strong>required</strong>.
-              </span>
-              <span *ngIf="f['text'].errors?.maxlength">
-                Input text exeeds the maximum of
-                <strong>{{ MAX_CHARACTERS }} characters</strong>.
-              </span>
-            </mat-error>
-          </mat-form-field>
-          <div fxLayout="row">
-            <!-- Action button -->
-            <button
-              mat-raised-button
-              color="accent"
-              (click)="translate()"
-              [disabled]="f['text'].errors"
-            >
-              TRANSLATE
-            </button>
+          <!-- Action button -->
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="translate()"
+            [disabled]="f['text'].errors"
+          >
+            TRANSLATE
+          </button>
+          <!-- Load animation -->
+          <div class="mt-2">
+            <app-loader></app-loader>
           </div>
-          <app-loader fxFill class="mt-2"></app-loader>
         </section>
 
         <!-- Output -->
-        <section
-          fxFlex="50"
-          fxLayout="column"
-          fxLayoutAlign="space-between end"
-          fxLayoutGap="1em"
-        >
-          <div *ngIf="response?.success">
-            <div style="background-color: rgb(241, 241, 241)">
+        <section fxFlex="50" fxLayout="column">
+          <div
+            *ngIf="response?.success"
+            fxLayout="column"
+            fxLayoutAlign="space-between"
+            fxLayoutGap="1em"
+          >
+            <div style="background-color: rgb(241, 241, 241)" class="p-2">
               {{ translatedText }}
             </div>
-            <ul class="list-group my-2">
-              <li
-                class="list-group-item text-light"
-                style="background-color: #05357d;"
-              >
-                Stats
-              </li>
-              <li class="list-group-item">
-                Total sentences: {{ response.data.translatedSentences.length }}
-              </li>
-              <li class="list-group-item">
-                Average prediction score (always negative): {{ averageScore }}
-              </li>
-              <li class="list-group-item">
-                Translation time: {{ translationTime }} seconds
-              </li>
-            </ul>
+            <div>
+              <ul class="list-group my-2">
+                <li
+                  class="list-group-item"
+                  style="color: #05357d; font-weight: bold;"
+                >
+                  Stats
+                </li>
+                <li class="list-group-item">
+                  Total sentences:
+                  {{ response.data.translatedSentences.length }}
+                </li>
+                <li class="list-group-item">
+                  Average prediction score (always negative): {{ averageScore }}
+                </li>
+                <li class="list-group-item">
+                  Translation time: {{ translationTime }} seconds
+                </li>
+              </ul>
+            </div>
             <a
-              mat-stroked-button
+              mat-raised-button
               color="primary"
-              class="text-decoration-none "
+              class="text-decoration-none mt-2"
               [href]="downloadLink"
               [download]="downloadFilename"
-              matTooltip="Download JSON response"
-              *ngIf="response?.success"
             >
               DOWNLOAD JSON RESULTS <i class="material-icons">file_download</i>
             </a>
@@ -172,19 +174,6 @@
         </section>
       </mat-card-content>
     </mat-card>
-
-    <!-- <span fxLayout="row" fxLayoutAlign="end">
-      <mat-expansion-panel *ngIf="response?.success" fxFlex="50">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Summary
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <p>Total sentences: {{ response.data.translatedSentences.length }}</p>
-        <p>Average prediction score: {{ averageScore }} (always negative)</p>
-        <p>Translation time: {{ translationTime }} seconds</p>
-      </mat-expansion-panel>
-    </span> -->
 
     <!-- References -->
     <mat-card class="mt-5">

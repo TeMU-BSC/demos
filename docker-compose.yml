@@ -27,23 +27,14 @@ services:
     build: ./backend/translator
     container_name: flask-translator
     environment:
+      - FLASK_APP=translator.py
       - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
     command: flask run --host 0.0.0.0
     ports:
       - 5001:5000
     volumes:
       - ./backend/translator:/app
-
-  # translator-api:
-  #   image: bsctemu/translator-api
-  #   build: ./backend/translator
-  #   container_name: translator-api
-  #   volumes:
-  #       - ./backend/translator:/usr/src/app
-  #   environment:
-  #     - FLASK_ENV=development
-  #   ports:
-  #     - 5001:5000
 
   # pharmaconer-tagger:
   #   # image: bsctemu/pharmaconer-tagger-api
@@ -58,31 +49,16 @@ services:
   #   networks:
   #     - backend
 
-  # frontend:
-  #   image: bsctemu/frontend
-  #   build: ./frontend
-  #   container_name: frontend
-  #   volumes:
-  #     # - /app/node_modules
-  #     - ./frontend:/app
-  #   ports:
-  #     - 4200:4200
-
   angular:
     build: ./frontend
     container_name: angular
     # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
     environment:
-      - REST_API_URL=http://localhost:5000
-      - BROWSER_SESSION_KEY=user
+      - POS_API_URL=http://localhost:5000
+      - TRANSLATOR_API_URL=http://localhost:5001
+      - PHARMACONER_API_URL=http://localhost:5002
     command: ng serve --host 0.0.0.0
     ports:
       - 4200:4200
     volumes:
       - ./frontend:/app
-  # nginx:
-  #   build: ./server
-  #   hostname: nginx
-  #   container_name: nginx
-  #   ports:
-  #     - 8080:80

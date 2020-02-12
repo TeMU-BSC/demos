@@ -1,15 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
+import { Observable } from 'rxjs'
 import { TEMU_API_URLS, TemuResponse } from 'src/app/shared/api.shared'
-import { Utils } from 'src/app/shared/utils';
+import { Utils } from 'src/app/shared/utils'
 
 // ----------------------------------------------------------------------------
 
 /**
  * Web page of FreeLing manual explaining Spanish tagsets.
  */
-export const FREELING_USER_MANUAL_SPANISH_TAGSET_URL = 'https://freeling-user-manual.readthedocs.io/en/latest/tagsets/tagset-es/'
+export const FREELING_USER_MANUAL_SPANISH_TAGSET_URL =
+  'https://freeling-user-manual.readthedocs.io/en/latest/tagsets/tagset-es/'
 export const TAG_ANCHOR_BASE = '#part-of-speech-'
 
 /**
@@ -28,38 +29,35 @@ export const CATEGORIES = {
   Z: 'number',
   W: 'date',
   I: 'interjection',
-  F: 'punctuation'
+  F: 'punctuation',
 }
 
 // ----------------------------------------------------------------------------
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class SpacccPosTaggerService {
-
-  constructor(private http: HttpClient) { }
+export class PosService {
+  constructor(private http: HttpClient) {}
 
   /**
    * Get all the sample texts from the API.
    */
   getSampleTexts(): Observable<TemuResponse> {
-    const url = `${TEMU_API_URLS.freeling}/samples`;
-    const options = Utils.getBasicOptions();
-    return this.http.get<any>(url, options);
+    const url = `${TEMU_API_URLS.pos}/samples`
+    const options = Utils.getBasicOptions()
+    return this.http.get<any>(url, options)
   }
-
 
   /**
    * Get some Part of Speech (POS) Spanish Medical Tags
    * from the API.
-   * 
-   * @returns the API response as an Observable object 
+   *
+   * @returns the API response as an Observable object
    */
   getPosTags(body: any): Observable<TemuResponse> {
-    const url = `${TEMU_API_URLS.freeling}/analyze`;
-    const options = Utils.getBasicOptions();
-    return this.http.post<any>(url, body, options);
+    const url = `${TEMU_API_URLS.pos}/analyze`
+    const options = Utils.getBasicOptions()
+    return this.http.post<any>(url, body, options)
   }
-
 }

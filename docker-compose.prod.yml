@@ -1,0 +1,37 @@
+version: "3.7"
+
+services:
+  flask-translator:
+    build: ./backend/translator
+    container_name: flask-translator
+    restart: always
+    environment:
+      - FLASK_APP=translator.py
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    command: flask run --host 0.0.0.0
+    ports:
+      - 5001:5000
+    volumes:
+      - ./backend/translator:/app
+
+  angular:
+    build: ./frontend
+    container_name: angular
+    restart: always
+    command: ng serve --host 0.0.0.0 --disableHostCheck --liveReload=false --prod --aot --sourceMap=false
+    ports:
+      - 4200:4200
+    volumes:
+      - ./frontend:/app
+
+  nginx:
+    build: ./server
+    hostname: nginx
+    container_name: nginx
+    restart: always
+    links:
+      - angular
+      - flask-translator
+    ports:
+      - 80:80

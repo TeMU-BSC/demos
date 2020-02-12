@@ -1,33 +1,30 @@
 '''
-Main python script that runs the Flask app.
+Main python script that runs the Flask app of the Translator Demo.
 
 Author:
     Alejandro Asensio
     https://github.com/aasensios
 '''
 
-from os import path, walk
+from os import environ, path, walk
 from statistics import mean
 from time import time
 from typing import Dict, List
 
-from flask import Flask, g, request, jsonify
+from flask import g, request, jsonify
 from flask_cors import CORS
 from nltk import sent_tokenize
-# import ntlk
-# nltk.download('punkt')
 
 import opennmt_caller
+from app import app
 
-# To run in debug mode
-# https://stackoverflow.com/questions/52162882/set-flask-environment-to-development-mode-as-default/52164534
-# from dotenv import load_dotenv
 
-app = Flask(__name__)
 CORS(app)
-SAMPLES_DIR = 'samples/'
 
-# ----------------------------------------------------------------------------
+
+@app.route('/hello', methods=['GET'])
+def hello():
+    return 'Hello from Translator Flask API!'
 
 
 def convert_data_to_response(data: Dict) -> Dict:
@@ -41,8 +38,6 @@ def convert_data_to_response(data: Dict) -> Dict:
         'message': 'Data retrieved successfully.'
     }
 
-# ----------------------------------------------------------------------------
-
 
 @app.route('/samples', methods=['GET'])
 def get_samples():
@@ -51,7 +46,7 @@ def get_samples():
     Returns a list of filenames and their respective content in a JSON format.
     '''
     samples = []
-    for root, dirs, files in walk(SAMPLES_DIR):
+    for root, dirs, files in walk(environ.get('SAMPLES_DIR')):
         # print(root, dirs, files)
         for filename in files:
             # The two last letters describe the language
@@ -66,9 +61,6 @@ def get_samples():
                 'content': content
             })
     return jsonify(convert_data_to_response(samples))
-
-
-# ----------------------------------------------------------------------------
 
 
 @app.route('/translate', methods=['POST'])
@@ -153,16 +145,3 @@ def translate():
 
     # Convert data to response format and return it as a valid JSON
     return jsonify(convert_data_to_response(data))
-
-
-# ----------------------------------------------------------------------------
-
-@app.route('/', methods=['GET'])
-def hello():
-    return 'Hello from Translator!'
-
-# ----------------------------------------------------------------------------
-
-if __name__ == "__main__":
-    # app.run(host='0.0.0.0', port=5001, debug=True)
-    app.run()
