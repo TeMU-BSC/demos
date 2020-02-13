@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { TEMU_API_URLS, TemuResponse } from 'src/app/shared/api.shared'
+import { TemuResponse } from 'src/app/shared/api.shared'
 import { Translation } from 'src/app/components/translator/translator.model'
 import { Utils } from 'src/app/shared/utils'
 import { environment } from 'src/environments/environment'

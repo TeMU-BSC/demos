@@ -1,14 +1,16 @@
 version: "3.7"
 
 services:
-  flask-translator:
+
+  flask:
     build: ./backend/translator
-    container_name: flask-translator
+    container_name: flask
     restart: always
     environment:
       - FLASK_APP=translator.py
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
+    # command: uwsgi app.ini
     command: flask run --host 0.0.0.0
     ports:
       - 5001:5000
@@ -24,6 +26,8 @@ services:
       - 4200:4200
     volumes:
       - ./frontend:/app
+    links:
+      - flask
 
   nginx:
     build: ./server
@@ -32,6 +36,5 @@ services:
     restart: always
     links:
       - angular
-      - flask-translator
     ports:
-      - 80:80
+      - 12345:80

@@ -11,14 +11,13 @@ from statistics import mean
 from time import time
 from typing import Dict, List
 
-from flask import g, request, jsonify
+from flask import Flask, g, request, jsonify
 from flask_cors import CORS
 from nltk import sent_tokenize
 
-import opennmt_caller
-from app import app
+from opennmt_caller import translate_sentence
 
-
+app = Flask(__name__)
 CORS(app)
 
 
@@ -112,8 +111,7 @@ def translate():
     translated_sentences = []
     pred_scores = []
     for sentence in sentences:
-        opennmt_response = opennmt_caller.translate_sentence(
-            src, tgt, sentence)
+        opennmt_response = translate_sentence(src, tgt, sentence)
 
         # Because opennmt returns a list of list of dict, we access the [0][0] element
         translated_sentence_dict = opennmt_response.json()[0][0]

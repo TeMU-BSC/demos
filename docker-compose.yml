@@ -3,6 +3,7 @@
 version: "3.7"
 
 services:
+
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
   #   ports:
@@ -53,10 +54,10 @@ services:
     build: ./frontend
     container_name: angular
     # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
-    environment:
-      - POS_API_URL=http://localhost:5000
-      - TRANSLATOR_API_URL=http://localhost:5001
-      - PHARMACONER_API_URL=http://localhost:5002
+    # environment:
+    #   - POS_API_URL=http://localhost:5000
+    #   - TRANSLATOR_API_URL=http://localhost:5001
+    #   - PHARMACONER_API_URL=http://localhost:5002
     command: ng serve --host 0.0.0.0
     ports:
       - 4200:4200
