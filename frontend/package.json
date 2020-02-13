@@ -28,7 +28,7 @@
     "list-files-in-dir": "^0.1.5",
     "rxjs": "~6.5.4",
     "simplealert": "^1.3.0",
-    "simplemattable": "^3.6.0",
+    "simplemattable": "^5.0.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
   },
