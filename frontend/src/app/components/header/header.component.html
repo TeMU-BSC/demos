@@ -1,53 +1,18 @@
 <mat-toolbar color="primary" fxLayout="column">
-  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between" class="my-2">
-    <a href="https://www.bsc.es">
-      <img
-        src="assets/images/bsc/BSC-white.svg"
-        alt="Barcelona Supercomputing Center"
-        class="h-100"
-      />
+  <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center" style="margin: .5em 0 .5em 0;">
+    <a href="https://www.bsc.es" class="h-100">
+      <img src="assets/images/bsc/BSC-white.svg" alt="Barcelona Supercomputing Center" class="h-100" />
     </a>
-    <!-- <span style="flex: auto"></span> -->
-    <a href="https://www.plantl.gob.es/" fxHide.xs class="h-100">
-      <img
-        src="assets/images/temu/plantl.png"
-        alt="PlanTL"
-        class="h-100 bg-light rounded"
-      />
-    </a>
-  </mat-toolbar-row>
-  <mat-toolbar-row fxHide.gt-xs>
     <a href="https://www.plantl.gob.es/" class="h-100">
-      <img
-        src="assets/images/temu/plantl.png"
-        alt="PlanTL"
-        class="h-100 bg-light rounded"
-      />
+      <img src="assets/images/plantl/plantl.png" alt="Logo del PlanTL" class="h-100 bg-light rounded">
     </a>
-  </mat-toolbar-row>
-  <mat-toolbar-row fxLayout="row" fxLayoutAlign="end center">
-    <!-- <a mat-button class="text-decoration-none text-reset"
-      href="https://www.bsc.es/discover-bsc/organisation/scientific-structure/text-mining">
-      Text Mining Unit
-    </a> -->
-    <!-- <span style="flex: auto"></span> -->
     <div>
-      <button mat-button routerLink="/">Home</button>
-      <button
-        mat-button
-        [matMenuTriggerFor]="menu"
-        aria-label="Icon-button with a menu"
-      >
-        Demos
+      <button mat-button routerLink="/">Text Mining Demos</button>
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let demo of demos"
-          [routerLink]="demo.routerLink"
-        >
-          {{ demo.name }}
-        </button>
+        <button mat-menu-item *ngFor="let demo of demos" [routerLink]="demo.routerLink">{{ demo.name }}</button>
       </mat-menu>
     </div>
   </mat-toolbar-row>

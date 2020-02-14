@@ -1,40 +1,34 @@
-version: "3.7"
+version: '3.7'
 
 services:
 
-  flask:
+  flask-translator:
     build: ./backend/translator
-    container_name: flask
-    restart: always
+    container_name: flask-translator
     environment:
       - FLASK_APP=translator.py
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
-    # command: uwsgi app.ini
     command: flask run --host 0.0.0.0
     ports:
       - 5001:5000
-    volumes:
-      - ./backend/translator:/app
+
+  # angular:
+  #   build: ./frontend
+  #   container_name: angular
+  #   restart: always
+  #   command: ng serve --host 0.0.0.0 --disableHostCheck --liveReload=false --prod --aot --sourceMap=false
+  #   ports:
+  #     - 4200:4200
+  #   volumes:
+  #     - ./frontend:/app
+  #   links:
+  #     - flask
 
   angular:
-    build: ./frontend
-    container_name: angular
-    restart: always
-    command: ng serve --host 0.0.0.0 --disableHostCheck --liveReload=false --prod --aot --sourceMap=false
+    container_name: angular-demos
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     ports:
-      - 4200:4200
-    volumes:
-      - ./frontend:/app
-    links:
-      - flask
-
-  nginx:
-    build: ./server
-    hostname: nginx
-    container_name: nginx
-    restart: always
-    links:
-      - angular
-    ports:
-      - 12345:80
+      - '8080:80'

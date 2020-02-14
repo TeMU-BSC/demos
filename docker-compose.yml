@@ -1,6 +1,4 @@
-# https://github.com/delsner/python-flask-angular-starter/blob/master/docker-compose.dev.yml
-
-version: "3.7"
+version: '3.7'
 
 services:
 
@@ -37,22 +35,9 @@ services:
     volumes:
       - ./backend/translator:/app
 
-  # pharmaconer-tagger:
-  #   # image: bsctemu/pharmaconer-tagger-api
-  #   build: ./backend/pharmaconer-tagger
-  #   container_name: pharmaconer-tagger-api
-  #   volumes:
-  #       - ./backend/pharmaconer-tagger:/usr/src/app
-  #   # environment:
-  #   #   - FLASK_ENV=development
-  #   ports:
-  #     - 5002:5000
-  #   networks:
-  #     - backend
-
   angular:
     build: ./frontend
-    container_name: angular
+    container_name: angular-demos
     # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
     # environment:
     #   - POS_API_URL=http://localhost:5000

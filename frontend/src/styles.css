@@ -16,3 +16,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 smc-simplemattable .mat-form-field-infix {
     width: 100%!important;
 }
+
+/* frontend/node_modules/bootstrap/dist/css/bootstrap.css */
+.jumbotron {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  background-color: #e9ecef;
+  border-radius: 0.3rem;
+}
+@media (min-width: 576px) {
+  .jumbotron {
+    padding: 4rem 2rem;
+  }
+}
+
+body {
+  background-color: whitesmoke;
+}

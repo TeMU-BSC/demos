@@ -8,7 +8,7 @@ footer {
 a {
   color: mat-color($temu-app-accent);
 
-  // // Get a specific hue for a palette. 
+  // // Get a specific hue for a palette.
   // // See https://material.io/archive/guidelines/style/color.html#color-color-palette for hues.
   // background-color: mat-color($accent, 300);
 
@@ -17,4 +17,14 @@ a {
 
   // // Get a contrast color for a hue by adding `-contrast` to any other key.
   // border-color: mat-color($primary, '100-contrast');
+}
+
+a > i {
+  font-size: xx-large;
+}
+
+.sticky-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }

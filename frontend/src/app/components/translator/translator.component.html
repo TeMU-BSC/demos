@@ -1,46 +1,25 @@
-<article fxLayout="column">
-  <div
-    class="jumbotron negative-margin-bottom"
-    fxLayout="column"
-    fxLayoutAlign="center center"
-    fxFlexFill
-  >
-    <h3>{{ project?.name }}</h3>
+<article>
+  <div class="jumbotron negative-margin-bottom" style="text-align: center;">
+    <h1>{{ project?.name }}</h1>
     <p>{{ project?.description }}</p>
   </div>
 
-  <span fxLayout="column" fxLayoutGap="1em" class="px-5">
-    <mat-card
-      [formGroup]="translatorForm"
-      class="mat-elevation-z4 app-no-padding-top-card"
-    >
+  <div fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="3em" style="padding: 0 5em 0 5em">
+    <mat-card [formGroup]="translatorForm" class="app-no-padding-top-card">
       <!-- Language selector -->
       <div fxLayoutAlign="space-between center">
         <nav mat-tab-nav-bar>
-          <span
-            mat-tab-link
-            *ngFor="let lang of languages"
-            (click)="onLanguageClick('sourceLanguageCode', lang.label)"
-            [active]="f['sourceLanguageCode'].value == lang.label"
-          >
+          <span mat-tab-link *ngFor="let lang of languages" (click)="onLanguageClick('sourceLanguageCode', lang.label)"
+            [active]="f['sourceLanguageCode'].value == lang.label">
             {{ lang.name.toUpperCase() }}
           </span>
         </nav>
-        <button
-          mat-button
-          mat-icon-button
-          (click)="toggleSourceTargetLanguage()"
-          matTooltip="Swap languages"
-        >
+        <button mat-button mat-icon-button (click)="toggleSourceTargetLanguage()" matTooltip="Swap languages">
           <mat-icon>compare_arrows</mat-icon>
         </button>
         <nav mat-tab-nav-bar>
-          <span
-            mat-tab-link
-            *ngFor="let lang of languages"
-            (click)="onLanguageClick('targetLanguageCode', lang.label)"
-            [active]="f['targetLanguageCode'].value == lang.label"
-          >
+          <span mat-tab-link *ngFor="let lang of languages" (click)="onLanguageClick('targetLanguageCode', lang.label)"
+            [active]="f['targetLanguageCode'].value == lang.label">
             {{ lang.name.toUpperCase() }}
           </span>
         </nav>
@@ -48,24 +27,13 @@
 
       <mat-divider></mat-divider>
 
-      <mat-card-content
-        fxLayout="row"
-        fxLayoutAlign="space-between"
-        fxLayoutGap="3em"
-        class="p-2"
-      >
+      <mat-card-content fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="3em" style="padding: 0.5em">
         <!-- Input -->
         <section fxFlex="50" fxLayout="column">
           <!-- Textarea -->
           <mat-form-field floatLabel="never">
-            <textarea
-              matInput
-              rows="10"
-              formControlName="text"
-              placeholder="Enter your text"
-              required
-              >{{ sourceText }}</textarea
-            >
+            <textarea matInput rows="10" formControlName="text" placeholder="Enter your text"
+              required>{{ sourceText }}</textarea>
             <mat-error>
               <span *ngIf="f['text'].errors?.required">
                 Input text is <strong>required</strong>.
@@ -81,47 +49,28 @@
             <mat-form-field>
               <mat-label>Sample texts</mat-label>
               <mat-select formControlName="sample">
-                <mat-optgroup
-                  *ngFor="let group of sampleGroups"
-                  [label]="group.language.name.toUpperCase()"
-                >
-                  <mat-option
-                    *ngFor="let sample of group.samples"
-                    [value]="sample.filename"
-                    (click)="
+                <mat-optgroup *ngFor="let group of sampleGroups" [label]="group.language.name.toUpperCase()">
+                  <mat-option *ngFor="let sample of group.samples" [value]="sample.filename" (click)="
                       loadSampleText(sample);
                       onLanguageClick('sourceLanguageCode', sample.language)
-                    "
-                  >
+                    ">
                     {{ sample.filename }}
                   </mat-option>
                 </mat-optgroup>
               </mat-select>
             </mat-form-field>
             <!-- Clear button -->
-            <button
-              mat-button
-              mat-icon-button
-              aria-label="Clear"
-              (click)="
+            <button mat-button mat-icon-button aria-label="Clear" (click)="
                 translatorForm.reset({
                   sourceLanguageCode: 'es',
                   targetLanguageCode: 'en'
                 })
-              "
-              [disabled]="!f['text'].value"
-              matTooltip="Clear text"
-            >
+              " [disabled]="!f['text'].value" matTooltip="Clear text">
               <mat-icon>close</mat-icon>
             </button>
           </div>
           <!-- Action button -->
-          <button
-            mat-raised-button
-            color="accent"
-            (click)="translate()"
-            [disabled]="f['text'].errors"
-          >
+          <button mat-raised-button color="accent" (click)="translate()" [disabled]="f['text'].errors">
             TRANSLATE
           </button>
           <!-- Load animation -->
@@ -132,21 +81,13 @@
 
         <!-- Output -->
         <section fxFlex="50" fxLayout="column">
-          <div
-            *ngIf="response?.success"
-            fxLayout="column"
-            fxLayoutAlign="space-between"
-            fxLayoutGap="1em"
-          >
-            <div style="background-color: rgb(241, 241, 241)" class="p-2">
+          <div *ngIf="response?.success" fxLayout="column" fxLayoutAlign="space-between" fxLayoutGap="1em">
+            <div style="background-color: rgb(241, 241, 241)" style="padding: 0.5em">
               {{ translatedText }}
             </div>
             <div>
               <ul class="list-group my-2">
-                <li
-                  class="list-group-item"
-                  style="color: #05357d; font-weight: bold;"
-                >
+                <li class="list-group-item" style="color: #05357d; font-weight: bold;">
                   Stats
                 </li>
                 <li class="list-group-item">
@@ -161,13 +102,8 @@
                 </li>
               </ul>
             </div>
-            <a
-              mat-raised-button
-              color="primary"
-              class="text-decoration-none mt-2"
-              [href]="downloadLink"
-              [download]="downloadFilename"
-            >
+            <a mat-raised-button color="primary" class="text-decoration-none mt-2" [href]="downloadLink"
+              [download]="downloadFilename">
               DOWNLOAD JSON RESULTS <i class="material-icons">file_download</i>
             </a>
           </div>
@@ -176,7 +112,7 @@
     </mat-card>
 
     <!-- References -->
-    <mat-card class="mt-5">
+    <mat-card fxFlex.gt-md="80">
       <mat-card-header>
         <mat-card-title>References</mat-card-title>
         <mat-card-subtitle>
@@ -192,5 +128,5 @@
         </mat-card-subtitle>
       </mat-card-header>
     </mat-card>
-  </span>
+  </div>
 </article>

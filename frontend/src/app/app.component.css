@@ -1,0 +1,9 @@
+.main-container {
+  /* will cover the 100% of viewport */
+  min-height: 100vh;
+  overflow: hidden;
+  display: block;
+  position: relative;
+  /* height of your footer */
+  padding-bottom: 20em;
+}

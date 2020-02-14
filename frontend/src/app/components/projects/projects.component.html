@@ -1,18 +1,7 @@
-<section
-  fxLayout="column"
-  fxLayoutAlign="space-around"
-  fxLayoutGap="1em"
-  class="p-3"
-  fxLayout.gt-sm="row wrap"
-  fxLayoutAlign.gt-sm="center start"
->
-  <mat-card
-    *ngFor="let project of projects"
-    [routerLink]="project.routerLink"
-    fxFlex="20"
-    fxFlex.xs="100"
-    class="mb-3"
-  >
+<section fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="1em" fxLayout.gt-sm="row wrap"
+  fxLayoutAlign.gt-sm="center stretch" class="p-3">
+  <mat-card *ngFor="let project of projects" [routerLink]="project.routerLink" fxFlex="20" fxFlex.xs="100" class="mb-3"
+    style="min-height: 200px;">
     <mat-card-title>{{ project.name }}</mat-card-title>
     <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
   </mat-card>
