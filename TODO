@@ -1,6 +1,6 @@
 MAIN OBJECTIVES OF DEMOS
 
-instant results text 
+instant results text
 interes en tecnologia usada
 share results among comunity
 provide some screenshots
@@ -51,3 +51,10 @@ https://github.com/PlanTL-SANIDAD/EHR-normalizer
 
 
 ZENODO (sectionizer)
+
+
+# Consejos de Sergio sergio.mendoza@bsc.es sobre el SPACCC de felipe:
+conseguir que corra flask en ubuntu 12
+si no funciona, alternativa: web.py (simple sencillo)
+
+posible trampa: desde el contenedor de SPACCC, poner a correr analyzer como servicio y ???
