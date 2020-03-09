@@ -38,7 +38,7 @@ services:
     #   - POS_API_URL=http://localhost:5000
     #   - TRANSLATOR_API_URL=http://localhost:5001
     #   - PHARMACONER_API_URL=http://localhost:5002
-    command: ng serve --host 0.0.0.0
+    command: ng serve --host 0.0.0.0 --disableHostCheck
     ports:
       - 4200:4200
     volumes:
