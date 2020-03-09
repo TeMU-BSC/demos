@@ -12,9 +12,9 @@ services:
   #   ports:
   #     - 5000:5000
 
-  flask:
+  flask-translator:
     build: ./backend/translator
-    container_name: flask-translator-prod
+    container_name: flask-translator
     restart: always
     environment:
       - SAMPLES_DIR=./samples
