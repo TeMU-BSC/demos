@@ -2,31 +2,28 @@ version: '3.7'
 
 services:
 
+  # flask-pos:
+  #   build: ./backend/pos
+  #   container_name: flask-pos-prod
+  #   environment:
+  #     - FLASK_APP=pos.py
+  #     - SAMPLES_DIR=./samples
+  #   command: flask run --host 0.0.0.0
+  #   ports:
+  #     - 5000:5000
+
   flask-translator:
     build: ./backend/translator
-    container_name: flask-translator
+    container_name: flask-translator-prod
     environment:
       - FLASK_APP=translator.py
-      - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     command: flask run --host 0.0.0.0
     ports:
       - 5001:5000
 
-  # angular:
-  #   build: ./frontend
-  #   container_name: angular
-  #   restart: always
-  #   command: ng serve --host 0.0.0.0 --disableHostCheck --liveReload=false --prod --aot --sourceMap=false
-  #   ports:
-  #     - 4200:4200
-  #   volumes:
-  #     - ./frontend:/app
-  #   links:
-  #     - flask
-
   angular:
-    container_name: angular-demos
+    container_name: angular-demos-prod
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod

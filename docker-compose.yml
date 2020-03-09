@@ -4,23 +4,19 @@ services:
 
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
-  #   ports:
-  #     - 4000:4000
-  #   networks:
-  #     - demos
 
-  # spaccc-pos-tagger-api:
-  #   image: bsctemu/spaccc-pos-tagger
-  #   build: ./backend/spaccc-pos-tagger
-  #   container_name: spaccc-pos-tagger-api
-  #   volumes:
-  #       - ./backend/spaccc-pos-tagger:/app
-  #   environment:
-  #     - FLASK_ENV=development
-  #   ports:
-  #     - 5000:5000
-  #   networks:
-  #     - demos
+  flask-pos:
+    build: ./backend/pos
+    container_name: flask-pos
+    environment:
+      - FLASK_APP=pos.py
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    command: flask run --host 0.0.0.0
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend/pos:/app
 
   flask-translator:
     build: ./backend/translator

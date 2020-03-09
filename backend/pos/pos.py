@@ -7,9 +7,10 @@ Author:
 '''
 
 from os import path, walk
+# from typing import Dict, List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from med_tagger import Med_Tagger/Med_Tagger
+from med_tagger_wrapper import MedTagger
 
 APP = Flask(__name__)
 CORS(APP)
@@ -36,7 +37,8 @@ POS = {
 # ----------------------------------------------------------------------------
 
 
-def convert_med_tagger_result_to_data(parsed_text: List[List]) -> Dict:
+# def convert_med_tagger_result_to_data(parsed_text: List[List]) -> Dict:
+def convert_med_tagger_result_to_data(parsed_text):
     '''
     Convert a given parsed text in a List of lists format, into a dictionary
     that contains sentences, and those sentences contain its respective words
@@ -77,7 +79,7 @@ def convert_med_tagger_result_to_data(parsed_text: List[List]) -> Dict:
 # ----------------------------------------------------------------------------
 
 
-def convert_to_api_response(data: Dict) -> Dict:
+def convert_to_api_response(data):
     '''
     Prepare the API result skeleton.
     '''
