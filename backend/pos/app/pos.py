@@ -6,15 +6,15 @@ Author:
     https://github.com/aasensios
 '''
 
-from os import path, walk
+from os import environ, path, walk
 # from typing import Dict, List
-from flask import Flask, request, jsonify
+from flask import request, jsonify
 from flask_cors import CORS
 from med_tagger_wrapper import MedTagger
 
-APP = Flask(__name__)
-CORS(APP)
-# CORS(APP, resources={r'/*': {'origins': '*'}})
+from app import app
+
+CORS(app)
 MED_TAGGER = MedTagger()
 # APP.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -36,6 +36,10 @@ POS = {
 
 # ----------------------------------------------------------------------------
 
+@app.route('/hello')
+def hello():
+    '''Dummy root route for testing.'''
+    return 'Hello from Flask! I am the SPACCC POS Tagger API.'
 
 # def convert_med_tagger_result_to_data(parsed_text: List[List]) -> Dict:
 def convert_med_tagger_result_to_data(parsed_text):
@@ -93,14 +97,14 @@ def convert_to_api_response(data):
 # ----------------------------------------------------------------------------
 
 
-@APP.route('/samples', methods=['GET'])
+@app.route('/samples', methods=['GET'])
 def get_samples():
     '''
     Get all text samples inside './samples/' directory.
     Returns a list of filenames and their respective content in a JSON format.
     '''
     result = []
-    for root, dirs, files in walk('./samples/'):
+    for root, dirs, files in walk(environ.get('SAMPLES_DIR')):
         for filename in files:
             with open(path.join(root, filename), 'r') as current_file:
                 content = current_file.read()
@@ -113,7 +117,7 @@ def get_samples():
 # ----------------------------------------------------------------------------
 
 
-@APP.route('/analyze', methods=['POST'])
+@app.route('/analyze', methods=['POST'])
 def analyze():
     '''
     Get all medical tags. Parses the input medicalReport and outputs a
@@ -125,18 +129,3 @@ def analyze():
         parsed_text = [parsed_text]
     result = convert_med_tagger_result_to_data(parsed_text)
     return jsonify(convert_to_api_response(result))
-
-# ----------------------------------------------------------------------------
-
-
-@APP.route('/')
-def index():
-    '''
-    Dummy root route for testing.
-    '''
-    return 'Hello from Flask!'
-
-
-if __name__ == "__main__":
-    # APP.run()
-    APP.run(host='0.0.0.0', port=5000)

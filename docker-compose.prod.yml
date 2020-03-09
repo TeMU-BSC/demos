@@ -12,18 +12,17 @@ services:
   #   ports:
   #     - 5000:5000
 
-  flask-translator:
+  flask:
     build: ./backend/translator
     container_name: flask-translator-prod
+    restart: always
     environment:
-      - FLASK_APP=translator.py
       - SAMPLES_DIR=./samples
-    command: flask run --host 0.0.0.0
-    ports:
-      - 5001:5000
+    command: uwsgi app.ini
 
   angular:
     container_name: angular-demos-prod
+    restart: always
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod

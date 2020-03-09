@@ -5,24 +5,23 @@ services:
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
 
-  flask-pos:
-    build: ./backend/pos
-    container_name: flask-pos
-    environment:
-      - FLASK_APP=pos.py
-      - FLASK_ENV=development
-      - SAMPLES_DIR=./samples
-    command: flask run --host 0.0.0.0
-    ports:
-      - 5000:5000
-    volumes:
-      - ./backend/pos:/app
+  # flask-pos:
+  #   build: ./backend/pos
+  #   container_name: flask-pos
+  #   environment:
+  #     - FLASK_APP=pos.py
+  #     - FLASK_ENV=development
+  #     - SAMPLES_DIR=./samples
+  #   command: flask run --host 0.0.0.0
+  #   ports:
+  #     - 5000:5000
+  #   volumes:
+  #     - ./backend/pos:/app
 
   flask-translator:
     build: ./backend/translator
     container_name: flask-translator
     environment:
-      - FLASK_APP=translator.py
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     command: flask run --host 0.0.0.0

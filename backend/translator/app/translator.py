@@ -11,13 +11,14 @@ from statistics import mean
 from time import time
 from typing import Dict, List
 
-from flask import Flask, g, request, jsonify
+from flask import g, request, jsonify
 from flask_cors import CORS
 from nltk import sent_tokenize
 
 from opennmt_caller import translate_sentence
 
-app = Flask(__name__)
+from app import app
+
 CORS(app)
 
 
