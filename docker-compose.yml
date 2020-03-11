@@ -5,18 +5,17 @@ services:
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
 
-  # flask-pos:
-  #   build: ./backend/pos
-  #   container_name: flask-pos
-  #   environment:
-  #     - FLASK_APP=pos.py
-  #     - FLASK_ENV=development
-  #     - SAMPLES_DIR=./samples
-  #   command: flask run --host 0.0.0.0
-  #   ports:
-  #     - 5000:5000
-  #   volumes:
-  #     - ./backend/pos:/app
+  flask-pos:
+    build: ./backend/pos
+    container_name: flask-pos
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    command: flask run --host 0.0.0.0
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend/pos:/app
 
   flask-translator:
     build: ./backend/translator
@@ -38,7 +37,8 @@ services:
     #   - POS_API_URL=http://localhost:5000
     #   - TRANSLATOR_API_URL=http://localhost:5001
     #   - PHARMACONER_API_URL=http://localhost:5002
-    command: ng serve --host 0.0.0.0 --disableHostCheck
+    command: ng serve --host 0.0.0.0
+    # command: ng serve --host 0.0.0.0 --disableHostCheck
     ports:
       - 4200:4200
     volumes:

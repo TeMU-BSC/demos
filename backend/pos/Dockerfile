@@ -16,32 +16,19 @@
 FROM ubuntu:18.04
 WORKDIR /app
 ADD . /app
-RUN apt-get update -y
-RUN apt-get install -y python3 python3-pip curl
-RUN python3 -m pip install --user --upgrade pip && \
-    python3 -m pip install -r requirements.txt
+RUN apt-get update -y && \
+    apt-get install -y curl
 
 # https://github.com/docker/docker-install
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-    sh get-docker.sh
-# RUN curl -fsSL https://raw.githubusercontent.com/docker/docker-install/master/rootless-install.sh -o docker-rootless-install.sh && \
-#     sh docker-rootless-install.sh
+    sh get-docker.sh && \
+    # dockerd
+    docker run hello-world
 
-# # Install docker -- version 1 download packages with apt
-# RUN apt-get install -y \
-#     apt-transport-https \
-#     ca-certificates \
-#     curl \
-#     gnupg-agent \
-#     software-properties-common
-# RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-# RUN apt-key fingerprint 0EBFCD88
-# RUN add-apt-repository \
-#    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-#    $(lsb_release -cs) \
-#    stable"
-# RUN apt-get update -y
-# RUN apt-get install -y docker-ce docker-ce-cli containerd.io
+# install python
+RUN apt-get install -y python3 python3-pip
+RUN python3 -m pip install --user --upgrade pip && \
+    python3 -m pip install -r requirements.txt
 
 # # flask-pos           | This system supports the C.UTF-8 locale which is recommended.
 # # flask-pos           | You might be able to resolve your issue by exporting the
