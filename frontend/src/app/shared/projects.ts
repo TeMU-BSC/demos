@@ -14,7 +14,8 @@ export const PROJECTS: Project[] = [
     description:
       'Spanish Clinical Case Corpus Part-of-Speech Tagger. Analyze Spanish medical reports to get theirs parts of speech and matching scores.',
     repository: 'https://github.com/PlanTL/SPACCC_POS-TAGGER',
-    routerLink: '/pos',
+    // routerLink: '/pos',
+    routerLink: '/coming-soon',
   },
   {
     name: 'Translator',
