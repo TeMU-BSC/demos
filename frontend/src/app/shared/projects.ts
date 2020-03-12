@@ -11,71 +11,68 @@ export interface Project {
 export const PROJECTS: Project[] = [
   {
     name: 'SPACCC POS Tagger',
-    description:
-      'Spanish Clinical Case Corpus Part-of-Speech Tagger. Analyze Spanish medical reports to get theirs parts of speech and matching scores.',
+    description: 'Spanish Clinical Case Corpus Part-of-Speech Tagger. Analyze Spanish medical reports to get theirs parts of speech and matching scores.',
     repository: 'https://github.com/PlanTL/SPACCC_POS-TAGGER',
-    // routerLink: '/pos',
-    routerLink: '/coming-soon',
+    routerLink: '/coming-soon',  // '/pos',
   },
   {
     name: 'Translator',
-    routerLink: '/translator',
-    description:
-      'Translate clinical text using an open-source toolkit for neural machine translation (NMT).',
+    description: 'Translate clinical text using an open-source toolkit for neural machine translation (NMT).',
     repository: 'https://github.com/PlanTL-SANIDAD/Medical-Translator-WMT19',
+    routerLink: '/translator',
   },
   {
     name: 'NeuroNER Tagger',
-    routerLink: '/coming-soon', // /neuroner
     description: 'Coming soon!',
     repository: 'https://github.com/TeMU-BSC/PharmaCoNER-Tagger',
+    routerLink: '/coming-soon', // /'neuroner',
   },
   {
     name: 'Spell Checker',
-    routerLink: '/coming-soon', // /speller
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'speller',
   },
   {
     name: 'Word Embedding',
-    routerLink: '/coming-soon', // /embedder
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'embedder',
   },
   {
     name: 'Negation Extraction',
-    routerLink: '/coming-soon', // /negator
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'negator',
   },
   {
     name: 'Search in Spanish',
-    routerLink: '/coming-soon', // /searcher
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'searcher',
   },
   {
     name: 'CUTEXT',
-    routerLink: '/coming-soon', // /cutext
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'cutext',
   },
   {
     name: 'Abre - Abbreviations',
-    routerLink: '/coming-soon', // /abre
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'abre',
   },
   {
     name: 'TENTE',
-    routerLink: '/coming-soon', // /tente
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'tente',
   },
   {
     name: 'EHR Normalizer',
-    routerLink: '/coming-soon', // /ehrnormalizer
     description: 'Coming soon!',
     repository: '',
+    routerLink: '/coming-soon', // /'ehrnormalizer',
   },
 ]

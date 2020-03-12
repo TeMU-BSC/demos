@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { PROJECTS } from 'src/app/shared/projects'
 
 @Component({
@@ -6,13 +6,8 @@ import { PROJECTS } from 'src/app/shared/projects'
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.css']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent {
 
   projects = PROJECTS
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
 }
