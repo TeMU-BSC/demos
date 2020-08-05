@@ -1,30 +1,27 @@
-version: '3.7'
-
+version: "3.7"
 services:
-
+  angular:
+    container_name: demos_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8080:80"
+    restart: always
   # flask-pos:
   #   build: ./backend/pos
-  #   container_name: flask-pos-prod
+  #   container_name: demos_backend_pos
   #   environment:
   #     - FLASK_APP=pos.py
   #     - SAMPLES_DIR=./samples
   #   command: flask run --host 0.0.0.0
   #   ports:
   #     - 5000:5000
-
+  #   restart: always
   flask-translator:
     build: ./backend/translator
-    container_name: flask-translator
-    restart: always
+    container_name: demos_backend_translator
     environment:
       - SAMPLES_DIR=./samples
     command: uwsgi app.ini
-
-  angular:
-    container_name: angular-demos-prod
     restart: always
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    ports:
-      - '8080:80'

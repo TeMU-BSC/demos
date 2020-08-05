@@ -1,8 +1,14 @@
-# Use the Python3.7 image
-FROM python:3.7-stretch
+# Use an official python image
+FROM python:3.8
 
 # Set the working directory to /app
 WORKDIR /app
+
+# copy the dependencies file to the working directory
+COPY requirements.txt .
+
+# install dependencies
+RUN pip install -r requirements.txt
 
 # Copy the current directory contents into the container at /app 
 ADD . /app
@@ -18,7 +24,3 @@ ADD . /app
 #   - '/usr/local/lib/nltk_data'
 #   - ''
 COPY nltk_data /usr/local/nltk_data
-
-# Install the dependencies
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt

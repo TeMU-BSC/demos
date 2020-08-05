@@ -1,45 +1,39 @@
 version: '3.7'
-
 services:
-
-  # freeling-cnio:
-  #   image: bsctemu/freeling-cnio:1.0.0
-
-  # flask-pos:
-  #   build: ./backend/pos
-  #   container_name: flask-pos
-  #   environment:
-  #     - FLASK_ENV=development
-  #     - SAMPLES_DIR=./samples
-  #   command: flask run --host 0.0.0.0
-  #   ports:
-  #     - 5000:5000
-  #   volumes:
-  #     - ./backend/pos:/app
-
-  flask-translator:
-    build: ./backend/translator
-    container_name: flask-translator
-    environment:
-      - FLASK_ENV=development
-      - SAMPLES_DIR=./samples
-    command: flask run --host 0.0.0.0
-    ports:
-      - 5001:5000
-    volumes:
-      - ./backend/translator:/app
-
   angular:
     build: ./frontend
-    container_name: angular-demos
+    container_name: demos_frontend
     # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
     # environment:
     #   - POS_API_URL=http://localhost:5000
     #   - TRANSLATOR_API_URL=http://localhost:5001
     #   - PHARMACONER_API_URL=http://localhost:5002
-    command: ng serve --host 0.0.0.0
-    # command: ng serve --host 0.0.0.0 --disableHostCheck
     ports:
       - 4200:4200
     volumes:
       - ./frontend:/app
+    command: ng serve --host 0.0.0.0
+  # freeling-cnio:
+  #   image: bsctemu/freeling-cnio:1.0.0
+  # flask-pos:
+  #   build: ./backend/pos
+  #   container_name: demos_backend_pos
+  #   environment:
+  #     - FLASK_ENV=development
+  #     - SAMPLES_DIR=./samples
+  #   ports:
+  #     - 5000:5000
+  #   volumes:
+  #     - ./backend/pos:/app
+  #   command: flask run --host 0.0.0.0
+  flask-translator:
+    build: ./backend/translator
+    container_name: demos_backend_translator
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 5001:5000
+    volumes:
+      - ./backend/translator:/app
+    command: flask run --host 0.0.0.0
