@@ -13,13 +13,19 @@ export const PROJECTS: Project[] = [
     name: 'SPACCC POS Tagger',
     description: 'Spanish Clinical Case Corpus Part-of-Speech Tagger. Analyze Spanish medical reports to get theirs parts of speech and matching scores.',
     repository: 'https://github.com/PlanTL/SPACCC_POS-TAGGER',
-    routerLink: '/coming-soon',  // '/pos',
+    routerLink: '/pos',  // '/pos',
   },
   {
     name: 'Translator',
     description: 'Translate clinical text using an open-source toolkit for neural machine translation (NMT).',
     repository: 'https://github.com/PlanTL-SANIDAD/Medical-Translator-WMT19',
     routerLink: '/translator',
+  },
+  {
+    name: 'NER',
+    description: 'Text Annotation tool, using BSC Deep-Learning model .',
+    repository: '',
+    routerLink: '/ner',
   },
   {
     name: 'NeuroNER Tagger',

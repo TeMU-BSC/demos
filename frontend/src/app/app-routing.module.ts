@@ -6,12 +6,14 @@ import { ComingSoonComponent } from './components/coming-soon/coming-soon.compon
 import { PosComponent } from './components/pos/pos.component'
 import { TranslatorComponent } from './components/translator/translator.component'
 import { ProjectsComponent } from './components/projects/projects.component'
+import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 
 const routes: Routes = [
   { path: '', component: ProjectsComponent },
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'pos', component: PosComponent },
   { path: 'translator', component: TranslatorComponent },
+  { path: 'ner', component: NerBscComponent },
   // { path: 'pharmaconer', component: TranslatorComponent },
 ]
 
@@ -19,4 +21,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

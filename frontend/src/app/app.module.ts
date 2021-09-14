@@ -28,7 +28,8 @@ import { FooterComponent } from './components/footer/footer.component'
 import { TranslatorComponent } from './components/translator/translator.component'
 import { HeaderComponent } from './components/header/header.component'
 import { LoaderComponent } from './components/loader/loader.component'
-import { ProjectsComponent } from './components/projects/projects.component'
+import { ProjectsComponent } from './components/projects/projects.component';
+import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ProjectsComponent } from './components/projects/projects.component'
     HeaderComponent,
     LoaderComponent,
     ProjectsComponent,
+    NerBscComponent,
   ],
   imports: [
     BrowserModule,
