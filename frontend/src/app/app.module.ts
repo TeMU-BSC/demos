@@ -30,6 +30,7 @@ import { HeaderComponent } from './components/header/header.component'
 import { LoaderComponent } from './components/loader/loader.component'
 import { ProjectsComponent } from './components/projects/projects.component';
 import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
+import { NgxAnnotateTextModule } from 'ngx-annotate-text'
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
     MaterialModule,
     FlexLayoutModule,
     SimplemattableModule,
+    NgxAnnotateTextModule,
   ],
   providers: [
     LoaderService,

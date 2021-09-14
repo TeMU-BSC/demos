@@ -1,1 +1,57 @@
-<p>ner-bsc works!</p>
+<div class="row mt-5">
+  <div class="col-12">
+    <h1 class="mb-5 display-4">ngx-annotate-text demo</h1>
+
+    <ngx-annotate-text
+      [(annotations)]="annotations"
+      [removable]="false"
+      [text]="text"
+      annotationClass="my-annotation"
+      #annotateText
+    >
+    </ngx-annotate-text>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 mb-5">
+    <button
+      type="button"
+      class="btn btn-primary mr-2"
+      (click)="addAnnotation('Date', '#0069d9')"
+    >
+      Date
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary mr-2"
+      (click)="addAnnotation('Time', '#5a6268')"
+    >
+      Time
+    </button>
+    <button
+      type="button"
+      class="btn btn-success mr-2"
+      (click)="addAnnotation('Country', '#28a745')"
+    >
+      Country
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger mr-2"
+      (click)="addAnnotation('City', '#dc3545')"
+    >
+      City
+    </button>
+  </div>
+
+  <div class="col-6">
+    <h2 class="mb-3 display-5">Annotations</h2>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let a of annotations">
+        start: {{ a.startIndex }}, end: {{ a.endIndex }}, text: "{{ a.text }}",
+        label: {{ a.label }}
+      </li>
+    </ul>
+  </div>
+</div>
