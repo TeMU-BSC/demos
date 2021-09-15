@@ -76,7 +76,7 @@ export class NerBscComponent implements OnInit {
     let dic = {
       INPUTTEXT: this.inputText
     }
-    this.dataSvc.getAll(dic).subscribe(data => {
+    this.dataSvc.getAnnotations(dic).subscribe(data => {
       console.log(data)
     })
   }

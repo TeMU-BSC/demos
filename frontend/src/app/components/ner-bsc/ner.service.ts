@@ -14,4 +14,7 @@ export class NerService {
   getAll(text: any): Observable<any> {
     return this.http.post<any>(`${environment.nerApiUrl}/hello`, text)
   }
+  getAnnotations(text: any): Observable<any> {
+    return this.http.post<any>(`${environment.nerApiUrl}/get_annotations`, text)
+  }
 }
