@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  posApiUrl: 'http://localhost:5000',
+  posApiUrl: 'http://localhost:5002',
   translatorApiUrl: 'http://localhost:5001',
+  nerApiUrl: 'http://localhost:5000'
 }
 
 /*

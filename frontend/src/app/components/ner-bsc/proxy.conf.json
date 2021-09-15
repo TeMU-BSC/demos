@@ -1,0 +1,7 @@
+{
+  "/predict_ner": {
+    "target": "http://localhost:5000",
+    "secure": false,
+    "changeOrigin": true
+  }
+}

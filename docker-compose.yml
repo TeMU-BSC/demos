@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 services:
   angular:
     build: ./frontend
@@ -36,4 +36,16 @@ services:
       - 5001:5000
     volumes:
       - ./backend/translator:/app
+    command: flask run --host 0.0.0.0
+
+  flask-ner:
+    build: ./backend/ner
+    container_name: demos_backend_ner
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 5000:5000
+    volumes:
+      - ./backend/ner:/app
     command: flask run --host 0.0.0.0
