@@ -10,7 +10,7 @@ import numpy as np
 import tensorflow as tf
 import pickle
 import os
-
+import shutil
 from preprocess import preprocess_darryl_V1
 
 from NER_utils.conll_to_brat import conll_to_brat
@@ -99,24 +99,24 @@ def getAnnotationResult():
             head = f.split('.')
             file_dict[head[0]] = file_object.read()
 
-    # try:
-    #     shutil.rmtree('brat')
-    #     shutil.rmtree('brat-bio')
-    #     shutil.rmtree('brat-pred')
-    # except OSError as e:
-    #     print("Error: %s - %s." % (e.filename, e.strerror))
+    try:
+        shutil.rmtree('brat')
+        shutil.rmtree('brat-bio')
+        shutil.rmtree('brat-pred')
+    except OSError as e:
+        print("Error: %s - %s." % (e.filename, e.strerror))
 
     return file_dict
 
 
-# def clean_server():
+def clean_server():
 
-#     try:
-#         shutil.rmtree('brat')
-#         shutil.rmtree('brat-bio')
-#         shutil.rmtree('brat-pred')
-#     except OSError as e:
-#         print("Error: %s - %s." % (e.filename, e.strerror))
+    try:
+        shutil.rmtree('brat')
+        shutil.rmtree('brat-bio')
+        shutil.rmtree('brat-pred')
+    except OSError as e:
+        print("Error: %s - %s." % (e.filename, e.strerror))
 
 
 @app.route('/hello', methods=['POST'])
@@ -128,7 +128,7 @@ def hello():
 def get_annotations():
     json_input = request.json
 
-    # clean_server()
+    clean_server()
     json_path = 'data'
     dicts_dir = ''
     config_path = 'config.txt'
