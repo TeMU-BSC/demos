@@ -77,7 +77,20 @@ export class NerBscComponent implements OnInit {
       INPUTTEXT: this.inputText
     }
     this.dataSvc.getAnnotations(dic).subscribe(data => {
-      console.log(data)
+      data["INPUTTEXT"].split("\n").map(a => {
+        let inputtext = a.replaceAll('\t', " ");
+        inputtext = inputtext.split(" ", 4);
+        console.log(inputtext);
+        this.annotations = this.annotations.concat(
+          new Annotation(
+            inputtext[2],
+            inputtext[3],
+            inputtext[1],
+            "#0069d9"
+          )
+        )
+      }
+      );
     })
   }
 }
