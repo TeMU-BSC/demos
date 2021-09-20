@@ -31,7 +31,7 @@ import { LoaderComponent } from './components/loader/loader.component'
 import { ProjectsComponent } from './components/projects/projects.component';
 import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 import { NgxAnnotateTextModule } from 'ngx-annotate-text'
-
+import { MatCheckboxModule } from '@angular/material/checkbox'
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +55,7 @@ import { NgxAnnotateTextModule } from 'ngx-annotate-text'
     FlexLayoutModule,
     SimplemattableModule,
     NgxAnnotateTextModule,
+    MatCheckboxModule
   ],
   providers: [
     LoaderService,

@@ -4,6 +4,13 @@ import { ViewEncapsulation } from '@angular/core';
 import { Project, PROJECTS } from 'src/app/shared/projects';
 import { FormGroup } from '@angular/forms';
 import { NerService } from './ner.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { PageEvent } from '@angular/material/paginator';
+import { SelectionModel } from '@angular/cdk/collections';
+
+
 
 @Component({
   selector: 'app-ner-bsc',
@@ -14,36 +21,38 @@ import { NerService } from './ner.service';
 export class NerBscComponent implements OnInit {
 
   @ViewChild('annotateText') ngxAnnotateText: NgxAnnotateTextComponent;
+  displayedColumns: string[] = ['select', 'startIndex', 'endIndex', 'text', 'label'];
+  dataSource: MatTableDataSource<Annotation>;
+  selection = new SelectionModel<Annotation>(true, []);
+  private paginator: MatPaginator;
+  private sort: MatSort;
   textInputForm: FormGroup;
+  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
+    this.paginator = mp;
+    this.setDataSourceAttributes();
+  }
+  @ViewChild(MatSort) set matSort(ms: MatSort) {
+    this.sort = ms;
+    this.setDataSourceAttributes();
+  }
+  setDataSourceAttributes() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  proccedText = "";
   //This variable stores the input from the user, it should be a clinical story in spanish.
-  inputText: string;
+  inputText: string = "";
   //This variables stores the state of the submittion, if the user has not submitted anything, then the annotation component should
   // not be visible.
   textSubmitted: boolean = false;
 
   constructor(
     private dataSvc: NerService
-  ) { }
+  ) { this.dataSource = new MatTableDataSource([]); }
 
   project: Project;
-  annotations: Annotation[] = [
-    new Annotation(577, 595, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(644, 669, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(844, 862, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(948, 968, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(1100, 1119, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(1542, 1557, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2036, 2051, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2151, 2177, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(577, 595, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2285, 2311, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2313, 2341, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2343, 2361, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2384, 2399, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2466, 2480, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2610, 2673, 'PROCEDIMIENTO', '#0069d9'),
-    new Annotation(2675, 2701, 'PROCEDIMIENTO', '#0069d9'),
-  ];
+  annotations: Annotation[] = [];
 
   ngOnInit() {
     // Set the current project demo
@@ -70,27 +79,74 @@ export class NerBscComponent implements OnInit {
     }
   }
 
+  sanitizeString(str) {
+    str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
+    return str.trim();
+  }
+
   submitText() {
-    this.textSubmitted = true;
 
     let dic = {
-      INPUTTEXT: this.inputText
+      INPUTTEXT: this.sanitizeString(this.inputText)
     }
     this.dataSvc.getAnnotations(dic).subscribe(data => {
       data["INPUTTEXT"].split("\n").map(a => {
         let inputtext = a.replaceAll('\t', " ");
         inputtext = inputtext.split(" ", 4);
-        console.log(inputtext);
-        this.annotations = this.annotations.concat(
-          new Annotation(
-            inputtext[2],
-            inputtext[3],
-            inputtext[1],
-            "#0069d9"
+        console.log(inputtext.length);
+        if (inputtext.length > 1) {
+          this.annotations = this.annotations.concat(
+            new Annotation(
+              parseInt(inputtext[2]),
+              parseInt(inputtext[3]),
+              inputtext[1],
+              "#0069d9"
+            )
           )
-        )
+        }
       }
       );
+    }, err => { }, () => {
+      this.proccedText = this.sanitizeString(this.inputText);
+      this.textSubmitted = true;
+      this.dataSource = new MatTableDataSource(this.annotations);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     })
   }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+
+  /** Whether the number of selected elements matches the total number of rows. */
+  isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  masterToggle() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: Annotation): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.text}`;
+  }
+
 }
