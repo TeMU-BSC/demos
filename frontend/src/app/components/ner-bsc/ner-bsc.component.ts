@@ -90,6 +90,7 @@ export class NerBscComponent implements OnInit {
       INPUTTEXT: this.sanitizeString(this.inputText)
     }
     this.dataSvc.getAnnotations(dic).subscribe(data => {
+      this.annotations = []
       data["INPUTTEXT"].split("\n").map(a => {
         let inputtext = a.replaceAll('\t', " ");
         inputtext = inputtext.split(" ", 4);
@@ -147,6 +148,29 @@ export class NerBscComponent implements OnInit {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.text}`;
+  }
+
+  onChange(fileList: FileList): void {
+    let file = fileList[0];
+    console.log(fileList);
+
+    if(file.type == "text/plain"){
+    let fileReader: FileReader = new FileReader();
+    let self = this;
+    fileReader.onloadend = function(x) {
+      self.inputText =  fileReader.result as string
+    }
+    fileReader.readAsText(file);
+    }
+    if(file.type == "application/json"){
+      this.dataSvc.getAnnotations(file).subscribe(ans => {
+        console.log(ans)
+      })
+
+
+    }
+
+
   }
 
 }

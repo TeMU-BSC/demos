@@ -9,7 +9,9 @@
       <mat-card>
         <mat-card-content fxLayout="column">
           <!-- Medical report textarea -->
+          <input type="file" name="textFile" id="textFile" (change)="onChange($event.target.files)">
           <mat-form-field fxFill>
+
             <textarea
               matInput
               [(ngModel)]="inputText"
@@ -142,7 +144,7 @@
   <div class="row mt-5">
     <div class="col-6"></div>
   </div>
-
+<!--
   <div class="row mt-3">
     <div class="col-12 mb-5">
       <button
@@ -175,7 +177,7 @@
       </button>
     </div>
 
-    <!-- <div class="col-6">
+    <div class="col-6">
       <h2 class="mb-3 display-5">Annotations</h2>
       <ul class="list-group">
         <li class="list-group-item" *ngFor="let a of annotations">
@@ -184,6 +186,6 @@
           }}", label: {{ a.label }}
         </li>
       </ul>
-    </div> -->
-  </div>
+    </div>
+  </div> -->
 </article>
