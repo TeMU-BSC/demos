@@ -9,9 +9,13 @@
       <mat-card>
         <mat-card-content fxLayout="column">
           <!-- Medical report textarea -->
-          <input type="file" name="textFile" id="textFile" (change)="onChange($event.target.files)">
+          <input
+            type="file"
+            name="textFile"
+            id="textFile"
+            (change)="onChange($event.target.files)"
+          />
           <mat-form-field fxFill>
-
             <textarea
               matInput
               [(ngModel)]="inputText"
@@ -20,9 +24,7 @@
               required
             >
             </textarea>
-            <button class="btn btn-primary" (click)="submitText()">
-              Submit
-            </button>
+
             <!-- Error handling -->
             <!-- <mat-error *ngIf="f['medicalReport'].errors">
             <span *ngIf="f['medicalReport'].errors.required">
@@ -34,109 +36,153 @@
             </span>
           </mat-error> -->
           </mat-form-field>
+          <button class="btn btn-primary" (click)="submitText()">
+            Submit
+          </button>
         </mat-card-content>
       </mat-card>
-      <ngx-annotate-text
-        [(annotations)]="annotations"
-        [removable]="true"
-        [text]="proccedText"
-        annotationClass="my-annotation"
-        #annotateText
-      >
-      </ngx-annotate-text>
-      <div *ngIf="textSubmitted === true">
-        <mat-form-field>
-          <mat-label>Filter</mat-label>
-          <input
-            matInput
-            (keyup)="applyFilter($event)"
-            placeholder="Ex. Mia"
-            #input
-          />
-        </mat-form-field>
+      <div *ngIf="loading === true">
+        <mat-spinner></mat-spinner>
+      </div>
+      <div *ngIf="loading === false">
+        <div class="container" style=" max-width: 100%;">
+          <div class="row ">
 
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort>
-            <!-- Checkbox Column -->
-            <ng-container matColumnDef="select">
-              <th mat-header-cell *matHeaderCellDef>
-                <mat-checkbox
-                  (change)="$event ? masterToggle() : null"
-                  [checked]="selection.hasValue() && isAllSelected()"
-                  [indeterminate]="selection.hasValue() && !isAllSelected()"
-                  [aria-label]="checkboxLabel()"
-                >
-                </mat-checkbox>
-              </th>
-              <td mat-cell *matCellDef="let row">
-                <mat-checkbox
-                  (click)="$event.stopPropagation()"
-                  (change)="$event ? selection.toggle(row) : null"
-                  [checked]="selection.isSelected(row)"
-                  [aria-label]="checkboxLabel(row)"
-                >
-                </mat-checkbox>
-              </td>
-            </ng-container>
-            <!-- Name Column -->
-            <ng-container matColumnDef="startIndex">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>start</th>
-              <td mat-cell *matCellDef="let row">{{ row.startIndex }}</td>
-            </ng-container>
+                <div class="col">
+                  <div class="card scroll">
+                    <div class="card-body">
+                  <ngx-annotate-text
+                    [(annotations)]="annotations"
+                    [removable]="true"
+                    [text]="proccedText"
+                    annotationClass="my-annotation"
+                    #annotateText
+                  >
+                  </ngx-annotate-text>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div *ngIf="textSubmitted === true">
+                <mat-form-field>
+                  <mat-label>Filter</mat-label>
+                  <input
+                    matInput
+                    (keyup)="applyFilter($event)"
+                    placeholder="Ex. Virus"
+                    #input
+                  />
+                </mat-form-field>
 
-            <!-- email Column -->
-            <ng-container matColumnDef="endIndex">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>End</th>
-              <td mat-cell *matCellDef="let row">{{ row.endIndex }}</td>
-            </ng-container>
+                <div class="mat-elevation-z8">
+                  <table mat-table [dataSource]="dataSource" matSort>
+                    <!-- Checkbox Column -->
+                    <ng-container matColumnDef="select">
+                      <th mat-header-cell *matHeaderCellDef>
+                        <mat-checkbox
+                          (change)="$event ? masterToggle() : null"
+                          [checked]="selection.hasValue() && isAllSelected()"
+                          [indeterminate]="
+                            selection.hasValue() && !isAllSelected()
+                          "
+                          [aria-label]="checkboxLabel()"
+                        >
+                        </mat-checkbox>
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <mat-checkbox
+                          (click)="$event.stopPropagation()"
+                          (change)="$event ? selection.toggle(row) : null"
+                          [checked]="selection.isSelected(row)"
+                          [aria-label]="checkboxLabel(row)"
+                        >
+                        </mat-checkbox>
+                      </td>
+                    </ng-container>
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Name
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{ row.name }}
+                      </td>
+                    </ng-container>
 
-            <!-- Role Column -->
-            <ng-container matColumnDef="label">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Label</th>
-              <td mat-cell *matCellDef="let row">
-                <button mat-raised-button style="background-image: 'row.color'">
-                  {{ row.label }}
-                </button>
-              </td>
-            </ng-container>
-            <ng-container matColumnDef="text">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Text</th>
-              <td mat-cell *matCellDef="let row">
-                {{ row.text }}
-              </td>
-            </ng-container>
+                    <!-- email Column -->
+                    <ng-container matColumnDef="code">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        MeSH Code
+                      </th>
 
-            <!-- Edit Column -->
-            <ng-container matColumnDef="edit">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Edit</th>
-              <td mat-cell *matCellDef="let row">
-                <button mat-raised-button color="primary">
-                  <mat-icon>edit</mat-icon>
-                </button>
-              </td>
-            </ng-container>
-            <!-- Delete Column -->
-            <ng-container matColumnDef="delete">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Delete</th>
-              <td mat-cell *matCellDef="let row">
-                <button mat-raised-button color="warn">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </td>
-            </ng-container>
+                      <td mat-cell *matCellDef="let row" matTooltip="{{row.definition}}" > {{row.code}} </td>
+                    </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    <!-- Role Column -->
+                    <ng-container matColumnDef="occurrency">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Occurrency
+                      </th>
+                      <td mat-cell *matCellDef="let row">
 
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-              <td class="mat-cell" colspan="4">
-                No data matching the filter "{{ input.value }}"
-              </td>
-            </tr>
-          </table>
+                          {{ row.occurrency }}
 
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="text">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Text
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        {{ row.text }}
+                      </td>
+                    </ng-container>
+
+                    <!-- Edit Column -->
+                    <ng-container matColumnDef="edit">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Edit
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <button mat-raised-button color="primary">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
+                    <!-- Delete Column -->
+                    <ng-container matColumnDef="delete">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Delete
+                      </th>
+                      <td mat-cell *matCellDef="let row">
+                        <button mat-raised-button color="warn">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                      mat-row
+                      *matRowDef="let row; columns: displayedColumns"
+
+                    ></tr>
+
+                    <!-- Row shown when there is no matching data. -->
+                    <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell" colspan="4">
+                        No data matching the filter "{{ input.value }}"
+                      </td>
+                    </tr>
+                  </table>
+
+                  <mat-paginator
+                    [pageSizeOptions]="[5, 10, 25, 100]"
+                  ></mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </span>
@@ -144,7 +190,7 @@
   <div class="row mt-5">
     <div class="col-6"></div>
   </div>
-<!--
+  <!--
   <div class="row mt-3">
     <div class="col-12 mb-5">
       <button

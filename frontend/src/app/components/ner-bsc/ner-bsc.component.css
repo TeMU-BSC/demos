@@ -30,3 +30,8 @@ th {
   margin-top: 5rem;
   padding: 10px;
 }
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}

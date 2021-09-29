@@ -11,6 +11,13 @@ import { PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
 
 
+export interface AnnotationMesh {
+name: string;
+occurrency: number;
+code: string;
+definition: string;
+text: string;
+}
 
 @Component({
   selector: 'app-ner-bsc',
@@ -21,12 +28,13 @@ import { SelectionModel } from '@angular/cdk/collections';
 export class NerBscComponent implements OnInit {
 
   @ViewChild('annotateText') ngxAnnotateText: NgxAnnotateTextComponent;
-  displayedColumns: string[] = ['select', 'startIndex', 'endIndex', 'text', 'label'];
-  dataSource: MatTableDataSource<Annotation>;
-  selection = new SelectionModel<Annotation>(true, []);
+  displayedColumns: string[] = ['select','name', 'code', 'occurrency', 'text'];
+  dataSource: MatTableDataSource<AnnotationMesh>;
+  selection = new SelectionModel<AnnotationMesh>(true, []);
   private paginator: MatPaginator;
   private sort: MatSort;
   textInputForm: FormGroup;
+  loading = false;
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
     this.setDataSourceAttributes();
@@ -85,7 +93,7 @@ export class NerBscComponent implements OnInit {
   }
 
   submitText() {
-
+    this.loading = true;
     let dic = {
       INPUTTEXT: this.sanitizeString(this.inputText)
     }
@@ -108,11 +116,12 @@ export class NerBscComponent implements OnInit {
       }
       );
     }, err => { }, () => {
+
       this.proccedText = this.sanitizeString(this.inputText);
       this.textSubmitted = true;
-      this.dataSource = new MatTableDataSource(this.annotations);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+
+      this.getMeshFunc();
+
     })
   }
 
@@ -125,6 +134,34 @@ export class NerBscComponent implements OnInit {
   }
 
 
+  getMeshFunc(){
+
+    let annot = []
+    this.annotations.map(ann =>{
+
+      annot.push(this.proccedText.substring(ann["startIndex"],ann["endIndex"]))
+    })
+    let annotation_mesh : AnnotationMesh [] = []
+    this.dataSvc.getMesh(annot).subscribe(response =>{
+      response.map(an =>{
+        const annt : AnnotationMesh = {
+          name: an["name"],
+          code: an["code"],
+          definition: an["description"],
+          occurrency: 1,
+          text: an["annotation"]
+        }
+        annotation_mesh.push(annt)
+      })
+      this.loading = false;
+    }, error =>{}, () =>{
+      this.dataSource = new MatTableDataSource(annotation_mesh);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+
+    )
+  }
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -143,7 +180,7 @@ export class NerBscComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: Annotation): string {
+  checkboxLabel(row?: AnnotationMesh): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -166,11 +203,7 @@ export class NerBscComponent implements OnInit {
       this.dataSvc.getAnnotations(file).subscribe(ans => {
         console.log(ans)
       })
-
-
     }
-
-
   }
 
 }

@@ -23,7 +23,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'NER',
-    description: 'Text Annotation tool, using BSC Deep-Learning model .',
+    description: 'Reconocimiento de entidades nombradas utilizando nuestro modelo de deep-learning para la detección de procedimientos en español.',
     repository: '',
     routerLink: '/ner',
   },

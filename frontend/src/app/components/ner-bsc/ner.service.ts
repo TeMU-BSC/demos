@@ -17,4 +17,7 @@ export class NerService {
   getAnnotations(text: any): Observable<any> {
     return this.http.post<any>(`${environment.nerApiUrl}/get_annotations`, text)
   }
+  getMesh(Annotations: any): Observable<any>{
+    return this.http.post<any>(`${environment.nerApiUrl}/get_mesh`, Annotations)
+  }
 }
