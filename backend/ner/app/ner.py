@@ -12,6 +12,13 @@ import pickle
 import os
 import shutil
 from preprocess import preprocess_darryl_V1
+from rapidfuzz import fuzz,process
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+
 
 from NER_utils.conll_to_brat import conll_to_brat
 model_dir = 'model-complete'
@@ -148,3 +155,25 @@ def get_annotations():
     outpath = os.path.join(dicts_dir, 'brat-pred')
     reconstruct_brat(json_path, outpath, conll_predictions_outpath)
     return jsonify(getAnnotationResult())
+
+@app.route('/get_mesh', methods=['POST'])
+def get_mesh():
+    mesh = []
+    annotations = request.json
+    with open('decs2020.json', 'r') as file:
+     terms = json.load(file)
+    for annotation in annotations:
+        found_result = []
+        text_tokens = word_tokenize(annotation)
+        text_without_sw = [word for word in text_tokens if not word in stopwords.words('spanish')]
+        annotation = " ".join(text_without_sw)
+        for term in terms: 
+            for syno in term["synonyms"]:
+                if(fuzz.token_set_ratio(annotation,syno) > 90):
+                    found_result.append ({"annotation": annotation,"name":syno, "code": term["code"],"description": term["description"], "score":fuzz.token_set_ratio(annotation,syno)})
+                    break
+        found_result.sort(key=lambda x: x["score"], reverse=True)
+        if(len(found_result) >= 1):
+            mesh.append(found_result[0])
+    return jsonify(mesh)
+
