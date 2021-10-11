@@ -23,7 +23,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'NER',
-    description: 'Reconocimiento de entidades nombradas utilizando nuestro modelo de deep-learning para la detección de procedimientos en español.',
+    description: 'Reconocimiento de entidades nombradas utilizando  deep-learning para la detección de procedimientos en español.',
     repository: '',
     routerLink: '/ner',
   },
