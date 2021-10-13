@@ -21,15 +21,26 @@ from nltk.tokenize import word_tokenize
 
 
 from NER_utils.conll_to_brat import conll_to_brat
-model_dir = 'model-complete'
+model_dir = 'procedimiento/model-complete'
 data_pickle_path = ''
 json_path = 'data'
 dicts_dir = ''
 config_path = 'config.txt'
 # Load model
-new_model = tf.keras.models.load_model(model_dir)
+procedimiento_model = tf.keras.models.load_model(model_dir)
+enfermedad_model = tf.keras.models.load_model('enfermedad/model-complete')
+farmaco_model = tf.keras.models.load_model('enfermedad/model-complete')
+sintoma_model = tf.keras.models.load_model('sintoma/model-complete')
 print("API READY")
 CORS(app)
+
+models = ['procedimiento','enfermedad','farmaco','sintoma']
+models_keras = {
+    'procedimiento':procedimiento_model,
+    'enfermedada':enfermedad_model,
+    'farmaco': farmaco_model,
+    'sintoma': sintoma_model
+}
 
 
 def reconstruct_conll(dicts_dir, aux, test_predict_label, outpath):
@@ -98,18 +109,30 @@ def getAnnotationResult():
     ext = '.ann'
     file_dict = {}
     ann_files = [i for i in os.listdir(
-        'brat-pred') if os.path.splitext(i)[1] == ext]
+        'brat-pred'+models[0]) if os.path.splitext(i)[1] == ext]
     # Iterate over your txt files
     for f in ann_files:
+        temp_file_reader = ""
         # Open them and assign them to file_dict
-        with open(os.path.join('brat-pred', f)) as file_object:
-            head = f.split('.')
-            file_dict[head[0]] = file_object.read()
+        for model in models:
+            file_temp = 'brat-pred'+model
+            with open(os.path.join(file_temp, f))  as file_object:
+                head = f.split('.')
+                temp_file_reader =  temp_file_reader + file_object.read()
+        
+        file_dict[head[0]] = temp_file_reader
+
+        # file_temp = 'brat-pred'+models[0]
+        # with open(os.path.join(file_temp, f)) as file_object:
+        #     head = f.split('.')
+        #     file_dict[head[0]] = file_object.read()
 
     try:
         shutil.rmtree('brat')
         shutil.rmtree('brat-bio')
-        shutil.rmtree('brat-pred')
+        for model in models: 
+            dir_to_delete = 'brat-pred'+model
+            shutil.rmtree(dir_to_delete)
     except OSError as e:
         print("Error: %s - %s." % (e.filename, e.strerror))
 
@@ -121,7 +144,10 @@ def clean_server():
     try:
         shutil.rmtree('brat')
         shutil.rmtree('brat-bio')
-        shutil.rmtree('brat-pred')
+        shutil.rmtree('brat-predenfermedad')
+        shutil.rmtree('brat-predfarmaco')
+        shutil.rmtree('brat-predsintoma')
+        shutil.rmtree('brat-predprocedimiento')
     except OSError as e:
         print("Error: %s - %s." % (e.filename, e.strerror))
 
@@ -136,24 +162,52 @@ def get_annotations():
     json_input = request.json
 
     clean_server()
-    json_path = 'data'
-    dicts_dir = ''
-    config_path = 'config.txt'
-    parsed_json, aux = preprocess_darryl_V1(
-        json_input, json_path, config_path, dicts_dir)
-    print(json_input)
-    token_idx = np.asarray(parsed_json['token_idx'], dtype=np.float32)
-    char_idx = np.asarray(parsed_json['char_idx'], dtype=np.float32)
-    bpe = np.asarray(parsed_json['bpe'], dtype=np.float32)
-    answ = new_model.\
-        predict(x=[token_idx, char_idx, bpe])
-    predict_label = np.argmax(answ, axis=2)
-    conll_predictions_outpath = os.path.join(
-        dicts_dir, 'test_predictions_v1.bio')
-    reconstruct_conll(dicts_dir, aux, predict_label, conll_predictions_outpath)
-    # Darryl: Output folder where you want to store your Brat files. Put the route you want here
-    outpath = os.path.join(dicts_dir, 'brat-pred')
-    reconstruct_brat(json_path, outpath, conll_predictions_outpath)
+    for model in models:
+        json_path = 'data'+model
+        dicts_dir = model+'/'
+        config_path = model+'/config.txt'
+        parsed_json, aux = preprocess_darryl_V1(json_input, json_path, config_path, dicts_dir)
+        token_idx = np.asarray(parsed_json['token_idx'], dtype=np.float32)
+        char_idx = np.asarray(parsed_json['char_idx'], dtype=np.float32)
+        bpe = np.asarray(parsed_json['bpe'], dtype=np.float32)
+        answ = procedimiento_model.\
+            predict(x=[token_idx, char_idx, bpe])
+        predict_label = np.argmax(answ, axis=2)
+        conll_predictions_outpath = os.path.join(dicts_dir, 'test_predictions_v1.bio')
+        reconstruct_conll(dicts_dir, aux, predict_label, conll_predictions_outpath)
+        reconstruct_brat(json_path,'brat-pred'+model , conll_predictions_outpath)
+    # json_path = 'data'
+    # json_path_enfermedad = 'data_enfermedad'
+    # dicts_dir = 'procedimiento/'
+    # dicts_dir_enfermedad = 'enfermedad/'
+    # config_path = 'procedimiento/config.txt'
+    # config_path_enfermedad = 'enfermedad/config.txt'
+    # parsed_json, aux = preprocess_darryl_V1(
+    #     json_input, json_path, config_path, dicts_dir)
+    # parsed_json_enfermedad, aux_enfermedad = preprocess_darryl_V1(json_input, json_path_enfermedad,config_path_enfermedad,dicts_dir_enfermedad)
+    # token_idx_enfermedad = np.array(parsed_json_enfermedad['token_idx'], dtype=np.float32)
+    # char_idx_enfermedad = np.asarray(parsed_json['char_idx'], dtype=np.float32)
+    # bpe_enfermedad = np.asarray(parsed_json['bpe'], dtype=np.float32)
+    # print(json_input)
+    # token_idx = np.asarray(parsed_json['token_idx'], dtype=np.float32)
+    # char_idx = np.asarray(parsed_json['char_idx'], dtype=np.float32)
+    # bpe = np.asarray(parsed_json['bpe'], dtype=np.float32)
+    # answ = procedimiento_model.\
+    #     predict(x=[token_idx, char_idx, bpe])
+    # answ_enfermedad = enfermedad_model.\
+    #     predict(x=[token_idx_enfermedad,char_idx_enfermedad, bpe_enfermedad])
+    # predict_label = np.argmax(answ, axis=2)
+    # predict_label_enfermedad = np.argmax(answ_enfermedad, axis=2)
+    # conll_predictions_outpath = os.path.join(
+    #     dicts_dir, 'test_predictions_v1.bio')
+    # conll_predictions_outpath_enfermedad = os.path.join(dicts_dir_enfermedad, 'test_predictions_v1.bio')
+    # reconstruct_conll(dicts_dir, aux, predict_label, conll_predictions_outpath)
+    # reconstruct_conll(dicts_dir_enfermedad,aux_enfermedad,predict_label_enfermedad, conll_predictions_outpath_enfermedad)
+    # #Darryl: Output folder where you want to store your Brat files. Put the route you want here
+    # outpath = os.path.join(dicts_dir, 'brat-pred')
+    # outpath_enfermedad = os.path.join(dicts_dir, 'brat-pred-enfermedad')
+    # reconstruct_brat(json_path, 'brat-pred', conll_predictions_outpath)
+    # reconstruct_brat(json_path_enfermedad, 'brat-pred-enfermedad', conll_predictions_outpath_enfermedad)
     return jsonify(getAnnotationResult())
 
 @app.route('/get_mesh', methods=['POST'])
