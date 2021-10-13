@@ -48,13 +48,19 @@ export class NerBscComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  label_colors={
+    'ENFERMEDAD':"#DA310C",
+    'PROCEDIMIENTO':"#9FDA0C",
+    'FARMACO':"#0C25DA",
+    'SINTOMA':"#DA0C2E"
+  }
+
   proccedText = "";
   //This variable stores the input from the user, it should be a clinical story in spanish.
   inputText: string = "";
   //This variables stores the state of the submittion, if the user has not submitted anything, then the annotation component should
   // not be visible.
   textSubmitted: boolean = false;
-
   constructor(
     private dataSvc: NerService
   ) { this.dataSource = new MatTableDataSource([]); }
@@ -98,7 +104,7 @@ export class NerBscComponent implements OnInit {
       INPUTTEXT: this.sanitizeString(this.inputText)
     }
     this.dataSvc.getAnnotations(dic).subscribe(data => {
-      this.annotations = []
+
       data["INPUTTEXT"].split("\n").map(a => {
         let inputtext = a.replaceAll('\t', " ");
         inputtext = inputtext.split(" ", 4);
@@ -109,17 +115,16 @@ export class NerBscComponent implements OnInit {
               parseInt(inputtext[2]),
               parseInt(inputtext[3]),
               inputtext[1],
-              "#0069d9"
+              this.label_colors[inputtext[1]]
             )
           )
         }
       }
       );
     }, err => { }, () => {
-
       this.proccedText = this.sanitizeString(this.inputText);
       this.textSubmitted = true;
-
+      console.log(this.annotations)
       this.getMeshFunc();
 
     })
