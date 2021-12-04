@@ -14,6 +14,14 @@ import { Utils } from 'src/app/shared/utils'
 import { TemuResponse } from 'src/app/shared/api.shared'
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { HttpClient } from '@angular/common/http';
+import { Renderer2, ElementRef, Inject} from '@angular/core';
+import {DOCUMENT} from '@angular/common';
+
+declare const Util:any;
+
+import * as $ from 'jquery';
+
+
 export interface AnnotationSnomed {
   type: string
   code: string
@@ -188,8 +196,9 @@ export class NerBscComponent implements OnInit {
         this.response,
         this.sanitizer
       )
-
-    })
+      this.onClick();
+    }
+    )
   }
 
   applyFilter(event: Event) {
@@ -339,5 +348,55 @@ export class NerBscComponent implements OnInit {
      }
 
   }
+
+
+
+
+  //BRAT TEST
+
+
+  docData = {
+    text     : "Ed O'Kelley was the man who shot the man who shot Jesse James. Was a very happy persone",
+    entities : [
+        ['T1', 'Person', [[0, 11]]],
+        ['T2', 'Person', [[20, 23]]],
+        ['T3', 'Person', [[37, 40]]],
+        ['T4', 'Person', [[50, 61]]],
+        ['T1', 'Animal', [[52, 55]]],
+    ],
+};
+
+collData = {
+  entity_types: [ {
+          type   : 'Person',
+          labels : ['Person', 'Per'],
+          bgColor: '#7fa2ff',
+          borderColor: 'darken'
+  },
+  {
+          type   : 'Animal',
+          labels : ['Animal', 'Ani'],
+          bgColor: '#7fa32f',
+          borderColor: 'darken'
+  } ]
+};
+
+bratLocation = 'assets/brat/js';
+
+webFontURLs = [
+  this.bratLocation + '/static/fonts/Astloch-Bold.ttf',
+  this.bratLocation + '/static/fonts/PT_Sans-Caption-Web-Regular.ttf',
+  this.bratLocation + '/static/fonts/Liberation_Sans-Regular.ttf'
+]
+
+
+onClick() {
+
+
+  console.log('clicked');
+  Util.embed('embedding-entity-example', $.extend({}, this.collData),
+  $.extend({}, this.docData), this.webFontURLs);
+
+}
 
 }

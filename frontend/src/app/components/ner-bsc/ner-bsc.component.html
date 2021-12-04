@@ -46,6 +46,8 @@
       <div *ngIf="loading === true">
         <mat-spinner></mat-spinner>
       </div>
+
+      <div  id="embedding-entity-example"></div>
       <div *ngIf="ready === true">
         <div class="container" style=" max-width: 100%;">
           <div>
@@ -113,10 +115,12 @@
                   #annotateText
                 >
                 </ngx-annotate-text>
+
               </div>
             </div>
           </div>
           <div class="row" id="snomed-table">
+
             <h3 class="title">SNOMED TABLE</h3>
             <div *ngIf="textSubmitted === true">
               <mat-form-field>
@@ -272,6 +276,8 @@
       </div>
     </span>
   </span>
+
+
 
   <!--
   <div class="row mt-3">
