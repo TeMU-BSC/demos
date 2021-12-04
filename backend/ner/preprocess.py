@@ -168,7 +168,7 @@ def preprocess(brat_path, bio_path, out_path, pretrained_model_path=None, traini
 
 
 
-import json
+import json, re
 import os
 import fasttext
 from pathlib import Path
@@ -197,57 +197,54 @@ def json_to_txt(json_path, txt_path):
     """
     Transform JSON input into independent TXT files
     """
-    # with open(json_path, 'r') as f:
-    #     files = json.load(f)
-    files = json_path
+    with open(json_path, 'r') as f:
+        files = json.load(f)
+        
     Path(txt_path).mkdir(parents=True, exist_ok=True)
-    for k, v in files.items():
+    for k,v in files.items():
         with open(os.path.join(txt_path, k + '.txt'), 'w') as fin:
-            fin.write(v)
+           
+            fin.write(re.sub(r"/\\n/g", '\n', v))
 
 
-def preprocess_darryl_V1(json_file, json_path='', config_path='', dicts_dir=''):
+def preprocess_darryl_V1(json_path, config_path='', dicts_dir=''):
     """
     Take JSON with text files and output object ready to be input into 
     Keras model
-
     Parameters
     ----------
-    json_file: Json input with the text input.
     json_path : str
         Path to JSON with text input.
     config_path : str, optional
         Path to model configuration file. The default is ''.
     dicts_dir : str, optional
         Path to directory with needed dictionaries. The default is ''.
-
     Returns
     -------
     test_pad : dict
         Python dict with numpy arrays as values.
-
     """
 
     config = parse_config_file(config_path)
-
+        
     ### JSON to TXT ###
     txt_dir_path = os.path.join(os.path.dirname(json_path), 'brat')
     Path(txt_dir_path).mkdir(parents=True, exist_ok=True)
-    json_to_txt(json_file, txt_dir_path)
-
+    json_to_txt(json_path, txt_dir_path)
+    
     ### Brat2BIO ###
     # TODO: modify brat_to_conll to:
-    # 1. Take JSON as input
-    # 2. Do not create empty ANN
-    # 3. Do not create temporary BIO file, but keep it as variable
+        # 1. Take JSON as input
+        # 2. Do not create empty ANN
+        # 3. Do not create temporary BIO file, but keep it as variable
     bio_path = txt_dir_path + "-bio"
     Path(bio_path).mkdir(parents=True, exist_ok=True)
-    brat_to_conll(txt_dir_path, os.path.join(
-        bio_path, 'test.bio'), 'es_core_news_sm')
+    brat_to_conll(txt_dir_path, os.path.join(bio_path, 'test.bio'), 'es_core_news_sm')
+
 
     ### Parse BIO ###
     test = split_bio(os.path.join(bio_path, 'test.bio'))
-
+    
     # TODO: check there are no empty tokens in BIO file: that break the BPE Embedding
 
     ### Token2idx ###
@@ -256,15 +253,18 @@ def preprocess_darryl_V1(json_file, json_path='', config_path='', dicts_dir=''):
     with open(os.path.join(dicts_dir, 'token2idx.json'), 'r') as f:
         token2idx = json.load(f)
 
+
     # Map tokens to idx
     test['token_idx'] = word2int(test['tokens'], token2idx)
+    
 
-    # Tag2idx
+    ### Tag2idx
     # tag2idx = load_obj(dicts_dir, "tag2idx")
     with open(os.path.join(dicts_dir, 'tag2idx.json'), 'r') as f:
         tag2idx = json.load(f)
     test['tags_idx'] = word2int(test['tags'], tag2idx)
-
+    
+    
     ### Padding ###
     # Load MAXLENGTH from config file
     MAXLENGTH = int(config['maxSeqLength'])
@@ -277,19 +277,20 @@ def preprocess_darryl_V1(json_file, json_path='', config_path='', dicts_dir=''):
     # char2idx = load_obj(dicts_dir, "char2idx")
     with open(os.path.join(dicts_dir, 'char2idx.json'), 'r') as f:
         char2idx = json.load(f)
+    
+    test_pad['char_idx'] = np.asarray(get_char_idx(test, char2idx, MAXLENGTH, MAXLENCHAR), dtype=np.int64)
 
-    test_pad['char_idx'] = np.asarray(get_char_idx(
-        test, char2idx, MAXLENGTH, MAXLENCHAR), dtype=np.int64)
 
     ### One-hot-encode labels ###
     tag_size = len(tag2idx.keys())
     test_pad['tag_idx_1hot'] = label2vec(test_pad['tag_idx'], classes=tag_size)
 
+
     ### BPE Embedding ###
     # Load BPEDIM from config file
     BPEDIM = int(config['bpeDim'])
-
+    
     bpemb_es = BPEmb(lang="es", dim=BPEDIM)
     test_pad['bpe'] = add_bpe_emb(test, bpemb_es, MAXLENGTH, BPEDIM)
-
+    
     return test_pad, test

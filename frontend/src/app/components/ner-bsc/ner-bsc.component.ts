@@ -9,15 +9,18 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { PageEvent } from '@angular/material/paginator';
 import { SelectionModel } from '@angular/cdk/collections';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
+import { Utils } from 'src/app/shared/utils'
+import { TemuResponse } from 'src/app/shared/api.shared'
+import { ngxCsv } from 'ngx-csv/ngx-csv';
+import { HttpClient } from '@angular/common/http';
+export interface AnnotationSnomed {
+  type: string
+  code: string
+  text: string
 
-
-export interface AnnotationMesh {
-name: string;
-occurrency: number;
-code: string;
-definition: string;
-text: string;
 }
+
 
 @Component({
   selector: 'app-ner-bsc',
@@ -28,13 +31,25 @@ text: string;
 export class NerBscComponent implements OnInit {
 
   @ViewChild('annotateText') ngxAnnotateText: NgxAnnotateTextComponent;
-  displayedColumns: string[] = ['select','name', 'code', 'occurrency', 'text'];
-  dataSource: MatTableDataSource<AnnotationMesh>;
-  selection = new SelectionModel<AnnotationMesh>(true, []);
+  displayedColumns: string[] = ['select', 'type', 'code', 'text'];
+  dataSource: MatTableDataSource<AnnotationSnomed>;
+  selection = new SelectionModel<AnnotationSnomed>(true, []);
   private paginator: MatPaginator;
   private sort: MatSort;
   textInputForm: FormGroup;
   loading = false;
+  ready = false;
+  downloadFilename: string
+  annotation_mesh: AnnotationSnomed[] = [];
+  toggle = {
+    'enfermedad': true,
+    'sintoma': true,
+    'farmaco': true,
+    'procedimiento': true
+  }
+
+  downloadLink: SafeUrl
+  response: TemuResponse
   @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
     this.paginator = mp;
     this.setDataSourceAttributes();
@@ -48,26 +63,29 @@ export class NerBscComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  label_colors={
-    'ENFERMEDAD':"#DA310C",
-    'PROCEDIMIENTO':"#9FDA0C",
-    'FARMACO':"#0C25DA",
-    'SINTOMA':"#DA0C2E"
+  label_colors = {
+    'ENFERMEDAD': "#DA310C",
+    'PROCEDIMIENTO': "#9FDA0C",
+    'FARMACO': "#0C25DA",
+    'SINTOMA': "#527259"
   }
 
   proccedText = "";
   //This variable stores the input from the user, it should be a clinical story in spanish.
-  inputText: string = "";
+  inputText: string = "Mujer de 59 años cuyos antecedentes personales incluyen hipertensión arterial, \n artropatía degenerativa cervical, lumbociática crónica, tuberculosis ganglionar diagnosticada por cuadro de eritema nudoso y migraña. En su tratamiento habitual, destaca el candesartán 32 mg/día.﻿Acudió en marzo de 2020 al servicio de urgencias por sensación distérmica de 5 días de evolución, acompañada de dolor torácico de características opresivas en ausencia de síntomas respiratorios. A su llegada presentaba SatO2 del 96% con gafas nasales a 2 l/min y presión arterial de 75/53 mmHg. En la exploración física destacan signos de hipoperfusión periférica con auscultación respiratoria normal. A pesar de la sobrecarga hídrica y la noradrenalina, persistía hipotensa con signos de hipoperfusión (frialdad cutánea y ácidos lácticos elevados: 3,9 mmol/l). En el electrocardiograma destacaba elevación cóncava del ST y descenso del PR, así como bajos voltajes. En la radiografía de tórax se observaron ligeros signos de redistribución vascular sin infiltrados. La reacción en cadena de la polimerasa (PCR) de virus del frotis nasofaríngeo resultó positiva para SARS-CoV-2 y negativo para adenovirus y virus Influenza A y B, con un ambiente epidemiológico positivo (familiares con fiebre y cuadro respiratorio días previos). Entre los datos del laboratorio, destacaba la elevación de troponinas (TnT, 220-1.100 ng/dl) y NT-proBNP (4.421 ng/l), ligera leucocitosis (14,17 × 109/l), linfocitos (2,59 × 109/l), PCR 10 mg/l y dímero D a las 24 h (23.242 ng/ml). Una ecocardiografía mostró hipertrofia concéntrica moderada, volúmenes intraventriculares disminuidos con fracción de eyección del ventrículo izquierdo conservada sin segmentarismos y derrame pericárdico moderado sin claros signos de deterioro hemodinámico. Debido al cuadro tan indicativo de miocarditis (elevación concaviforme y difusa del ST, fiebre, derrame pericárdico y engrosamiento miocárdico) y la fracción de eyección del ventrículo izquierdo conservada sin segmentarismos, no se realizó coronariografía por baja sospecha clínica de síndrome coronario agudo. En la unidad coronaria, durante el implante de un catéter de Swan-Ganz, se produjo un rápido deterioro hemodinámico hasta llegar a una actividad eléctrica sin pulso que requirió reanimación cardiopulmonar, pericardiocentesis emergente (drenaje de líquido seroso) y altas dosis de vasopresores para la recuperación hemodinámica de la paciente. Se realizó otro ecocardiograma (a las 2 h del ingreso), que mostró disfunción biventricular grave y edema miocárdico difuso, por lo que se decidió implantar un balón de contrapulsación y oxigenador extracorpóreo de membrana (ECMO) venoarterial femoral. Se inició el tratamiento de la miocarditis con inmunoglubulinas (80 mg/día) durante 4 días y metilprenisolona (500 mg/día) en pauta descendente durante 14 días y tratamiento antiviral: IFN B (0,25 mg/48 h) y (ritonavir 400 mg/lopinavir 100 mg/12 h). Al quinto día de ingreso, se constató la normalización de la función biventricular, pero se mantuvo el dispositivo ECMO por la disnea, con hipoxemia refractaria, actualmente pendiente de progreso respiratorio.";
   //This variables stores the state of the submittion, if the user has not submitted anything, then the annotation component should
   // not be visible.
   textSubmitted: boolean = false;
   constructor(
-    private dataSvc: NerService
+    private sanitizer: DomSanitizer,
+    private dataSvc: NerService,
+    private http: HttpClient
+
   ) { this.dataSource = new MatTableDataSource([]); }
 
   project: Project;
   annotations: Annotation[] = [];
-
+  originalAnnotations: Annotation[] = [];
   ngOnInit() {
     // Set the current project demo
     PROJECTS.forEach((project, index) => {
@@ -75,7 +93,7 @@ export class NerBscComponent implements OnInit {
         this.project = PROJECTS[index]
       }
     })
-
+    this.downloadFilename = "NER_Predictions.json"
   }
   addAnnotation(label: string, color: string) {
     if (this.ngxAnnotateText) {
@@ -93,39 +111,83 @@ export class NerBscComponent implements OnInit {
     }
   }
 
+  reset() {
+    this.ready = false;
+    this.annotations = [];
+    this.annotation_mesh = [];
+  }
+
   sanitizeString(str) {
     str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "");
     return str.trim();
   }
 
+
   submitText() {
     this.loading = true;
+    this.inputText = this.inputText.replace(/\n/g, "\\n")
     let dic = {
-      INPUTTEXT: this.sanitizeString(this.inputText)
+      // INPUTTEXT: this.sanitizeString(this.inputText)
+      INPUTTEXT: this.inputText
     }
+
+
+
     this.dataSvc.getAnnotations(dic).subscribe(data => {
 
-      data["INPUTTEXT"].split("\n").map(a => {
-        let inputtext = a.replaceAll('\t', " ");
-        inputtext = inputtext.split(" ", 4);
-        console.log(inputtext.length);
-        if (inputtext.length > 1) {
-          this.annotations = this.annotations.concat(
-            new Annotation(
-              parseInt(inputtext[2]),
-              parseInt(inputtext[3]),
-              inputtext[1],
-              this.label_colors[inputtext[1]]
-            )
-          )
+      this.response = data
+      data['INPUTTEXT'].map(d => {
+        // let code = d['F-snomed'].split("+");
+
+        // let terms
+        // if(code != "NIL"){
+        //   this.http.get<any>("https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/SNOMEDCT-ES/2021-10-31/concepts/"+code[0]+"?descendantCountForm=stated").subscribe(res => {
+        //   console.log(res)
+        // })
+        // }
+        // else{
+        //   terms = "NIL"
+        // }
+
+
+        this.annotations = this.annotations.concat(
+          new Annotation(
+            parseInt(d["C-START"]),
+            parseInt(d["D-END"]),
+            d["B-TYPE"],
+            this.label_colors[d["B-TYPE"]],
+          ),
+        );
+
+        const annt: AnnotationSnomed = {
+          type: d["B-TYPE"],
+          code: d["F-snomed"],
+          text: d["E-text"],
+
         }
-      }
-      );
+        this.annotation_mesh.push(annt)
+
+      })
+
+      this.originalAnnotations = this.annotations;
+
     }, err => { }, () => {
-      this.proccedText = this.sanitizeString(this.inputText);
+      this.inputText = this.inputText.replace(/\\n/g, " \n")
+      this.proccedText = this.inputText;
       this.textSubmitted = true;
-      console.log(this.annotations)
-      this.getMeshFunc();
+      this.ready = true;
+      this.loading = false;
+      this.dataSource = new MatTableDataSource(this.annotation_mesh);
+      console.log(this.annotation_mesh)
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      // this.getMeshFunc();
+
+      // Generate the download URI
+      this.downloadLink = Utils.generateDownloadJsonUri(
+        this.response,
+        this.sanitizer
+      )
 
     })
   }
@@ -139,27 +201,30 @@ export class NerBscComponent implements OnInit {
   }
 
 
-  getMeshFunc(){
+  getMeshFunc() {
 
     let annot = []
-    this.annotations.map(ann =>{
+    this.annotations.map(ann => {
 
-      annot.push(this.proccedText.substring(ann["startIndex"],ann["endIndex"]))
+      annot.push(this.proccedText.substring(ann["startIndex"], ann["endIndex"]))
     })
-    let annotation_mesh : AnnotationMesh [] = []
-    this.dataSvc.getMesh(annot).subscribe(response =>{
-      response.map(an =>{
-        const annt : AnnotationMesh = {
-          name: an["name"],
-          code: an["code"],
-          definition: an["description"],
-          occurrency: 1,
-          text: an["annotation"]
+    let annotation_mesh: AnnotationSnomed[] = []
+    this.dataSvc.getMesh(annot).subscribe(response => {
+      response.map(an => {
+
+        const annt: AnnotationSnomed = {
+          type: an["type"],
+          code: an["snomed"],
+          text: an["text"],
+
+
         }
         annotation_mesh.push(annt)
       })
       this.loading = false;
-    }, error =>{}, () =>{
+    }, error => { }, () => {
+
+
       this.dataSource = new MatTableDataSource(annotation_mesh);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -185,7 +250,7 @@ export class NerBscComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: AnnotationMesh): string {
+  checkboxLabel(row?: AnnotationSnomed): string {
     if (!row) {
       return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
     }
@@ -194,21 +259,85 @@ export class NerBscComponent implements OnInit {
 
   onChange(fileList: FileList): void {
     let file = fileList[0];
-    console.log(fileList);
 
-    if(file.type == "text/plain"){
-    let fileReader: FileReader = new FileReader();
-    let self = this;
-    fileReader.onloadend = function(x) {
-      self.inputText =  fileReader.result as string
+
+    if (file.type == "text/plain") {
+      let fileReader: FileReader = new FileReader();
+      let self = this;
+      fileReader.onloadend = function (x) {
+        self.inputText = fileReader.result as string
+        self.inputText = self.inputText.replace(/\n/g, "\\n")
+
+      }
+      fileReader.readAsText(file);
     }
-    fileReader.readAsText(file);
-    }
-    if(file.type == "application/json"){
+    if (file.type == "application/json") {
       this.dataSvc.getAnnotations(file).subscribe(ans => {
-        console.log(ans)
+
       })
     }
+  }
+
+  downloadTSV() {
+
+    var options = {
+      fieldSeparator: '\t',
+      quoteStrings: '',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: 'NER_Predictions',
+      useBom: false,
+      noDownload: false,
+      headers: ["ID", "START", "END", "TEXT", "SNOMED", "TYPE"]
+    };
+    new ngxCsv(this.response['INPUTTEXT'], 'NER_Predictions', options);
+  }
+
+  downloadCSV() {
+
+    var options = {
+      fieldSeparator: ',',
+      quoteStrings: '',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: false,
+      title: 'NER_Predictions',
+      useBom: false,
+      noDownload: false,
+      headers: ["ID", "TYPE", "START", "END", "TEXT", "SNOMED"]
+    };
+    new ngxCsv(this.response['INPUTTEXT'], 'NER_Predictions', options);
+  }
+
+
+
+  changeNER(type: string) {
+    console.log("click")
+    this.dropResults(type)
+    this.toggle[type] = !this.toggle[type]
+
+
+  }
+
+  dropResults(type) {
+
+    this.toggle[type] ? this.annotations = this.annotations.filter(ann => ann["label"] != type.toUpperCase()) : this.annotations = this.annotations.concat(this.originalAnnotations.filter(ann => ann["label"] == type.toUpperCase()))
+
+
+  }
+
+  getData(code) {
+
+    if (code == "NIL") {
+      return "No se encontro termino"
+    }
+    else {
+      code = code.split("+");
+
+      return "None"
+     }
+
   }
 
 }

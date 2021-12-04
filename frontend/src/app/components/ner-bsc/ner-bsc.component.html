@@ -6,27 +6,28 @@
 
   <span fxLayout="row" fxLayoutAlign="center center">
     <span fxLayout="column" fxLayoutGap="2em" fxFlex="100" fxFlex.gt-md="80">
-      <mat-card>
-        <mat-card-content fxLayout="column">
-          <!-- Medical report textarea -->
-          <input
-            type="file"
-            name="textFile"
-            id="textFile"
-            (change)="onChange($event.target.files)"
-          />
-          <mat-form-field fxFill>
-            <textarea
-              matInput
-              [(ngModel)]="inputText"
-              rows="15"
-              placeholder="Porfavor introduzca el caso clinico"
-              required
-            >
-            </textarea>
+      <div *ngIf="ready !== true">
+        <mat-card>
+          <mat-card-content fxLayout="column">
+            <!-- Medical report textarea -->
+            <input
+              type="file"
+              name="textFile"
+              id="textFile"
+              (change)="onChange($event.target.files)"
+            />
+            <mat-form-field fxFill>
+              <textarea
+                matInput
+                [(ngModel)]="inputText"
+                rows="15"
+                placeholder="Por favor introduzca un caso clinico"
+                required
+              >
+              </textarea>
 
-            <!-- Error handling -->
-            <!-- <mat-error *ngIf="f['medicalReport'].errors">
+              <!-- Error handling -->
+              <!-- <mat-error *ngIf="f['medicalReport'].errors">
             <span *ngIf="f['medicalReport'].errors.required">
               Medical Report is <strong>required</strong>.
             </span>
@@ -35,151 +36,235 @@
               <strong>{{ MAX_CHARACTERS }} characters</strong>.
             </span>
           </mat-error> -->
-          </mat-form-field>
-          <button class="btn btn-primary" (click)="submitText()">
-            Submit
-          </button>
-        </mat-card-content>
-      </mat-card>
+            </mat-form-field>
+            <button class="btn btn-primary" (click)="submitText()">
+              Submit
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </div>
       <div *ngIf="loading === true">
         <mat-spinner></mat-spinner>
       </div>
-      <div *ngIf="loading === false">
+      <div *ngIf="ready === true">
         <div class="container" style=" max-width: 100%;">
-          <div class="row ">
+          <div>
 
-                <div class="col">
-                  <div class="card scroll">
-                    <div class="card-body">
-                  <ngx-annotate-text
-                    [(annotations)]="annotations"
-                    [removable]="true"
-                    [text]="proccedText"
-                    annotationClass="my-annotation"
-                    #annotateText
-                  >
-                  </ngx-annotate-text>
-                </div>
+
+          <button (click)="reset()" class="btn btn-success">
+            <div style="display: flex;"> <i class="material-icons" >arrow_back </i> Reset</div>
+          </button>
+
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('enfermedad')"
+            [ngClass]="{
+              'on-enfermedad': toggle['enfermedad'],
+              'off-enfermedad': !toggle['enfermedad']
+            }"
+            class="btn"
+          >
+            ENFERMEDAD
+          </button>
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('sintoma')"
+            [ngClass]="{
+              'on-sintoma': toggle['sintoma'],
+              'off-sintoma': !toggle['sintoma']
+            }"
+            class="btn"
+          >
+            SINTOMA
+          </button>
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('procedimiento')"
+            [ngClass]="{
+              'on-procedimiento': toggle['procedimiento'],
+              'off-procedimiento': !toggle['procedimiento']
+            }"
+            class="btn"
+          >
+            PROCEDIMIENTO
+          </button>
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('farmaco')"
+            [ngClass]="{
+              'on-farmaco': toggle['farmaco'],
+              'off-farmaco': !toggle['farmaco']
+            }"
+            class="btn"
+          >
+            FARMACO
+          </button>
+          <div class="divider"></div>
+        </div>
+          <p></p>
+          <div class="row ">
+            <div class="card scroll">
+              <div class="card-body">
+                <ngx-annotate-text
+                  [(annotations)]="annotations"
+                  [removable]="true"
+                  [text]="proccedText"
+                  annotationClass="my-annotation"
+                  #annotateText
+                >
+                </ngx-annotate-text>
               </div>
             </div>
-            <div class="col">
-              <div *ngIf="textSubmitted === true">
-                <mat-form-field>
-                  <mat-label>Filter</mat-label>
-                  <input
-                    matInput
-                    (keyup)="applyFilter($event)"
-                    placeholder="Ex. Virus"
-                    #input
-                  />
-                </mat-form-field>
+          </div>
+          <div class="row" id="snomed-table">
+            <h3 class="title">SNOMED TABLE</h3>
+            <div *ngIf="textSubmitted === true">
+              <mat-form-field>
+                <mat-label>Filter</mat-label>
+                <input
+                  matInput
+                  (keyup)="applyFilter($event)"
+                  placeholder="Ex. Virus"
+                  #input
+                />
+              </mat-form-field>
 
-                <div class="mat-elevation-z8">
-                  <table mat-table [dataSource]="dataSource" matSort>
-                    <!-- Checkbox Column -->
-                    <ng-container matColumnDef="select">
-                      <th mat-header-cell *matHeaderCellDef>
-                        <mat-checkbox
-                          (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="
-                            selection.hasValue() && !isAllSelected()
-                          "
-                          [aria-label]="checkboxLabel()"
-                        >
-                        </mat-checkbox>
-                      </th>
-                      <td mat-cell *matCellDef="let row">
-                        <mat-checkbox
-                          (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)"
-                          [aria-label]="checkboxLabel(row)"
-                        >
-                        </mat-checkbox>
-                      </td>
-                    </ng-container>
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="name">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Name
-                      </th>
-                      <td mat-cell *matCellDef="let row">
-                        {{ row.name }}
-                      </td>
-                    </ng-container>
+              <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort>
+                  <!-- Checkbox Column -->
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef>
+                      <mat-checkbox
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
+                          selection.hasValue() && !isAllSelected()
+                        "
+                        [aria-label]="checkboxLabel()"
+                      >
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)"
+                      >
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="type">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Type of entity
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      {{ row.type }}
+                    </td>
+                  </ng-container>
 
-                    <!-- email Column -->
-                    <ng-container matColumnDef="code">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        MeSH Code
-                      </th>
+                  <!-- email Column -->
+                  <ng-container matColumnDef="code">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Snomed Code
+                    </th>
 
-                      <td mat-cell *matCellDef="let row" matTooltip="{{row.definition}}" > {{row.code}} </td>
-                    </ng-container>
+                    <td mat-cell *matCellDef="let row"
+                    [matTooltip]="getData(row.code)"
 
-                    <!-- Role Column -->
-                    <ng-container matColumnDef="occurrency">
+                    >
+
+                      {{ row.code }}
+                    </td>
+                  </ng-container>
+
+                  <!-- Role Column -->
+                  <!-- <ng-container matColumnDef="occurrency">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Occurrency
                       </th>
                       <td mat-cell *matCellDef="let row">
-
-                          {{ row.occurrency }}
-
+                        {{ row.occurrency }}
                       </td>
-                    </ng-container>
-                    <ng-container matColumnDef="text">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Text
-                      </th>
-                      <td mat-cell *matCellDef="let row">
-                        {{ row.text }}
-                      </td>
-                    </ng-container>
+                    </ng-container> -->
+                  <ng-container matColumnDef="text">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Text
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      {{ row.text }}
+                    </td>
+                  </ng-container>
 
-                    <!-- Edit Column -->
-                    <ng-container matColumnDef="edit">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Edit
-                      </th>
-                      <td mat-cell *matCellDef="let row">
-                        <button mat-raised-button color="primary">
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                      </td>
-                    </ng-container>
-                    <!-- Delete Column -->
-                    <ng-container matColumnDef="delete">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Delete
-                      </th>
-                      <td mat-cell *matCellDef="let row">
-                        <button mat-raised-button color="warn">
-                          <mat-icon>delete</mat-icon>
-                        </button>
-                      </td>
-                    </ng-container>
+                  <!-- Edit Column -->
+                  <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Edit
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <button mat-raised-button color="primary">
+                        <mat-icon>edit</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+                  <!-- Delete Column -->
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                      Delete
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                      <button mat-raised-button color="warn">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </td>
+                  </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr
-                      mat-row
-                      *matRowDef="let row; columns: displayedColumns"
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
 
-                    ></tr>
+                  <!-- Row shown when there is no matching data. -->
+                  <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="4">
+                      No data matching the filter "{{ input.value }}"
+                    </td>
+                  </tr>
+                </table>
 
-                    <!-- Row shown when there is no matching data. -->
-                    <tr class="mat-row" *matNoDataRow>
-                      <td class="mat-cell" colspan="4">
-                        No data matching the filter "{{ input.value }}"
-                      </td>
-                    </tr>
-                  </table>
+                <mat-paginator
+                  [pageSizeOptions]="[5, 10, 25, 100]"
+                ></mat-paginator>
+                <a
+                  mat-stroked-button
+                  color="primary"
+                  class="text-decoration-none"
+                  [href]="downloadLink"
+                  [download]="downloadFilename"
+                  fxFlex.xs="100%"
+                >
+                  JSON<i class="material-icons">file_download</i>
+                </a>
 
-                  <mat-paginator
-                    [pageSizeOptions]="[5, 10, 25, 100]"
-                  ></mat-paginator>
-                </div>
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="text-decoration-none"
+                  (click)="downloadTSV()"
+                >
+                  TSV <i class="material-icons">file_download</i>
+                </button>
+
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="text-decoration-none"
+                  (click)="downloadCSV()"
+                >
+                  CSV <i class="material-icons">file_download</i>
+                </button>
               </div>
             </div>
           </div>
@@ -187,9 +272,7 @@
       </div>
     </span>
   </span>
-  <div class="row mt-5">
-    <div class="col-6"></div>
-  </div>
+
   <!--
   <div class="row mt-3">
     <div class="col-12 mb-5">

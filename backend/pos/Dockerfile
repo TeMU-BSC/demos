@@ -22,8 +22,7 @@ RUN apt-get update -y && \
 # https://github.com/docker/docker-install
 RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh get-docker.sh && \
-    # dockerd
-    docker run hello-world
+    dockerd
 
 # install python
 RUN apt-get install -y python3 python3-pip

@@ -20,4 +20,8 @@ export class NerService {
   getMesh(Annotations: any): Observable<any>{
     return this.http.post<any>(`${environment.nerApiUrl}/get_mesh`, Annotations)
   }
+
+  getSnomedTemrs(code: any): Observable<any>{
+    return this.http.get<any>(`https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/SNOMEDCT-ES/2021-10-31/concepts/${code}?descendantCountForm=stated`)
+  }
 }
