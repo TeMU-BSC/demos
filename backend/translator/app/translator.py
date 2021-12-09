@@ -13,7 +13,7 @@ from typing import Dict, List
 
 from flask import g, request, jsonify
 from flask_cors import CORS
-from nltk import sent_tokenize
+from nltk.tokenize import sent_tokenize
 
 from opennmt_caller import translate_sentence
 
@@ -104,7 +104,7 @@ def translate():
 
     # Split sentences using nltk library ('nltk_data' directory needed, located at home)
     sentences = sent_tokenize(text)
-
+    
     # Start counting translation time
     start = time()
 
@@ -113,7 +113,7 @@ def translate():
     pred_scores = []
     for sentence in sentences:
         opennmt_response = translate_sentence(src, tgt, sentence)
-
+        print(opennmt_response)
         # Because opennmt returns a list of list of dict, we access the [0][0] element
         translated_sentence_dict = opennmt_response.json()[0][0]
 

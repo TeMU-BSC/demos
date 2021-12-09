@@ -14,12 +14,13 @@ import { Utils } from 'src/app/shared/utils'
 import { TemuResponse } from 'src/app/shared/api.shared'
 import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { HttpClient } from '@angular/common/http';
-import { Renderer2, ElementRef, Inject} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import { Renderer2, ElementRef, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 
-declare const Util:any;
+declare const Util: any;
 
 import * as $ from 'jquery';
+// import { type } from 'os';
 
 
 export interface AnnotationSnomed {
@@ -77,6 +78,38 @@ export class NerBscComponent implements OnInit {
     'FARMACO': "#0C25DA",
     'SINTOMA': "#527259"
   }
+
+
+  collData = {
+    entity_types: [{
+      type: 'ENFERMEDAD',
+      labels: ['ENFERMEDAD', 'ENFERMEDAD'],
+      bgColor: '#7fa2ff',
+      borderColor: 'darken'
+    },
+    {
+      type: 'PROCEDIMIENTO',
+      labels: ['Proce', 'Proc'],
+      bgColor: '#7fa32f',
+      borderColor: 'darken'
+    },
+    {
+      type: 'FARMACO',
+      labels: ['FARMACO', 'FARMACO'],
+      bgColor: '#0C25DA',
+      borderColor: 'darken'
+    },
+    {
+      type: 'SINTOMA',
+      labels: ['SINTOMA', 'SINTOMA'],
+      bgColor: '#527259',
+      borderColor: 'darken'
+    }]
+  };
+
+  brat_annotations: any[] = []
+
+
 
   proccedText = "";
   //This variable stores the input from the user, it should be a clinical story in spanish.
@@ -144,7 +177,11 @@ export class NerBscComponent implements OnInit {
     this.dataSvc.getAnnotations(dic).subscribe(data => {
 
       this.response = data
-      data['INPUTTEXT'].map(d => {
+
+      let annotaciones:[] = data['INPUTTEXT']
+
+      annotaciones.sort((a, b) => (parseInt(a["C-START"]) > parseInt(b["C-START"])) ? 1 : -1)
+      annotaciones.map(d => {
         // let code = d['F-snomed'].split("+");
 
         // let terms
@@ -156,7 +193,12 @@ export class NerBscComponent implements OnInit {
         // else{
         //   terms = "NIL"
         // }
+        let aannt = []
 
+        aannt[0] = d["A-ID"]
+        aannt[1] = d["B-TYPE"]
+        aannt[2] = [[parseInt(d["C-START"]), parseInt(d["D-END"])]]
+        this.brat_annotations.push(aannt);
 
         this.annotations = this.annotations.concat(
           new Annotation(
@@ -186,7 +228,7 @@ export class NerBscComponent implements OnInit {
       this.ready = true;
       this.loading = false;
       this.dataSource = new MatTableDataSource(this.annotation_mesh);
-      console.log(this.annotation_mesh)
+
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       // this.getMeshFunc();
@@ -345,7 +387,7 @@ export class NerBscComponent implements OnInit {
       code = code.split("+");
 
       return "None"
-     }
+    }
 
   }
 
@@ -356,47 +398,38 @@ export class NerBscComponent implements OnInit {
 
 
   docData = {
-    text     : "Ed O'Kelley was the man who shot the man who shot Jesse James. Was a very happy persone",
-    entities : [
-        ['T1', 'Person', [[0, 11]]],
-        ['T2', 'Person', [[20, 23]]],
-        ['T3', 'Person', [[37, 40]]],
-        ['T4', 'Person', [[50, 61]]],
-        ['T1', 'Animal', [[52, 55]]],
-    ],
-};
-
-collData = {
-  entity_types: [ {
-          type   : 'Person',
-          labels : ['Person', 'Per'],
-          bgColor: '#7fa2ff',
-          borderColor: 'darken'
-  },
-  {
-          type   : 'Animal',
-          labels : ['Animal', 'Ani'],
-          bgColor: '#7fa32f',
-          borderColor: 'darken'
-  } ]
-};
-
-bratLocation = 'assets/brat/js';
-
-webFontURLs = [
-  this.bratLocation + '/static/fonts/Astloch-Bold.ttf',
-  this.bratLocation + '/static/fonts/PT_Sans-Caption-Web-Regular.ttf',
-  this.bratLocation + '/static/fonts/Liberation_Sans-Regular.ttf'
-]
+    text: this.inputText,
+    entities:  this.brat_annotations
+  };
 
 
-onClick() {
+
+  bratLocation = 'assets/brat/js';
+
+  webFontURLs = [
+    this.bratLocation + '/static/fonts/Astloch-Bold.ttf',
+    this.bratLocation + '/static/fonts/PT_Sans-Caption-Web-Regular.ttf',
+    this.bratLocation + '/static/fonts/Liberation_Sans-Regular.ttf'
+  ]
 
 
-  console.log('clicked');
-  Util.embed('embedding-entity-example', $.extend({}, this.collData),
-  $.extend({}, this.docData), this.webFontURLs);
+  onClick() {
 
-}
+    //sort array of arrays by first element of each subarray
+
+    var sorted_array = this.brat_annotations.sort(function(a, b) {
+      return a[0] - b[0];
+    });
+
+
+    setTimeout(() => {
+
+      console.log(this.brat_annotations);
+      Util.embed('embedding-entity-example', $.extend({}, this.collData),
+        $.extend({}, this.docData), this.webFontURLs);
+    }, 500)
+
+
+  }
 
 }

@@ -9,8 +9,15 @@ COPY requirements.txt .
 
 # install dependencies
 RUN pip install -r requirements.txt
+RUN apt-get update
+RUN apt install sentencepiece -y && \
+    git clone https://github.com/OpenNMT/OpenNMT-py.git && \
+    cd OpenNMT-py && \
+    python3 setup.py install && \
+    pip install -r requirements.opt.txt
 
 # Copy the current directory contents into the container at /app 
+COPY /data .
 ADD . /app
 
 # Copy necessary files for "nltk" python package into one of these directories inside container:
