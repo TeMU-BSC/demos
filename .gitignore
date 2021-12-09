@@ -8,3 +8,4 @@
 **/ner_api/
 backend/ner/NER_utils/__pycache__/conll_to_brat.cpython-38.pyc
 backend/translator/data/*
+backend/translator/text.txt

@@ -17,18 +17,19 @@ services:
   #   image: bsctemu/freeling-cnio:1.0.0
 
 
-  # flask-pos:
-  #   build: ./backend/pos
-  #   container_name: demos_backend_pos
-  #   environment:
-  #     - FLASK_ENV=development
-  #     - SAMPLES_DIR=./samples
-  #   ports:
-  #     - 5000:5000
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - ./backend/pos:/app
-  #   command: flask run --host 0.0.0.0
+  flask-pos:
+    build: ./backend/pos
+    container_name: demos_backend_pos
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 5000:5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend/pos:/app
+    command: flask run --host 0.0.0.0
+
   flask-translator:
     build: ./backend/translator
     container_name: demos_backend_translator
@@ -51,14 +52,14 @@ services:
   #     - ./backend/ner_api:/app
 
   
-  # flask-ner:
-  #   build: ./backend/ner
-  #   container_name: demos_backend_ner
-  #   environment:
-  #     - FLASK_ENV=development
-  #     - SAMPLES_DIR=./samples
-  #   ports:
-  #     - 5002:5000
-  #   volumes:
-  #     - ./backend/ner:/app
-  #   command: flask run --host 0.0.0.0
+  flask-ner:
+    build: ./backend/ner
+    container_name: demos_backend_ner
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 5002:5000
+    volumes:
+      - ./backend/ner:/app
+    command: flask run --host 0.0.0.0
