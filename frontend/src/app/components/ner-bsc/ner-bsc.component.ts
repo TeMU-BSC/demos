@@ -195,7 +195,25 @@ export class NerBscComponent implements OnInit {
         // }
         let aannt = []
 
-        aannt[0] = d["A-ID"]
+
+        //CREATE UNIQUE IDs FOR BRAT ANNOTATIONS
+        switch(d["B-TYPE"]) {
+          case "ENFERMEDAD":
+            aannt[0] = "E" + d["A-ID"]
+            break;
+          case "SINTOMA":
+            aannt[0] = "S" + d["A-ID"]
+            break;
+          case "PROCEDIMIENTO":
+            aannt[0] = "P" + d["A-ID"]
+            break;
+          case "FARMACO":
+            aannt[0] = "F" + d["A-ID"]
+            break;
+
+
+        }
+
         aannt[1] = d["B-TYPE"]
         aannt[2] = [[parseInt(d["C-START"]), parseInt(d["D-END"])]]
         this.brat_annotations.push(aannt);
@@ -261,14 +279,13 @@ export class NerBscComponent implements OnInit {
     })
     let annotation_mesh: AnnotationSnomed[] = []
     this.dataSvc.getMesh(annot).subscribe(response => {
+
       response.map(an => {
 
         const annt: AnnotationSnomed = {
           type: an["type"],
           code: an["snomed"],
           text: an["text"],
-
-
         }
         annotation_mesh.push(annt)
       })
@@ -423,8 +440,7 @@ export class NerBscComponent implements OnInit {
 
 
     setTimeout(() => {
-
-      console.log(this.brat_annotations);
+      console.log(this.docData)
       Util.embed('embedding-entity-example', $.extend({}, this.collData),
         $.extend({}, this.docData), this.webFontURLs);
     }, 500)
