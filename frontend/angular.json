@@ -28,7 +28,23 @@
               "src/app/temu-app-theme.scss",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/client/lib/jquery.min.js",
+              "src/assets/js/client/lib/jquery.svg.min.js",
+              "src/assets/js/client/lib/jquery.svgdom.min.js",
+              "src/assets/js/client/lib/jquery-ui.min.js",
+              "src/assets/js/client/lib/webfont.js",
+              "src/app/brat/js/head.js",
+              "src/app/brat/js/brat_loader.js",
+              "src/app/brat/js/json2.js",
+              "src/app/brat/js/client/src/annotation_log.js",
+              "src/app/brat/js/client/src/util.js",
+              "src/app/brat/js/client/src/visualizer.js",
+              "src/app/brat/js/client/src/url_monitor.js",
+              "src/app/brat/js/client/src/dispatcher.js",
+              "src/app/brat/js/client/src/configuration.js",
+              "src/app/brat/js/client/src/annotation_log.js"
+            ]
           },
           "configurations": {
             "production": {

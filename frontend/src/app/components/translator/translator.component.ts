@@ -143,9 +143,9 @@ export class TranslatorComponent implements OnInit {
       response => (this.response = response),
       error => alert(error),
       () => {
-        this.response.data.translatedSentences.forEach((sentence: string) => {
-          this.translatedText += `${sentence} `
-        })
+
+        this.translatedText = this.response['data']['translation']
+
 
         // Round down to 4 digits the average pred score and translation time.
         this.averageScore = Utils.round(this.response.data.predictionScore, 4)

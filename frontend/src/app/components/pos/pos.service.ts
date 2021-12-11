@@ -43,10 +43,10 @@ export class PosService {
   /**
    * Get all the sample texts from the API.
    */
-  getSampleTexts(): Observable<TemuResponse> {
+  getSampleTexts(): Observable<any> {
     const url = `${TEMU_API_URLS.pos}/samples`
     const options = Utils.getBasicOptions()
-    return this.http.get<any>(url, options)
+    return this.http.get<any>(url)
   }
 
   /**

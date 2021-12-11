@@ -10,10 +10,10 @@
  * Text Mining API URLs to be consumed by the frontend services.
  */
 export const TEMU_API_URLS = {
-  pos: 'http://localhost:5003',
+  pos: 'http://84.88.187.185:5000',
   translator: 'http://localhost:5001',
-  pharmaconer: 'http://localhost:5002',
-  ner: 'http://localhost:5000',
+  pharmaconer: 'http://localhost:5003',
+  ner: 'http://84.88.187.185:5002',
 
   // production: 'http://temu.bsc.es/api'
 }

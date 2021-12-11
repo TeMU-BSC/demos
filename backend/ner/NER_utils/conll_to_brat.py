@@ -135,7 +135,7 @@ def check_compatibility_between_conll_and_brat_text(conll_filepath, brat_folder)
 #         shutil.copy(text_filepath, brat_output_folder)
         
 def output_entities(brat_output_folder, previous_filename, entities, text_filepath,
-                    text, tsv_output_path, overwrite=False):
+                    text, tsv_output_path, overwrite=True):
     '''
     ANTONIO: function modification to output a TSV file with all annotations as well
     '''
@@ -149,7 +149,7 @@ def output_entities(brat_output_folder, previous_filename, entities, text_filepa
     # Write the entities to the annotation file
     with codecs.open(output_filepath, 'w', 'utf-8') as output_file:
         for i, entity in enumerate(entities):
-            output_file.write('T{0}\t{1} {2} {3}\t{4}\n'.format(i+1, entity['label'], entity['start'], entity['end'], 
+            output_file.write('T{0}\t{1}\t{2}\t{3}\t{4}\n'.format(i+1, entity['label'], entity['start'], entity['end'], 
                                                             replace_unicode_whitespaces_with_ascii_whitespace(text[entity['start']:entity['end']])))
     with codecs.open(tsv_output_path, 'a', 'utf-8') as tsv_file:
         for i, entity in enumerate(entities):
@@ -161,7 +161,7 @@ def output_entities(brat_output_folder, previous_filename, entities, text_filepa
     if text_filepath != os.path.join(brat_output_folder, os.path.basename(text_filepath)):
         shutil.copy(text_filepath, brat_output_folder)
 
-def conll_to_brat(conll_input_filepath, conll_output_filepath, brat_original_folder, brat_output_folder, overwrite=False):
+def conll_to_brat(conll_input_filepath, conll_output_filepath, brat_original_folder, brat_output_folder, overwrite=True):
     '''
     convert conll file in conll-filepath to brat annotations and output to brat_output_folder, 
     with reference to the existing text files in brat_original_folder 
@@ -218,7 +218,7 @@ def conll_to_brat(conll_input_filepath, conll_output_filepath, brat_original_fol
         # New file
         if filename != previous_filename:    
             #output_entities(brat_output_folder, previous_filename, entities, text_filepath, text, overwrite=overwrite)
-            output_entities(brat_output_folder, previous_filename, entities, text_filepath, text, tsv_output_path, overwrite=overwrite)
+            output_entities(brat_output_folder, previous_filename, entities, text_filepath, text, tsv_output_path, True)
             text_filepath = os.path.join(brat_original_folder, '{0}.txt'.format(filename))
             with codecs.open(text_filepath, 'r', 'UTF-8') as f:
                 text = f.read()
@@ -287,7 +287,7 @@ def conll_to_brat(conll_input_filepath, conll_output_filepath, brat_original_fol
                 entity = token
         previous_token_label = token['label']
     #output_entities(brat_output_folder, previous_filename, entities, text_filepath, text, overwrite=overwrite)
-    output_entities(brat_output_folder, previous_filename, entities, text_filepath, text, tsv_output_path, overwrite=overwrite)
+    output_entities(brat_output_folder, previous_filename, entities, text_filepath, text, tsv_output_path, True)
     conll_file.close()
     print('Done.')
 

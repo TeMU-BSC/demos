@@ -15,17 +15,21 @@ services:
     command: ng serve --host 0.0.0.0
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
-  # flask-pos:
-  #   build: ./backend/pos
-  #   container_name: demos_backend_pos
-  #   environment:
-  #     - FLASK_ENV=development
-  #     - SAMPLES_DIR=./samples
-  #   ports:
-  #     - 5000:5000
-  #   volumes:
-  #     - ./backend/pos:/app
-  #   command: flask run --host 0.0.0.0
+
+
+  flask-pos:
+    build: ./backend/pos
+    container_name: demos_backend_pos
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 5000:5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend/pos:/app
+    command: flask run --host 0.0.0.0
+
   flask-translator:
     build: ./backend/translator
     container_name: demos_backend_translator
@@ -35,9 +39,19 @@ services:
     ports:
       - 5001:5000
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./backend/translator:/app
     command: flask run --host 0.0.0.0
 
+  # fastapi-ner:
+  #   build: ./backend/ner_api
+  #   container_name: "fastapi-ner"
+  #   ports:
+  #     - "8000:15400"
+  #   volumes:
+  #     - ./backend/ner_api:/app
+
+  
   flask-ner:
     build: ./backend/ner
     container_name: demos_backend_ner
@@ -45,7 +59,7 @@ services:
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     ports:
-      - 5000:5000
+      - 5002:5000
     volumes:
       - ./backend/ner:/app
     command: flask run --host 0.0.0.0

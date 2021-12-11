@@ -4,9 +4,11 @@ FROM python:3.8
 # Set the working directory to /app
 WORKDIR /app
 
+# COPY tensorflow-2.5.0-cp38-cp38-linux_x86_64.whl .
 # copy the dependencies file to the working directory
 COPY requirements.txt .
 
+# RUN pip3 install -U tensorflow-2.5.0-cp38-cp38-linux_x86_64.whl
 # install dependencies
 RUN pip install -r requirements.txt
 RUN python -m spacy download es_core_news_sm

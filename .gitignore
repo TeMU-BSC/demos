@@ -1,0 +1,17 @@
+**/__pycache__/
+**/test_predictions_v1.bio
+**/enfermedad/
+**/procedimiento/
+**/sintoma/
+**/farmaco/
+**/pharmaconer_corpus/
+**/ner_api/
+backend/ner/NER_utils/__pycache__/conll_to_brat.cpython-38.pyc
+backend/translator/data/*
+backend/translator/text.txt
+backend/ner/enfermedad/test_predictions_v1.bio
+backend/ner/farmaco/test_predictions_v1.bio
+backend/ner/sintoma/test_predictions_v1.bio
+backend/ner/procedimiento/test_predictions_v1.bio
+backend/ner/annots.tsv
+backend/ner/input_data.json

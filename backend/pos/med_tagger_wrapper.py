@@ -71,7 +71,7 @@ class MedTagger:
         Initialize the subprocess that will receive the inputs from the user
         '''
         # Installed docker runs OK in local but does not run inside a docker container
-        self._tagger = subprocess.Popen('docker run -i --rm bsctemu/freeling-cnio:1.0.0', shell=True,
+        self._tagger = subprocess.Popen('docker run -i   bsctemu/med-tagger:1.0.0', shell=True,
                                         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
         # # Singularity runs OK
@@ -94,9 +94,15 @@ class MedTagger:
         Ouput:
             -results: list of tuples
         '''
+        print(text)
         results = list()
-        self._tagger.stdin.write((text + '\n').encode('utf-8'))
-        self._tagger.stdin.flush()
+        try:
+            self._tagger.stdin.write((text + '\n').encode('utf-8'))
+            self._tagger.stdin.flush()
+        except (BrokenPipeError, IOError):
+            print('Error in writing to the tagger')
+            return results
+        print()
         results = []
         stop_it = 0
         while True:

@@ -45,4 +45,6 @@ def translate_sentence(src: str, tgt: str, sentence: str) -> dict:
             'id': MODEL.get(tgt)
         }
     ]
+    print("Esto es data")
+    print(data)
     return requests.post(URL, headers=headers, data=json.dumps(data))

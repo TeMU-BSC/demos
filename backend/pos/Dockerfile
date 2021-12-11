@@ -16,15 +16,13 @@
 FROM ubuntu:18.04
 WORKDIR /app
 ADD . /app
-RUN apt-get update -y && \
-    apt-get install -y curl
+RUN apt-get update && \
+    apt-get -qy full-upgrade && \
+    apt-get install -qy curl && \
+    apt-get install -qy curl && \
+    curl -sSL https://get.docker.com/ | sh
 
-# https://github.com/docker/docker-install
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-    sh get-docker.sh && \
-    # dockerd
-    docker run hello-world
-
+    
 # install python
 RUN apt-get install -y python3 python3-pip
 RUN python3 -m pip install --user --upgrade pip && \

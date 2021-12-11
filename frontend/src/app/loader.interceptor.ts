@@ -39,7 +39,7 @@ export class LoaderInterceptor implements HttpInterceptor {
             }
           },
           err => {
-            alert('error returned (I am the loader.interceptor.ts)');
+            // alert('error returned (I am the loader.interceptor.ts)');
             this.removeRequest(req);
             observer.error(err);
           },

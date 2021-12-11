@@ -7,19 +7,32 @@ Author:
 '''
 
 from os import environ, path, walk
+import os
+import subprocess
+from subprocess import Popen, PIPE, check_output
 from statistics import mean
 from time import time
 from typing import Dict, List
-
+from io import StringIO
 from flask import g, request, jsonify
-from flask_cors import CORS
-from nltk import sent_tokenize
-
+from flask_cors import CORS 
 from opennmt_caller import translate_sentence
-
+from nltk import sent_tokenize
 from app import app
 
 CORS(app)
+
+import sys
+
+class Capturing(list):
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        del self._stringio    # free up some memory
+        sys.stdout = self._stdout
 
 
 @app.route('/hello', methods=['GET'])
@@ -97,50 +110,109 @@ def translate():
     }
 
     '''
+
+    reponse = {
+        "success": True,
+        "data" : {
+            'sourceLanguage': "",
+            'targetLanguage': "",
+            'originalText': "",
+            'translatedSentences': [],
+            'predictionScore': 0,
+            'translationTime': 0
+        },
+        "message": ""
+    }
+
+    # # Start counting translation time
+    start = time()
+
+
     # Get text, src, tgt from input request
     text = request.json.get('text')
     src = request.json.get('sourceLanguageCode')
     tgt = request.json.get('targetLanguageCode')
 
-    # Split sentences using nltk library ('nltk_data' directory needed, located at home)
+    # # Split sentences using nltk library ('nltk_data' directory needed, located at home)
     sentences = sent_tokenize(text)
-
-    # Start counting translation time
-    start = time()
-
-    # For each sentence call OpenNMT API
-    translated_sentences = []
-    pred_scores = []
+    final_text = ""
     for sentence in sentences:
-        opennmt_response = translate_sentence(src, tgt, sentence)
+        with open("/home/data/text.txt", "w") as text_file:
+            text_file.write(sentence)
+            
+        
+        command = "./tokenize_SP.sh -d /app/data -s {0} -t {1} -f /home/data/text.txt".format(src, tgt)
+        
+        try:
+            output = subprocess.check_output(command, shell=True)
 
-        # Because opennmt returns a list of list of dict, we access the [0][0] element
-        translated_sentence_dict = opennmt_response.json()[0][0]
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            return jsonify({'error': e.output})
 
-        # 'tgt' and 'pred_score' keys are defined in OpenNMT API
-        translated_sentence = translated_sentence_dict.get('tgt')
-        pred_score = translated_sentence_dict.get('pred_score')
+        command_1 = "./translate.sh -l {0}".format(tgt)
 
-        # Append translated sentence and prediction score to their respective lists
-        translated_sentences.append(translated_sentence)
-        pred_scores.append(pred_score)
+        try:
+            with Capturing() as output_1:
+                run = subprocess.Popen(command_1, stdout=PIPE, shell=True)
+                run.communicate()
+            print("Esto es el output ", output_1)
+        except subprocess.CalledProcessError as e:
+            print(e.output)
+            return jsonify({'error': e.output})
+        
+        with open ("/home/data/text.translated.detokenized") as trans_text:
+            text_ready = trans_text.read()
+        
+        final_text = final_text +" "+text_ready
 
-    # Calculate the translation time
     end = time()
     translation_time = end - start
+    reponse['data']['translationTime'] = translation_time
+    reponse['data']['sourceLanguage'] = src
+    reponse['data']['targetLanguage'] = tgt
+    reponse['data']['originalText'] = text
+    reponse['data']['translation'] = final_text
+    reponse['data']['predictionScore'] = 0
 
-    # Calculate the average prediction score among all sentences translation
-    avg_pred_score = mean(pred_scores)
+    
+    
+    # # Start counting translation time
+    # start = time()
 
-    # Prepare the data object
-    data = {
-        'sourceLanguage': src,
-        'targetLanguage': tgt,
-        'originalText': text,
-        'translatedSentences': translated_sentences,
-        'predictionScore': avg_pred_score,
-        'translationTime': translation_time
-    }
+    # # For each sentence call OpenNMT API
+    # translated_sentences = []
+    # pred_scores = []
+    # for sentence in sentences:
+    #     opennmt_response = translate_sentence(src, tgt, sentence)
+    #     print(opennmt_response)
+    #     # Because opennmt returns a list of list of dict, we access the [0][0] element
+    #     translated_sentence_dict = opennmt_response.json()[0][0]
+
+    #     # 'tgt' and 'pred_score' keys are defined in OpenNMT API
+    #     translated_sentence = translated_sentence_dict.get('tgt')
+    #     pred_score = translated_sentence_dict.get('pred_score')
+
+    #     # Append translated sentence and prediction score to their respective lists
+    #     translated_sentences.append(translated_sentence)
+    #     pred_scores.append(pred_score)
+
+    # # Calculate the translation time
+    # end = time()
+    # translation_time = end - start
+
+    # # Calculate the average prediction score among all sentences translation
+    # avg_pred_score = mean(pred_scores)
+
+    # # Prepare the data object
+    # data = {
+    #     'sourceLanguage': src,
+    #     'targetLanguage': tgt,
+    #     'originalText': text,
+    #     'translatedSentences': translated_sentences,
+    #     'predictionScore': avg_pred_score,
+    #     'translationTime': translation_time
+    # }
 
     # Convert data to response format and return it as a valid JSON
-    return jsonify(convert_data_to_response(data))
+    return jsonify(reponse)
