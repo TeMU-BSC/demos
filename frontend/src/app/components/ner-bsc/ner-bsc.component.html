@@ -6,7 +6,7 @@
 
   <span fxLayout="row" fxLayoutAlign="center center">
     <span fxLayout="column" fxLayoutGap="2em" fxFlex="100" fxFlex.gt-md="80">
-      <div *ngIf="ready !== true">
+      <div *ngIf="ready !== true && loading === false" >
         <mat-card>
           <mat-card-content fxLayout="column">
             <!-- Medical report textarea -->
@@ -43,8 +43,9 @@
           </mat-card-content>
         </mat-card>
       </div>
-      <div *ngIf="loading === true">
-        <mat-spinner></mat-spinner>
+      <div *ngIf="loading === true" class="center">
+        <!-- <mat-spinner></mat-spinner> -->
+        <app-loading></app-loading>
       </div>
 
 
@@ -110,7 +111,7 @@
               <div class="card-body">
                 <ngx-annotate-text
                   [(annotations)]="annotations"
-                  [removable]="true"
+                  [removable]="false"
                   [text]="proccedText"
                   annotationClass="my-annotation"
                   #annotateText
