@@ -1,6 +1,6 @@
 <article>
   <div class="jumbotron negative-margin-bottom" style="text-align: center;">
-    <h1>{{ project?.name }}</h1>
+    <h1>{{ project?.name }} </h1>
     <p>{{ project?.description }}</p>
   </div>
 
@@ -50,12 +50,13 @@
 
       <div *ngIf="ready === true">
         <div class="container" style=" max-width: 100%;">
-          <div>
-
-
           <button (click)="reset()" class="btn btn-success">
             <div style="display: flex;"> <i class="material-icons" >arrow_back </i> Reset</div>
           </button>
+          <div *ngIf="ner-type === 'All'">
+
+
+
 
           <div class="divider"></div>
           <button
@@ -107,16 +108,16 @@
           <div class="row ">
             <div class="card scroll">
               <div class="card-body">
-                <!-- <ngx-annotate-text
+                <ngx-annotate-text
                   [(annotations)]="annotations"
                   [removable]="true"
                   [text]="proccedText"
                   annotationClass="my-annotation"
                   #annotateText
                 >
-                </ngx-annotate-text> -->
+                </ngx-annotate-text>
 
-                <div  id="embedding-entity-example" style="width: 100rem;"></div>
+                <!-- <div  id="embedding-entity-example" style="width: 100rem;"></div> -->
               </div>
             </div>
           </div>

@@ -36,7 +36,7 @@ POS = {
 
 # ----------------------------------------------------------------------------
 
-@app.route('/hello')
+@app.route('/')
 def hello():
     '''Dummy root route for testing.'''
     return 'Hello from Flask! I am the SPACCC POS Tagger API.'

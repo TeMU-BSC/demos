@@ -15,8 +15,7 @@ RUN apt-get update
 RUN apt install sentencepiece -y && \
     git clone https://github.com/OpenNMT/OpenNMT-py.git && \
     cd OpenNMT-py && \
-    python3 setup.py install && \
-    pip install -r requirements.opt.txt
+    python3 setup.py install 
 
 # Copy the current directory contents into the container at /app 
 COPY /data .

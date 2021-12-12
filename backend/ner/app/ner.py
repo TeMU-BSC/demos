@@ -177,8 +177,16 @@ def hello():
 @app.route('/get_annotations', methods=['POST'])
 def get_annotations():
     json_input = request.json
+    if json_input['ner_type'] != 'All':
+        global models
+        models = [json_input['ner_type']]
+    else:
+        models = ['enfermedad', 'farmaco', 'sintoma', 'procedimiento']
+    json_to_file = {
+        'INPUTTEXT': json_input['INPUTTEXT'].rstrip()
+    }
     with open("input_data.json","w") as f:
-        json.dump(json_input,f)
+        json.dump(json_to_file,f)
 
     clean_server()
     for model in models:

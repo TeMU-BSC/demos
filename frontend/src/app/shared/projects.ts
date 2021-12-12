@@ -22,10 +22,34 @@ export const PROJECTS: Project[] = [
     routerLink: '/translator',
   },
   {
-    name: 'NER',
+    name: 'NER All',
     description: 'Reconocimiento de entidades nombradas utilizando  deep-learning para la detección de procedimientos en español.',
     repository: '',
-    routerLink: '/ner',
+    routerLink: '/ner/All',
+  },
+  {
+    name: 'NER enfermedad',
+    description: 'Reconocimiento de entidades nombradas utilizando  deep-learning para la detección de procedimientos en español.',
+    repository: '',
+    routerLink: '/ner/enfermedad',
+  },
+  {
+    name: 'NER sintoma',
+    description: 'Reconocimiento de entidades nombradas utilizando  deep-learning para la detección de procedimientos en español.',
+    repository: '',
+    routerLink: '/ner/sintoma',
+  },
+  {
+    name: 'NER farmaco',
+    description: 'Reconocimiento de entidades nombradas utilizando  deep-learning para la detección de procedimientos en español.',
+    repository: '',
+    routerLink: '/ner/farmaco',
+  },
+  {
+    name: 'NER procedimiento',
+    description: 'Reconocimiento de entidades nombradas utilizando  deep-learning para la detección de procedimientos en español.',
+    repository: '',
+    routerLink: '/ner/procedimiento',
   },
   {
     name: 'NeuroNER Tagger',

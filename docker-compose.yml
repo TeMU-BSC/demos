@@ -9,7 +9,7 @@ services:
     #   - TRANSLATOR_API_URL=http://localhost:5001
     #   - PHARMACONER_API_URL=http://localhost:5002
     ports:
-      - 4200:4200
+      - 80:4200
     volumes:
       - ./frontend:/app
     command: ng serve --host 0.0.0.0
@@ -24,7 +24,7 @@ services:
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     ports:
-      - 5000:5000
+      - 8001:5000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend/pos:/app
@@ -37,7 +37,7 @@ services:
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     ports:
-      - 5001:5000
+      - 8002:5000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend/translator:/app
@@ -59,7 +59,7 @@ services:
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     ports:
-      - 5002:5000
+      - 8003:5000
     volumes:
       - ./backend/ner:/app
     command: flask run --host 0.0.0.0

@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'pos', component: PosComponent },
   { path: 'translator', component: TranslatorComponent },
-  { path: 'ner', component: NerBscComponent },
+  { path: 'ner/:id', component: NerBscComponent },
   // { path: 'pharmaconer', component: TranslatorComponent },
 ]
 

@@ -117,7 +117,7 @@ def translate():
             'sourceLanguage': "",
             'targetLanguage': "",
             'originalText': "",
-            'translatedSentences': [],
+            'translatedSentences': 0,
             'predictionScore': 0,
             'translationTime': 0
         },
@@ -136,6 +136,7 @@ def translate():
     # # Split sentences using nltk library ('nltk_data' directory needed, located at home)
     sentences = sent_tokenize(text)
     final_text = ""
+    length_senteces = len(sentences)
     for sentence in sentences:
         with open("/home/data/text.txt", "w") as text_file:
             text_file.write(sentence)
@@ -174,6 +175,7 @@ def translate():
     reponse['data']['originalText'] = text
     reponse['data']['translation'] = final_text
     reponse['data']['predictionScore'] = 0
+    reponse['data']['translatedSentences'] = length_senteces
 
     
     

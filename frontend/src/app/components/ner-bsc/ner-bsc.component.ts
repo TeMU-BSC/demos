@@ -16,7 +16,7 @@ import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { HttpClient } from '@angular/common/http';
 import { Renderer2, ElementRef, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-
+import  { ActivatedRoute } from '@angular/router';
 declare const Util: any;
 
 import * as $ from 'jquery';
@@ -50,6 +50,7 @@ export class NerBscComponent implements OnInit {
   ready = false;
   downloadFilename: string
   annotation_mesh: AnnotationSnomed[] = [];
+  ner_type: string = "";
   toggle = {
     'enfermedad': true,
     'sintoma': true,
@@ -120,7 +121,8 @@ export class NerBscComponent implements OnInit {
   constructor(
     private sanitizer: DomSanitizer,
     private dataSvc: NerService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: ActivatedRoute,
 
   ) { this.dataSource = new MatTableDataSource([]); }
 
@@ -128,13 +130,16 @@ export class NerBscComponent implements OnInit {
   annotations: Annotation[] = [];
   originalAnnotations: Annotation[] = [];
   ngOnInit() {
+    this.ner_type =this.router.snapshot.paramMap.get('id')
     // Set the current project demo
     PROJECTS.forEach((project, index) => {
-      if (project.name === 'NER') {
+      if (project.name === 'NER '+this.ner_type) {
         this.project = PROJECTS[index]
       }
     })
     this.downloadFilename = "NER_Predictions.json"
+
+
   }
   addAnnotation(label: string, color: string) {
     if (this.ngxAnnotateText) {
@@ -169,7 +174,8 @@ export class NerBscComponent implements OnInit {
    // this.inputText = this.inputText.replace(/\n/g, "\\n")
     let dic = {
       // INPUTTEXT: this.sanitizeString(this.inputText)
-      INPUTTEXT: this.inputText
+      INPUTTEXT: this.inputText,
+      ner_type: this.ner_type
     }
 
 
@@ -408,11 +414,11 @@ export class NerBscComponent implements OnInit {
     });
 
 
-    setTimeout(() => {
-      console.log(this.docData)
-      Util.embed('embedding-entity-example', $.extend({}, this.collData),
-        $.extend({}, this.docData), this.webFontURLs);
-    }, 500)
+    // setTimeout(() => {
+    //   console.log(this.docData)
+    //   Util.embed('embedding-entity-example', $.extend({}, this.collData),
+    //     $.extend({}, this.docData), this.webFontURLs);
+    // }, 500)
 
 
   }
