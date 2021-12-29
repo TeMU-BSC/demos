@@ -144,14 +144,14 @@ def getAnnotationResult():
         #     head = f.split('.')
         #     file_dict[head[0]] = file_object.read()
 
-    try:
-        shutil.rmtree('brat')
-        shutil.rmtree('brat-bio')
-        for model in models: 
-            dir_to_delete = 'brat-pred'+model
-            shutil.rmtree(dir_to_delete)
-    except OSError as e:
-        print("Error: %s - %s." % (e.filename, e.strerror))
+    # try:
+    #     shutil.rmtree('brat')
+    #     shutil.rmtree('brat-bio')
+    #     for model in models: 
+    #         dir_to_delete = 'brat-pred'+model
+    #         shutil.rmtree(dir_to_delete)
+    # except OSError as e:
+    #     print("Error: %s - %s." % (e.filename, e.strerror))
 
     return file_dict
 
@@ -188,7 +188,7 @@ def get_annotations():
     with open("input_data.json","w") as f:
         json.dump(json_to_file,f)
 
-    clean_server()
+    # clean_server()
     for model in models:
         print(model)
         json_path = 'input_data.json'

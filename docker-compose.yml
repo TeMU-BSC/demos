@@ -43,6 +43,30 @@ services:
       - ./backend/translator:/app
     command: flask run --host 0.0.0.0
 
+  # drugprot-chemical:
+  #   build: ./backend/DrugProt_Chemical
+  #   container_name: demos_backend_drugprot_chemical
+  #   environment:
+  #     - FLASK_ENV=development
+  #     - SAMPLES_DIR=./samples
+  #   ports:
+  #     - 8010:5000
+  #   volumes:
+  #     - ./backend/DrugProt_Chemical:/app
+  #   command: flask run --host 0.0.0.0
+  
+  drugprot:
+    build: ./backend/DrugProt
+    container_name: demos_backend_drugprot
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 8009:5000
+    volumes:
+      - ./backend/DrugProt:/app
+    command: flask run --host 0.0.0.0
+
   # fastapi-ner:
   #   build: ./backend/ner_api
   #   container_name: "fastapi-ner"

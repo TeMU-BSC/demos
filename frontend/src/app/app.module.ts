@@ -32,7 +32,9 @@ import { ProjectsComponent } from './components/projects/projects.component';
 import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 import { NgxAnnotateTextModule } from 'ngx-annotate-text'
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { LoadingComponent } from './components/loading/loading.component'
+import { LoadingComponent } from './components/loading/loading.component';
+import { BratDisplayComponent } from './components/brat-display/brat-display.component';
+import { DrugprotComponent } from './components/drugprot/drugprot.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +47,8 @@ import { LoadingComponent } from './components/loading/loading.component'
     ProjectsComponent,
     NerBscComponent,
     LoadingComponent,
+    BratDisplayComponent,
+    DrugprotComponent,
   ],
   imports: [
     BrowserModule,

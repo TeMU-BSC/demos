@@ -6,7 +6,7 @@
 **/farmaco/
 **/pharmaconer_corpus/
 **/ner_api/
-backend/ner/NER_utils/__pycache__/conll_to_brat.cpython-38.pyc
+backend/ner/NER_utils/__pycache__/*
 backend/translator/data
 backend/translator/text.txt
 backend/ner/enfermedad/test_predictions_v1.bio
@@ -17,3 +17,6 @@ backend/ner/annots.tsv
 backend/ner/input_data.json
 backend/ner/enfermedad/test_predictions_v1.bio
 backend/ner/data
+backend/DrugProt/ner-model-chemical/*
+backend/DrugProt/ner-model-gene/*
+backend/ner/app/__pycache__/*

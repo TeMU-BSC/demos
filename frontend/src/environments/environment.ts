@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   posApiUrl: 'http://84.88.189.48:8001',
   translatorApiUrl: 'http://84.88.189.48:8002',
-  nerApiUrl: 'http://84.88.189.48:8003'
+  nerApiUrl: 'http://84.88.189.48:8003',
+  drugProtApiUrl: 'http://84.88.189.48:8009'
 }
 
 /*

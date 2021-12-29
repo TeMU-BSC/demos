@@ -145,7 +145,7 @@ export class TranslatorComponent implements OnInit {
       () => {
 
         this.translatedText = this.response['data']['translation']
-
+        console.log(this.response)
 
         // Round down to 4 digits the average pred score and translation time.
         this.averageScore = Utils.round(this.response.data.predictionScore, 4)

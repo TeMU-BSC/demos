@@ -53,10 +53,23 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'NeuroNER Tagger',
-    description: 'Coming soon!',
+    description: 'in progress',
     repository: 'https://github.com/TeMU-BSC/PharmaCoNER-Tagger',
     routerLink: '/coming-soon', // /'neuroner',
   },
+  {
+    name: 'DrugProt Gene Tagger',
+    description: " A system used to create a baseline Named entity and entity relation predictions for BioCreative VII, Track 1 - Text mining drug \n and chemical-protein interactions  as well as to automatically annotate named entities on large scale biomedical background data set for Large scale Text Mining.",
+    repository: 'https://github.com/TeMU-BSC/PharmaCoNER-Tagger',
+    routerLink: '/drugprot/gene', // /'neuroner',
+  },
+  {
+    name: 'DrugProt Chemical Tagger',
+    description: 'A system used to create a baseline Named entity and entity relation predictions for BioCreative VII, Track 1 - Text mining drug \n and chemical-protein interactions  as well as to automatically annotate named entities on large scale biomedical background data set for Large scale Text Mining.',
+    repository: 'https://github.com/TeMU-BSC/PharmaCoNER-Tagger',
+    routerLink: '/drugprot/chemical', // /'neuroner',
+  },
+
   {
     name: 'Spell Checker',
     description: 'Coming soon!',

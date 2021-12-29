@@ -1,6 +1,8 @@
 {
     "python.analysis.extraPaths": [
-        "./backend/ner/app"
+        "./backend/ner/app",
+        "./backend/DrugProt_Chemical",
+        "./backend/DrugProt_Chemical"
     ],
     "angular.enable-strict-mode-prompt": false
 }

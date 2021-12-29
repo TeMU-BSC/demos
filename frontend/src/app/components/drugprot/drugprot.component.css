@@ -1,0 +1,118 @@
+
+
+
+
+
+.text-box {
+  min-height: 20rem;
+}
+
+.ellipsis {
+  max-width: 40rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+}
+table.mat-table {
+    display: table;
+}
+#snomed-table > .ng-star-inserted {
+  margin-top: -1rem;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  flex:auto;
+  margin: revert;
+}
+table.mat-table {
+  display: table;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+.center {
+  width: 50rem;
+  height: 80rem;
+  margin: auto;
+  margin-top: 5rem;
+  padding: 10px;
+}
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.divider{
+  width:1rem;
+  height:auto;
+  display:inline-block;
+}
+
+.on-enfermedad {
+  background-color: #DA310C;
+  color: white;
+}
+
+.off-enfermedad {
+  background-color: gray;
+}
+
+.on-sintoma {
+  background-color: #527259;
+  color: white;
+}
+
+.off-sintoma {
+  background-color: gray;
+
+}
+
+.on-farmaco{
+  background-color: #0C25DA;
+  color: white;
+}
+
+.off-farmaco {
+  background-color: gray;
+}
+
+.on-procedimiento {
+  background-color: #9FDA0C;
+  color: white;
+}
+
+.off-procedimiento {
+  background-color: gray;
+}
+.center {
+  position: fixed;
+  top: 60%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+  margin-bottom: 50px;
+}
+
+.cite {
+  font-family: 'Source Serif Pro', serif;
+}
+
+
+

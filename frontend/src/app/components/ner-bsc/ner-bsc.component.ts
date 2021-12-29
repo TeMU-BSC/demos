@@ -40,7 +40,7 @@ export interface AnnotationSnomed {
 export class NerBscComponent implements OnInit {
 
   @ViewChild('annotateText') ngxAnnotateText: NgxAnnotateTextComponent;
-  displayedColumns: string[] = ['select', 'type', 'code', 'text'];
+  displayedColumns: string[] = [ 'type', 'code', 'text'];
   dataSource: MatTableDataSource<AnnotationSnomed>;
   selection = new SelectionModel<AnnotationSnomed>(true, []);
   private paginator: MatPaginator;

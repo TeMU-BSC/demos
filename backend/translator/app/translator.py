@@ -19,6 +19,7 @@ from flask_cors import CORS
 from opennmt_caller import translate_sentence
 from nltk import sent_tokenize
 from app import app
+import concurrent.futures
 
 CORS(app)
 
@@ -76,6 +77,40 @@ def get_samples():
     return jsonify(convert_data_to_response(samples))
 
 
+def get_translated_sentence(sentence: str, src,tgt) -> str:
+    '''
+    Get the translated sentence from the request.
+    '''
+
+
+    with open("/home/data/text.txt", "w") as text_file:
+            text_file.write(sentence)
+            
+    command = "./tokenize_SP.sh -d /app/data -s {0} -t {1} -f /home/data/text.txt".format(src, tgt)
+    try:
+        output = subprocess.check_output(command, shell=True)
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+        return jsonify({'error': e.output})
+
+    command_1 = "./translate.sh -l {0}".format(tgt)
+
+    try:
+        with Capturing() as output_1:
+            run = subprocess.Popen(command_1, stdout=PIPE, shell=True)
+            run.communicate()
+        
+    except subprocess.CalledProcessError as e:
+        print(e.output)
+        return jsonify({'error': e.output})
+    
+    with open ("/home/data/text.translated.detokenized") as trans_text:
+        text_ready = trans_text.read()
+    
+    return text_ready
+
+    
+
 @app.route('/translate', methods=['POST'])
 def translate():
     '''
@@ -121,7 +156,7 @@ def translate():
             'predictionScore': 0,
             'translationTime': 0
         },
-        "message": ""
+        "message": "data retrieved successfully"
     }
 
     # # Start counting translation time
@@ -137,35 +172,30 @@ def translate():
     sentences = sent_tokenize(text)
     final_text = ""
     length_senteces = len(sentences)
+    list_of_sentences = []
     for sentence in sentences:
-        with open("/home/data/text.txt", "w") as text_file:
-            text_file.write(sentence)
-            
-        
-        command = "./tokenize_SP.sh -d /app/data -s {0} -t {1} -f /home/data/text.txt".format(src, tgt)
-        
-        try:
-            output = subprocess.check_output(command, shell=True)
 
-        except subprocess.CalledProcessError as e:
-            print(e.output)
-            return jsonify({'error': e.output})
+        list_of_sentences.append(get_translated_sentence(sentence, src, tgt))
 
-        command_1 = "./translate.sh -l {0}".format(tgt)
+    # executor = concurrent.futures.ProcessPoolExecutor(5)
+    # translated_sentece = [executor.submit(get_translated_sentence, item,src,tgt) for item in sentences]
+    # concurrent.futures.wait(translated_sentece)
+    # print(translated_sentece)
+    # for item in translated_sentece:
+    #     final_text = final_text +" "+ item.result()
+    
+    
+    # list_of_sentences = [n.result() for n in translated_sentece]
+    
+    # with concurrent.futures.ProcessPoolExecutor(10) as executor:
+    #    for sentence in sentences:
+    #       future=executor.submit(get_translated_sentence, sentence,src,tgt)
+    #       list_of_sentences.append(future.result())
 
-        try:
-            with Capturing() as output_1:
-                run = subprocess.Popen(command_1, stdout=PIPE, shell=True)
-                run.communicate()
-            print("Esto es el output ", output_1)
-        except subprocess.CalledProcessError as e:
-            print(e.output)
-            return jsonify({'error': e.output})
-        
-        with open ("/home/data/text.translated.detokenized") as trans_text:
-            text_ready = trans_text.read()
-        
-        final_text = final_text +" "+text_ready
+    # print(list_of_sentences)
+    final_text = "".join(list_of_sentences)
+
+   
 
     end = time()
     translation_time = end - start
@@ -175,7 +205,7 @@ def translate():
     reponse['data']['originalText'] = text
     reponse['data']['translation'] = final_text
     reponse['data']['predictionScore'] = 0
-    reponse['data']['translatedSentences'] = length_senteces
+    reponse['data']['translatedSentences'] = list_of_sentences
 
     
     
