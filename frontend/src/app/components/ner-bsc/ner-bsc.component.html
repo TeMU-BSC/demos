@@ -51,13 +51,13 @@
 
       <div *ngIf="ready === true">
         <div class="container" style=" max-width: 100%;">
-          <div *ngIf="ner_type !== 'All'">
+          <div *ngIf="ner_type !== 'conjunto'">
             <button (click)="reset()" class="btn btn-success">
               <div style="display: flex;"> <i class="material-icons" >arrow_back </i> Atras</div>
             </button>
           </div>
 
-          <div *ngIf="ner_type === 'All'">
+          <div *ngIf="ner_type === 'conjunto'">
 
             <button (click)="reset()" class="btn btn-success">
               <div style="display: flex;"> <i class="material-icons" >arrow_back </i> Atras</div>

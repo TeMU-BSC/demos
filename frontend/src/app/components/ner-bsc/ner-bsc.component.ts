@@ -332,7 +332,7 @@ export class NerBscComponent implements OnInit {
       title: 'NER_Predictions',
       useBom: false,
       noDownload: false,
-      headers: ["ID", "START", "END", "TEXT", "SNOMED", "TYPE"]
+      headers: ["ID", "TYPE", "START", "END", "TEXT", "SNOMED"]
     };
     new ngxCsv(this.response['INPUTTEXT'], 'NER_Predictions', options);
   }

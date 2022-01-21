@@ -1,18 +1,16 @@
 doc_id	begin	end	type	extraction
-INPUTTEXT	56	77	ENFERMEDAD	hipertensión arterial
-INPUTTEXT	79	111	ENFERMEDAD	artropatía degenerativa cervical
-INPUTTEXT	113	133	ENFERMEDAD	lumbociática crónica
-INPUTTEXT	135	158	ENFERMEDAD	tuberculosis ganglionar
-INPUTTEXT	187	201	ENFERMEDAD	eritema nudoso
-INPUTTEXT	204	211	ENFERMEDAD	migraña
-INPUTTEXT	740	763	ENFERMEDAD	hipotensa con signos de
-INPUTTEXT	1564	1596	ENFERMEDAD	hipertrofia concéntrica moderada
-INPUTTEXT	1721	1740	ENFERMEDAD	derrame pericárdico
-INPUTTEXT	1830	1841	ENFERMEDAD	miocarditis
-INPUTTEXT	1891	1910	ENFERMEDAD	derrame pericárdico
-INPUTTEXT	2080	2104	ENFERMEDAD	síndrome coronario agudo
-INPUTTEXT	2199	2221	ENFERMEDAD	deterioro hemodinámico
-INPUTTEXT	2241	2270	ENFERMEDAD	actividad eléctrica sin pulso
-INPUTTEXT	2516	2546	ENFERMEDAD	disfunción biventricular grave
-INPUTTEXT	2733	2744	ENFERMEDAD	miocarditis
-INPUTTEXT	3091	3112	ENFERMEDAD	hipoxemia refractaria
+INPUTTEXT	328	348	SINTOMA	sensación distérmica
+INPUTTEXT	387	401	SINTOMA	dolor torácico
+INPUTTEXT	446	468	SINTOMA	síntomas respiratorios
+INPUTTEXT	628	638	SINTOMA	periférica
+INPUTTEXT	643	668	SINTOMA	auscultación respiratoria
+INPUTTEXT	740	749	SINTOMA	hipotensa
+INPUTTEXT	779	795	SINTOMA	frialdad cutánea
+INPUTTEXT	872	896	SINTOMA	elevación cóncava del ST
+INPUTTEXT	1260	1266	SINTOMA	fiebre
+INPUTTEXT	1360	1373	SINTOMA	de troponinas
+INPUTTEXT	1771	1793	SINTOMA	deterioro hemodinámico
+INPUTTEXT	1883	1889	SINTOMA	fiebre
+INPUTTEXT	2209	2221	SINTOMA	hemodinámico
+INPUTTEXT	2549	2554	SINTOMA	edema
+INPUTTEXT	3079	3085	SINTOMA	disnea

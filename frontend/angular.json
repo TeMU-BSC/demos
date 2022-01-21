@@ -79,7 +79,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "demos:build"
+            "browserTarget": "demos:build",
+            "disableHostCheck": true
           },
           "configurations": {
             "production": {

@@ -87,3 +87,15 @@ services:
     volumes:
       - ./backend/ner:/app
     command: flask run --host 0.0.0.0
+
+  flask-neuro-ner:
+    build: ./backend/neuro-ner
+    container_name: demos_backend_neuro_ner
+    environment:
+      - FLASK_ENV=development
+      - SAMPLES_DIR=./samples
+    ports:
+      - 8004:5000
+    volumes:
+      - ./backend/neuro-ner:/app
+    command: flask run --host 0.0.0.0
