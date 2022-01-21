@@ -7,7 +7,7 @@ idna==2.10
 msgpack==0.5.6
 msgpack-numpy==0.4.3.2
 murmurhash==1.0.2
-numpy==1.19.2
+numpy==1.21.0
 Pillow==7.2.0
 pipenv==2018.11.26
 plac==0.9.6
