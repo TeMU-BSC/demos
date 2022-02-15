@@ -1,6 +1,25 @@
 <article>
-  <div class="jumbotron negative-margin-bottom" style="text-align: center;">
-    <h1>{{ project?.name }}</h1>
-    <p>{{ project?.description }}</p>
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxLayout="column" fxLayoutGap="2em" fxFlex="100" fxFlex.gt-md="80">
+      <h1 style="text-align: center; padding-top: 1rem;">{{ project?.name }}</h1>
+      <p>{{ project?.description }}</p>
+    </div>
   </div>
+  <span fxLayout="row" fxLayoutAlign="center center">
+    <span fxLayout="column" fxLayoutGap="2em" fxFlex="100" fxFlex.gt-md="80">
+      <mat-tab-group [color]="'accent'" [backgroundColor]="'primary'" mat-stretch-tabs>
+        <mat-tab label="Tool">
+        </mat-tab>
+        <mat-tab label="Feedback">
+        </mat-tab>
+        <mat-tab label="Tutorial">
+        </mat-tab>
+        <mat-tab label="Code">
+        </mat-tab>
+        <mat-tab label="How to cite">
+        </mat-tab>
+      </mat-tab-group>
+    </span>
+  </span>
+
 </article>
