@@ -27,6 +27,17 @@ export const PROJECTS: Project[] = [
     outputs: [""],
   },
   {
+    name: 'Sentence Splitter',
+    description: 'This tool separetes long string into sentences, the system can detect when a (.) is used for finishing a sentence or when it used for abreviation. ',
+    repository: 'https://github.com/PlanTL-GOB-ES/SPACCC_Sentence-Splitter',
+    routerLink: '/sentence-splitter',  // '/pos',
+    model: "",
+    id: "11",
+    short_description: "",
+    language: "",
+    outputs: [""],
+  },
+  {
     name: 'Translator',
     description: 'Translate clinical text using an open-source toolkit for neural machine translation (NMT).',
     repository: 'https://github.com/PlanTL-SANIDAD/Medical-Translator-WMT19',

@@ -35,7 +35,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LoadingComponent } from './components/loading/loading.component';
 import { BratDisplayComponent } from './components/brat-display/brat-display.component';
 import { DrugprotComponent } from './components/drugprot/drugprot.component';
-import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
+import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component';
+import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,6 +52,7 @@ import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
     BratDisplayComponent,
     DrugprotComponent,
     NeuroNerComponent,
+    SentenceSplitterComponent,
   ],
   imports: [
     BrowserModule,

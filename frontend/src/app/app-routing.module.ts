@@ -11,6 +11,7 @@ import { DrugprotComponent } from './components/drugprot/drugprot.component'
 import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
 const routes: Routes = [
   { path: '', component: ProjectsComponent },
+  { path: 'sentence-splitter', component: ComingSoonComponent },
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'pos', component: PosComponent },
   { path: 'translator', component: TranslatorComponent },
