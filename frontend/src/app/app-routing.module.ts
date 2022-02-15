@@ -9,9 +9,10 @@ import { ProjectsComponent } from './components/projects/projects.component'
 import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 import { DrugprotComponent } from './components/drugprot/drugprot.component'
 import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
+import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
 const routes: Routes = [
   { path: '', component: ProjectsComponent },
-  { path: 'sentence-splitter', component: ComingSoonComponent },
+  { path: 'sentence-splitter', component: SentenceSplitterComponent },
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'pos', component: PosComponent },
   { path: 'translator', component: TranslatorComponent },
