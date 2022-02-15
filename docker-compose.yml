@@ -16,7 +16,6 @@ services:
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
 
-
   flask-pos:
     build: ./backend/pos
     container_name: demos_backend_pos
@@ -54,7 +53,7 @@ services:
   #   volumes:
   #     - ./backend/DrugProt_Chemical:/app
   #   command: flask run --host 0.0.0.0
-  
+
   drugprot:
     build: ./backend/DrugProt
     container_name: demos_backend_drugprot
@@ -75,7 +74,6 @@ services:
   #   volumes:
   #     - ./backend/ner_api:/app
 
-  
   flask-ner:
     build: ./backend/ner
     container_name: demos_backend_ner
@@ -98,4 +96,5 @@ services:
       - 8004:5000
     volumes:
       - ./backend/neuro-ner:/app
+      - ./NER-Models:/root/.rbbt/share/models/TeMU/NeuroNER/
     command: flask run --host 0.0.0.0

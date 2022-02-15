@@ -7,7 +7,7 @@ import { ViewEncapsulation } from '@angular/core';
   selector: 'app-brat-display',
   templateUrl: './brat-display.component.html',
   styleUrls: ['./brat-display.component.css'],
-  encapsulation: ViewEncapsulation.None
+  //encapsulation: ViewEncapsulation.Emulated
 })
 export class BratDisplayComponent implements OnInit {
 
@@ -35,7 +35,8 @@ export class BratDisplayComponent implements OnInit {
       type: 'PROCEDIMIENTO',
       labels: ['Proce', 'Proc'],
       bgColor: '#7fa32f',
-      borderColor: 'darken'
+      borderColor: 'darken',
+      fgColor: "white"
     },
     {
       type: 'FARMACO',
@@ -57,7 +58,7 @@ export class BratDisplayComponent implements OnInit {
       console.log(this.bratData)
       Util.embed('embedding-entity-example', $.extend({}, this.collData),
         $.extend({}, this.bratData), this.webFontURLs);
-    }, 500)
+    }, 1000)
 
   }
 

@@ -1,12 +1,12 @@
 <article>
   <div class="jumbotron negative-margin-bottom" style="text-align: center;">
-    <h1>{{ project?.name }} </h1>
+    <h1>{{ project?.name }}</h1>
     <p>{{ project?.description }}</p>
   </div>
 
   <span fxLayout="row" fxLayoutAlign="center center">
     <span fxLayout="column" fxLayoutGap="2em" fxFlex="100" fxFlex.gt-md="80">
-      <div *ngIf="ready !== true && loading === false" >
+      <div *ngIf="ready !== true && loading === false">
         <mat-card>
           <mat-card-content fxLayout="column">
             <!-- Medical report textarea -->
@@ -48,68 +48,69 @@
         <app-loading></app-loading>
       </div>
 
-
       <div *ngIf="ready === true">
         <div class="container" style=" max-width: 100%;">
           <div *ngIf="ner_type !== 'conjunto'">
             <button (click)="reset()" class="btn btn-success">
-              <div style="display: flex;"> <i class="material-icons" >arrow_back </i> Atras</div>
+              <div style="display: flex;">
+                <i class="material-icons">arrow_back </i> Atras
+              </div>
             </button>
           </div>
 
           <div *ngIf="ner_type === 'conjunto'">
-
             <button (click)="reset()" class="btn btn-success">
-              <div style="display: flex;"> <i class="material-icons" >arrow_back </i> Atras</div>
+              <div style="display: flex;">
+                <i class="material-icons">arrow_back </i> Atras
+              </div>
             </button>
 
-
-          <div class="divider"></div>
-          <button
-            (click)="changeNER('enfermedad')"
-            [ngClass]="{
-              'on-enfermedad': toggle['enfermedad'],
-              'off-enfermedad': !toggle['enfermedad']
-            }"
-            class="btn"
-          >
-            ENFERMEDAD
-          </button>
-          <div class="divider"></div>
-          <button
-            (click)="changeNER('sintoma')"
-            [ngClass]="{
-              'on-sintoma': toggle['sintoma'],
-              'off-sintoma': !toggle['sintoma']
-            }"
-            class="btn"
-          >
-            SINTOMA
-          </button>
-          <div class="divider"></div>
-          <button
-            (click)="changeNER('procedimiento')"
-            [ngClass]="{
-              'on-procedimiento': toggle['procedimiento'],
-              'off-procedimiento': !toggle['procedimiento']
-            }"
-            class="btn"
-          >
-            PROCEDIMIENTO
-          </button>
-          <div class="divider"></div>
-          <button
-            (click)="changeNER('farmaco')"
-            [ngClass]="{
-              'on-farmaco': toggle['farmaco'],
-              'off-farmaco': !toggle['farmaco']
-            }"
-            class="btn"
-          >
-            FARMACO
-          </button>
-          <div class="divider"></div>
-        </div>
+            <div class="divider"></div>
+            <button
+              (click)="changeNER('enfermedad')"
+              [ngClass]="{
+                'on-enfermedad': toggle['enfermedad'],
+                'off-enfermedad': !toggle['enfermedad']
+              }"
+              class="btn"
+            >
+              ENFERMEDAD
+            </button>
+            <div class="divider"></div>
+            <button
+              (click)="changeNER('sintoma')"
+              [ngClass]="{
+                'on-sintoma': toggle['sintoma'],
+                'off-sintoma': !toggle['sintoma']
+              }"
+              class="btn"
+            >
+              SINTOMA
+            </button>
+            <div class="divider"></div>
+            <button
+              (click)="changeNER('procedimiento')"
+              [ngClass]="{
+                'on-procedimiento': toggle['procedimiento'],
+                'off-procedimiento': !toggle['procedimiento']
+              }"
+              class="btn"
+            >
+              PROCEDIMIENTO
+            </button>
+            <div class="divider"></div>
+            <button
+              (click)="changeNER('farmaco')"
+              [ngClass]="{
+                'on-farmaco': toggle['farmaco'],
+                'off-farmaco': !toggle['farmaco']
+              }"
+              class="btn"
+            >
+              FARMACO
+            </button>
+            <div class="divider"></div>
+          </div>
           <p></p>
           <div class="row ">
             <div class="card scroll">
@@ -122,13 +123,11 @@
                   #annotateText
                 >
                 </ngx-annotate-text>
-                <!-- <app-brat-display [bratData]="docData"></app-brat-display> -->
-                <!-- <div  id="embedding-entity-example" style="width: 100rem;"></div> -->
+                <app-brat-display [bratData]="docData"></app-brat-display>
               </div>
             </div>
           </div>
           <div class="row" id="snomed-table">
-
             <h3 class="title">TABLA SNOMED</h3>
             <div *ngIf="textSubmitted === true">
               <mat-form-field>
@@ -182,11 +181,11 @@
                       Snomed Code
                     </th>
 
-                    <td mat-cell *matCellDef="let row"
-                    [matTooltip]="getData(row.code)"
-
+                    <td
+                      mat-cell
+                      *matCellDef="let row"
+                      [matTooltip]="getData(row.code)"
                     >
-
                       {{ row.code }}
                     </td>
                   </ng-container>
@@ -284,8 +283,6 @@
       </div>
     </span>
   </span>
-
-
 
   <!--
   <div class="row mt-3">

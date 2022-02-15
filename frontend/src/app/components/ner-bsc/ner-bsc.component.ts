@@ -16,7 +16,7 @@ import { ngxCsv } from 'ngx-csv/ngx-csv';
 import { HttpClient } from '@angular/common/http';
 import { Renderer2, ElementRef, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import  { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 declare const Util: any;
 
 import * as $ from 'jquery';
@@ -35,12 +35,12 @@ export interface AnnotationSnomed {
   selector: 'app-ner-bsc',
   templateUrl: './ner-bsc.component.html',
   styleUrls: ['./ner-bsc.component.css'],
-  encapsulation: ViewEncapsulation.None
+  //encapsulation: ViewEncapsulation.None
 })
 export class NerBscComponent implements OnInit {
 
   @ViewChild('annotateText') ngxAnnotateText: NgxAnnotateTextComponent;
-  displayedColumns: string[] = [ 'type', 'code', 'text'];
+  displayedColumns: string[] = ['type', 'code', 'text'];
   dataSource: MatTableDataSource<AnnotationSnomed>;
   selection = new SelectionModel<AnnotationSnomed>(true, []);
   private paginator: MatPaginator;
@@ -57,6 +57,7 @@ export class NerBscComponent implements OnInit {
     'farmaco': true,
     'procedimiento': true
   }
+  docData = {}
 
   downloadLink: SafeUrl
   response: TemuResponse
@@ -79,6 +80,8 @@ export class NerBscComponent implements OnInit {
     'FARMACO': "#0C25DA",
     'SINTOMA': "#527259"
   }
+
+
 
 
   collData = {
@@ -130,16 +133,14 @@ export class NerBscComponent implements OnInit {
   annotations: Annotation[] = [];
   originalAnnotations: Annotation[] = [];
   ngOnInit() {
-    this.ner_type =this.router.snapshot.paramMap.get('id')
+    this.ner_type = this.router.snapshot.paramMap.get('id')
     // Set the current project demo
     PROJECTS.forEach((project, index) => {
-      if (project.name === 'NER '+this.ner_type) {
+      if (project.id === this.ner_type) {
         this.project = PROJECTS[index]
       }
     })
     this.downloadFilename = "NER_Predictions.json"
-
-
   }
   addAnnotation(label: string, color: string) {
     if (this.ngxAnnotateText) {
@@ -169,13 +170,15 @@ export class NerBscComponent implements OnInit {
   }
 
 
+
+
   submitText() {
     this.loading = true;
-   // this.inputText = this.inputText.replace(/\n/g, "\\n")
+    // this.inputText = this.inputText.replace(/\n/g, "\\n")
     let dic = {
       // INPUTTEXT: this.sanitizeString(this.inputText)
       INPUTTEXT: this.inputText,
-      ner_type: this.ner_type
+      ner_type: this.project.model
     }
 
 
@@ -184,7 +187,7 @@ export class NerBscComponent implements OnInit {
 
       this.response = data
 
-      let annotaciones:[] = data['INPUTTEXT']
+      let annotaciones: [] = data['INPUTTEXT']
 
       annotaciones.sort((a, b) => (parseInt(a["C-START"]) > parseInt(b["C-START"])) ? 1 : -1)
       annotaciones.map(d => {
@@ -203,7 +206,7 @@ export class NerBscComponent implements OnInit {
 
 
         //CREATE UNIQUE IDs FOR BRAT ANNOTATIONS
-        switch(d["B-TYPE"]) {
+        switch (d["B-TYPE"]) {
           case "ENFERMEDAD":
             aannt[0] = "E" + d["A-ID"]
             break;
@@ -243,9 +246,13 @@ export class NerBscComponent implements OnInit {
       })
 
       this.originalAnnotations = this.annotations;
+      this.docData = {
+        text: this.inputText,
+        entities: this.brat_annotations
+      };
 
     }, err => { }, () => {
-     // this.inputText = this.inputText.replace(/\\n/g, " \n")
+      // this.inputText = this.inputText.replace(/\\n/g, " \n")
       this.proccedText = this.inputText;
       this.textSubmitted = true;
       this.ready = true;
@@ -310,9 +317,8 @@ export class NerBscComponent implements OnInit {
       fileReader.onloadend = function (x) {
         self.inputText = fileReader.result as string
         //self.inputText = self.inputText.replace(/\n/g, "\\n")
-
       }
-      fileReader.readAsText(file);
+      fileReader.readAsText(file, "UTF-8");
     }
     if (file.type == "application/json") {
       this.dataSvc.getAnnotations(file).subscribe(ans => {
@@ -389,10 +395,7 @@ export class NerBscComponent implements OnInit {
   //BRAT TEST
 
 
-  docData = {
-    text: this.inputText,
-    entities:  this.brat_annotations
-  };
+
 
 
 
@@ -405,19 +408,22 @@ export class NerBscComponent implements OnInit {
   ]
 
 
+
   onClick() {
+
+
 
     //sort array of arrays by first element of each subarray
 
-    var sorted_array = this.brat_annotations.sort(function(a, b) {
+    var sorted_array = this.brat_annotations.sort(function (a, b) {
       return a[0] - b[0];
     });
 
 
     // setTimeout(() => {
-    //   console.log(this.docData)
+    //   console.log(docData)
     //   Util.embed('embedding-entity-example', $.extend({}, this.collData),
-    //     $.extend({}, this.docData), this.webFontURLs);
+    //     $.extend({}, docData), this.webFontURLs);
     // }, 500)
 
 

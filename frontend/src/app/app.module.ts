@@ -34,7 +34,8 @@ import { NgxAnnotateTextModule } from 'ngx-annotate-text'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { LoadingComponent } from './components/loading/loading.component';
 import { BratDisplayComponent } from './components/brat-display/brat-display.component';
-import { DrugprotComponent } from './components/drugprot/drugprot.component'
+import { DrugprotComponent } from './components/drugprot/drugprot.component';
+import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +50,7 @@ import { DrugprotComponent } from './components/drugprot/drugprot.component'
     LoadingComponent,
     BratDisplayComponent,
     DrugprotComponent,
+    NeuroNerComponent,
   ],
   imports: [
     BrowserModule,

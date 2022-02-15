@@ -20,3 +20,4 @@ backend/ner/data
 backend/DrugProt/ner-model-chemical/*
 backend/DrugProt/ner-model-gene/*
 backend/ner/app/__pycache__/*
+NER-Models/*
