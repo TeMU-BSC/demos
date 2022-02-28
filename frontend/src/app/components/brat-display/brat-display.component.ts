@@ -1,19 +1,24 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Renderer2 } from '@angular/core';
 declare const Util: any;
 import * as $ from 'jquery';
 import { ViewEncapsulation } from '@angular/core';
+
+import { ElementRef, ViewChild } from '@angular/core';
+
 
 @Component({
   selector: 'app-brat-display',
   templateUrl: './brat-display.component.html',
   styleUrls: ['./brat-display.component.css'],
-  //encapsulation: ViewEncapsulation.Emulated
+  // encapsulation: ViewEncapsulation.Emulated
 })
-export class BratDisplayComponent implements OnInit {
+export class BratDisplayComponent implements OnInit, OnChanges {
 
   @Input() bratData: any;
 
+
   constructor() { }
+
 
 
   bratLocation = 'https://temu.bsc.es/bio-playground';
@@ -29,11 +34,12 @@ export class BratDisplayComponent implements OnInit {
       type: 'ENFERMEDAD',
       labels: ['ENFERMEDAD', 'ENFERMEDAD'],
       bgColor: '#7fa2ff',
-      borderColor: 'darken'
+      borderColor: 'darken',
+      fgColor: "white"
     },
     {
       type: 'PROCEDIMIENTO',
-      labels: ['Proce', 'Proc'],
+      labels: ['PROCEDIMIENTO', 'PROCEDIMIENTO'],
       bgColor: '#7fa32f',
       borderColor: 'darken',
       fgColor: "white"
@@ -42,24 +48,39 @@ export class BratDisplayComponent implements OnInit {
       type: 'FARMACO',
       labels: ['FARMACO', 'FARMACO'],
       bgColor: '#0C25DA',
-      borderColor: 'darken'
+      borderColor: 'darken',
+      fgColor: "white"
     },
     {
       type: 'SINTOMA',
       labels: ['SINTOMA', 'SINTOMA'],
       bgColor: '#527259',
-      borderColor: 'darken'
+      borderColor: 'darken',
+      fgColor: "white"
     }]
   };
 
-  ngOnInit(): void {
 
-    setTimeout(() => {
-      console.log(this.bratData)
-      Util.embed('embedding-entity-example', $.extend({}, this.collData),
-        $.extend({}, this.bratData), this.webFontURLs);
-    }, 1000)
+  ngOnInit(): void {
+    //this.mydiv.nativeElement.innerHTML = '<div id="embedding-entity-example" style="width: 100rem;"></div>'
+
+    Util.embed('embedding-entity-example', $.extend({}, this.collData),
+      $.extend({}, this.bratData), this.webFontURLs);
+
 
   }
+  @ViewChild('mydiv') mydiv: ElementRef;
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    setTimeout(() => {
+      this.mydiv.nativeElement.innerHTML = '<div id="embedding-entity-example" style="width: 100rem;"></div>'
+      Util.embed('embedding-entity-example', $.extend({}, this.collData),
+        $.extend({}, this.bratData), this.webFontURLs);
+    }, 10)
+
+
+  }
+
 
 }

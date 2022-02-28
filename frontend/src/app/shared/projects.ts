@@ -16,7 +16,7 @@ export interface Project {
  */
 export const PROJECTS: Project[] = [
   {
-    name: 'SPACCC POS Tagger',
+    name: 'MedLing Tagger',
     description: 'Spanish Clinical Case Corpus Part-of-Speech Tagger. Analyze Spanish medical reports to get theirs parts of speech and matching scores.',
     repository: 'https://github.com/PlanTL/SPACCC_POS-TAGGER',
     routerLink: '/pos',  // '/pos',
@@ -26,19 +26,19 @@ export const PROJECTS: Project[] = [
     language: "",
     outputs: [""],
   },
+  // {
+  //   name: 'Sentence Splitter',
+  //   description: 'This tool separetes long string into sentences, the system can detect when a (.) is used for finishing a sentence or when it used for abreviation. ',
+  //   repository: 'https://github.com/PlanTL-GOB-ES/SPACCC_Sentence-Splitter',
+  //   routerLink: '/sentence-splitter',  // '/pos',
+  //   model: "",
+  //   id: "11",
+  //   short_description: "",
+  //   language: "",
+  //   outputs: [""],
+  // },
   {
-    name: 'Sentence Splitter',
-    description: 'This tool separetes long string into sentences, the system can detect when a (.) is used for finishing a sentence or when it used for abreviation. ',
-    repository: 'https://github.com/PlanTL-GOB-ES/SPACCC_Sentence-Splitter',
-    routerLink: '/sentence-splitter',  // '/pos',
-    model: "",
-    id: "11",
-    short_description: "",
-    language: "",
-    outputs: [""],
-  },
-  {
-    name: 'Translator',
+    name: 'MedTranslator',
     description: 'Translate clinical text using an open-source toolkit for neural machine translation (NMT).',
     repository: 'https://github.com/PlanTL-SANIDAD/Medical-Translator-WMT19',
     routerLink: '/translator',
@@ -49,7 +49,7 @@ export const PROJECTS: Project[] = [
     outputs: [""],
   },
   {
-    name: 'Doctor NLP',
+    name: 'DoctorNLP',
     description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de procedimientos, enfermedades, sintomas, farmacos en español.',
     repository: '',
     routerLink: '/ner/03',
@@ -60,7 +60,7 @@ export const PROJECTS: Project[] = [
     outputs: [""],
   },
   {
-    name: 'NER enfermedad',
+    name: 'DiseaseTagIt',
     description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de enfermedades en español.',
     repository: '',
     routerLink: '/ner/04',
@@ -71,7 +71,7 @@ export const PROJECTS: Project[] = [
     outputs: [""],
   },
   {
-    name: 'NER sintoma',
+    name: 'SymptomTagIt',
     description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de sintomas en español.',
     repository: '',
     routerLink: '/ner/05',
@@ -82,7 +82,7 @@ export const PROJECTS: Project[] = [
     outputs: [""],
   },
   {
-    name: 'NER farmaco',
+    name: 'DrugTagIt',
     description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de farmacos en español.',
     repository: '',
     routerLink: '/ner/06',
@@ -93,7 +93,7 @@ export const PROJECTS: Project[] = [
     outputs: [""],
   },
   {
-    name: 'NER procedimiento',
+    name: 'ProcedureTagIt',
     description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de procedimientos en español.',
     repository: '',
     routerLink: '/ner/07',
@@ -144,17 +144,17 @@ export const PROJECTS: Project[] = [
   //   repository: '',
   //   routerLink: '/coming-soon', // /'embedder',
   // },
-  {
-    name: 'Negation Extraction',
-    description: 'Work in progress',
-    repository: '',
-    routerLink: '/neuro-ner/10', // /'negator',
-    model: "negation",
-    id: "10",
-    short_description: "",
-    language: "",
-    outputs: [""],
-  }
+  // {
+  //   name: 'Negation Extraction',
+  //   description: 'Work in progress',
+  //   repository: '',
+  //   routerLink: '/neuro-ner/10', // /'negator',
+  //   model: "negation",
+  //   id: "10",
+  //   short_description: "",
+  //   language: "",
+  //   outputs: [""],
+  // }
   //,
   // {
   //   name: 'Search in Spanish',

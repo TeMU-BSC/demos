@@ -9,7 +9,7 @@ import { Project, PROJECTS } from 'src/app/shared/projects';
 export class SentenceSplitterComponent implements OnInit {
 
   project: Project
-
+  loading = false
   constructor() { }
 
   ngOnInit(): void {

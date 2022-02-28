@@ -9,6 +9,10 @@
     <span fxLayout="column" fxLayoutGap="2em" fxFlex="100" fxFlex.gt-md="80">
       <mat-tab-group [color]="'accent'" [backgroundColor]="'primary'" mat-stretch-tabs>
         <mat-tab label="Tool">
+          <div *ngIf="loading" class="center">
+            <!-- <mat-spinner></mat-spinner> -->
+            <app-loading></app-loading>
+          </div>
         </mat-tab>
         <mat-tab label="Feedback">
         </mat-tab>

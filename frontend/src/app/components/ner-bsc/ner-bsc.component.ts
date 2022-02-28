@@ -132,6 +132,7 @@ export class NerBscComponent implements OnInit {
   project: Project;
   annotations: Annotation[] = [];
   originalAnnotations: Annotation[] = [];
+  originalBRATannotatios: any[] = [];
   ngOnInit() {
     this.ner_type = this.router.snapshot.paramMap.get('id')
     // Set the current project demo
@@ -184,6 +185,8 @@ export class NerBscComponent implements OnInit {
 
 
     this.dataSvc.getAnnotations(dic).subscribe(data => {
+      this.brat_annotations = []
+      this.originalAnnotations = []
 
       this.response = data
 
@@ -226,7 +229,7 @@ export class NerBscComponent implements OnInit {
         aannt[1] = d["B-TYPE"]
         aannt[2] = [[parseInt(d["C-START"]), parseInt(d["D-END"])]]
         this.brat_annotations.push(aannt);
-
+        this.originalBRATannotatios = this.brat_annotations;
         this.annotations = this.annotations.concat(
           new Annotation(
             parseInt(d["C-START"]),
@@ -309,8 +312,6 @@ export class NerBscComponent implements OnInit {
 
   onChange(fileList: FileList): void {
     let file = fileList[0];
-
-
     if (file.type == "text/plain") {
       let fileReader: FileReader = new FileReader();
       let self = this;
@@ -365,13 +366,16 @@ export class NerBscComponent implements OnInit {
     console.log("click")
     this.dropResults(type)
     this.toggle[type] = !this.toggle[type]
-
+    this.docData = {
+      text: this.inputText,
+      entities: this.brat_annotations
+    };
 
   }
 
   dropResults(type) {
 
-    this.toggle[type] ? this.annotations = this.annotations.filter(ann => ann["label"] != type.toUpperCase()) : this.annotations = this.annotations.concat(this.originalAnnotations.filter(ann => ann["label"] == type.toUpperCase()))
+    this.toggle[type] ? this.brat_annotations = this.brat_annotations.filter(ann => ann[1] != type.toUpperCase()) : this.brat_annotations = this.brat_annotations.concat(this.originalBRATannotatios.filter(ann => ann[1] == type.toUpperCase()))
 
 
   }

@@ -39,12 +39,12 @@ export class TranslatorComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Set the current project demo
     PROJECTS.forEach((project, index) => {
-      if (project.name === 'Translator') {
+      if (project.name === 'MedTranslator') {
         this.project = PROJECTS[index]
       }
     })

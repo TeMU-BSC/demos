@@ -90,12 +90,12 @@ export class PosComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private snackBar: MatSnackBar,
     private formBuilder: FormBuilder
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Set the current project demo
     PROJECTS.forEach((project, index) => {
-      if (project.name === 'SPACCC POS Tagger') {
+      if (project.name === 'MedLing Tagger') {
         this.project = PROJECTS[index]
       }
     })
