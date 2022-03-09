@@ -66,7 +66,7 @@ def get_samples():
             # The two last letters describe the language
             lang_dir = root[-2:]
             # Read the content of each file
-            with open(path.join(root, filename), 'r') as current_file:
+            with open(path.join(root, filename), 'r',encoding="utf-8") as current_file:
                 content = current_file.read()
             # Append an object for each file
             samples.append({
@@ -77,15 +77,18 @@ def get_samples():
     return jsonify(convert_data_to_response(samples))
 
 
-def get_translated_sentence(sentence: str, src,tgt) -> str:
+def get_translated_sentence(sentences, src,tgt) -> str:
     '''
     Get the translated sentence from the request.
     '''
-
-
-    with open("/home/data/text.txt", "w") as text_file:
-            text_file.write(sentence)
-            
+    if os.path.exists("/home/data/text.txt"):
+        os.remove("/home/data/text.txt")
+    else:
+        print("The file does not exist")
+    for sentence in sentences:
+        with open("/home/data/text.txt", "a", encoding="utf-8") as text_file:
+                text_file.write(sentence + "\n")
+                
     command = "./tokenize_SP.sh -d /app/data -s {0} -t {1} -f /home/data/text.txt".format(src, tgt)
     try:
         output = subprocess.check_output(command, shell=True)
@@ -173,10 +176,10 @@ def translate():
     final_text = ""
     length_senteces = len(sentences)
     list_of_sentences = []
-    for sentence in sentences:
+    # for sentence in sentences:
 
-        list_of_sentences.append(get_translated_sentence(sentence, src, tgt))
-
+    #     list_of_sentences.append(get_translated_sentence(sentence, src, tgt))
+    list_of_sentences.append(get_translated_sentence(sentences, src, tgt))
     # executor = concurrent.futures.ProcessPoolExecutor(5)
     # translated_sentece = [executor.submit(get_translated_sentence, item,src,tgt) for item in sentences]
     # concurrent.futures.wait(translated_sentece)
