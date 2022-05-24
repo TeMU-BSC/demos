@@ -50,7 +50,7 @@ spacy-legacy==3.0.8
 spacy-loggers==1.0.1
 srsly==2.4.2
 tensorboard==1.15.0
-tensorflow==1.15.0
+tensorflow==2.6.4
 tensorflow-estimator==1.15.1
 termcolor==1.1.0
 thinc==8.0.13
