@@ -65,7 +65,7 @@ wrapt==1.13.3
 zipp==3.7.0
 torchvision==0.5.0
 tqdm==4.62.3
-ujson==5.1.0
+ujson==5.2.0
 virtualenv==16.7.6
 virtualenv-clone==0.5.3
 Flask-Cors==3.0.9
