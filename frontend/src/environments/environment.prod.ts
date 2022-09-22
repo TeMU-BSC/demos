@@ -1,6 +1,7 @@
 export const environment = {
   production: true,
-  posApiUrl: 'http://temu.bsc.es:8080/api/pos',
-  translatorApiUrl: 'http://temu.bsc.es:8080/api/translator',
-  nerApiUrl: 'http://temu.bsc.es:8080/api/ner'
+  posApiUrl: 'https://textmining.bsc.es:8001',
+  translatorApiUrl: 'https://textmining.bsc.es:8002',
+  nerApiUrl: 'https://textmining.bsc.es:8003',
+  drugProtApiUrl: 'https://textmining.bsc.es:8009'
 }

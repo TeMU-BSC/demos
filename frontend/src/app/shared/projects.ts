@@ -14,7 +14,7 @@ export interface Project {
 /**
  * Text Mining Unit projects' information used across the entire app.
  */
-export const PROJECTS: Project[] = [
+export const PROJECTS: any[] = [
   {
     name: 'MedLing Tagger',
     description: 'Spanish Clinical Case Corpus Part-of-Speech Tagger. Analyze Spanish medical reports to get theirs parts of speech and matching scores.',
@@ -61,7 +61,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'DiseaseTagIt',
-    description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de enfermedades en español.',
+    description: 'Sistema de reconocimiento de menciones de enfermedades/trastornos y mapeo a terminología SNOMED CT',
     repository: '',
     routerLink: '/ner/04',
     model: "enfermedad",
@@ -72,7 +72,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'SymptomTagIt',
-    description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de sintomas en español.',
+    description: 'Sistema de reconocimiento de menciones de síntomas/signos clinicos y mapeo a terminología SNOMED CT ',
     repository: '',
     routerLink: '/ner/05',
     model: "sintoma",
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'DrugTagIt',
-    description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de farmacos en español.',
+    description: 'Sistema de reconocimiento de menciones de fármacos/medicamentos y mapeo a terminología SNOMED CT ',
     repository: '',
     routerLink: '/ner/06',
     model: "farmaco",
@@ -94,7 +94,7 @@ export const PROJECTS: Project[] = [
   },
   {
     name: 'ProcedureTagIt',
-    description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de procedimientos en español.',
+    description: 'Sistema de reconocimiento de menciones de procedimientos clinicos y mapeo a terminología SNOMED CT.',
     repository: '',
     routerLink: '/ner/07',
     model: "procedimiento",

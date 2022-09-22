@@ -9,10 +9,11 @@ services:
     #   - TRANSLATOR_API_URL=http://localhost:5001
     #   - PHARMACONER_API_URL=http://localhost:5002
     ports:
-      - 80:4200
+      - 8081:4200
     volumes:
       - ./frontend:/app
-    command: ng serve --host 0.0.0.0
+      - ./tls:/tls
+    command: ng serve --host 0.0.0.0 --ssl true --ssl-cert "/tls/certs/textmining.bsc.es.pem" --ssl-key "/tls/keys/textmining.bsc.es.decrypt.key"
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
 
@@ -27,7 +28,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend/pos:/app
-    command: flask run --host 0.0.0.0
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
 
   flask-translator:
     build: ./backend/translator
@@ -40,7 +42,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./backend/translator:/app
-    command: flask run --host 0.0.0.0
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
 
   # drugprot-chemical:
   #   build: ./backend/DrugProt_Chemical
@@ -60,11 +63,13 @@ services:
     environment:
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
+
     ports:
       - 8009:5000
     volumes:
       - ./backend/DrugProt:/app
-    command: flask run --host 0.0.0.0
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
 
   # fastapi-ner:
   #   build: ./backend/ner_api
@@ -84,17 +89,33 @@ services:
       - 8003:5000
     volumes:
       - ./backend/ner:/app
-    command: flask run --host 0.0.0.0
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
 
-  flask-neuro-ner:
-    build: ./backend/neuro-ner
-    container_name: demos_backend_neuro_ner
+  # flask-neuro-ner:
+  #   build: ./backend/neuro-ner
+  #   container_name: demos_backend_neuro_ner
+  #   environment:
+  #     - FLASK_ENV=development
+  #     - SAMPLES_DIR=./samples
+  #   ports:
+  #     - 8004:5000
+  #   volumes:
+  #     - ./backend/neuro-ner:/app
+  #     - ./NER-Models:/root/.rbbt/share/models/TeMU/NeuroNER/
+  #     - ./tls:/tls
+  #   command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+
+  flask-spacy-ner:
+    build: ./backend/spacy_server
+    container_name: demos_backend_spacy
     environment:
       - FLASK_ENV=development
       - SAMPLES_DIR=./samples
     ports:
-      - 8004:5000
+      - 8005:5000
     volumes:
-      - ./backend/neuro-ner:/app
-      - ./NER-Models:/root/.rbbt/share/models/TeMU/NeuroNER/
-    command: flask run --host 0.0.0.0
+      - ./backend/spacy_server:/app
+      - ./NER-Models:/spacy_models
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"

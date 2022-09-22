@@ -21,6 +21,16 @@ from nltk import sent_tokenize
 from app import app
 import concurrent.futures
 
+import ctranslate2
+import sentencepiece as spm
+import nltk 
+import pandas as pd
+from nltk import sent_tokenize
+nltk. download('punkt')
+import os
+
+
+
 CORS(app)
 
 import sys
@@ -81,34 +91,54 @@ def get_translated_sentence(sentences, src,tgt) -> str:
     '''
     Get the translated sentence from the request.
     '''
-    if os.path.exists("/home/data/text.txt"):
-        os.remove("/home/data/text.txt")
-    else:
-        print("The file does not exist")
-    for sentence in sentences:
-        with open("/home/data/text.txt", "a", encoding="utf-8") as text_file:
-                text_file.write(sentence + "\n")
-                
-    command = "./tokenize_SP.sh -d /app/data -s {0} -t {1} -f /home/data/text.txt".format(src, tgt)
-    try:
-        output = subprocess.check_output(command, shell=True)
-    except subprocess.CalledProcessError as e:
-        print(e.output)
-        return jsonify({'error': e.output})
-
-    command_1 = "./translate.sh -l {0}".format(tgt)
-
-    try:
-        with Capturing() as output_1:
-            run = subprocess.Popen(command_1, stdout=PIPE, shell=True)
-            run.communicate()
-        
-    except subprocess.CalledProcessError as e:
-        print(e.output)
-        return jsonify({'error': e.output})
+    tic = time()
+    text_ready = []
+    spmodels = {"es":"sentencepieceModels/pten_esSP32k.model",
+            "en":"sentencepieceModels/espt_enSP32k.model",
+            "pt":"sentencepieceModels/enes_ptSP32k.model"
+            }
+    sp = spm.SentencePieceProcessor(model_file=spmodels[tgt])
+    translator = ctranslate2.Translator(tgt, device="cpu",intra_threads=16)
+    batch = sp.encode(sentences,out_type="str")
+    for f in batch:
+            f.insert(0,"__opt_tgt_"+tgt)
+            f.insert(0,"__opt_src_"+src)
+    result = translator.translate_batch(batch)
+    for f in result:
+        text_ready.append(sp.decode(f.hypotheses[0])+"\n")
+    # if os.path.exists("/home/data/text.txt"):
+    #     os.remove("/home/data/text.txt")
+    # if os.path.exists("/home/data/log.txt"):
+    #     os.remove("/home/data/log.txt")
     
-    with open ("/home/data/text.translated.detokenized") as trans_text:
-        text_ready = trans_text.read()
+    
+    # for sentence in sentences:
+    #     with open("/home/data/text.txt", "a", encoding="utf-8") as text_file:
+    #             text_file.write(sentence + "\n")
+                
+    # command = "./tokenize_SP.sh -d /app/data -s {0} -t {1} -f /home/data/text.txt".format(src, tgt)
+    # try:
+    #     output = subprocess.check_output(command, shell=True)
+    # except subprocess.CalledProcessError as e:
+    #     print(e.output)
+    #     return jsonify({'error': e.output})
+    # toc = time()
+    # print("Tokenizacion demoro = "+str(toc-tic))
+
+    # command_1 = "./translate.sh -l {0}".format(tgt)
+    # tic1 = time()
+    # try:
+    #     with Capturing() as output_1:
+    #         run = subprocess.Popen(command_1, stdout=PIPE, shell=True)
+    #         run.communicate()
+        
+    # except subprocess.CalledProcessError as e:
+    #     print(e.output)
+    #     return jsonify({'error': e.output})
+    # toc1 = time()
+    # print("Traducir demoro = "+str(toc1-tic1))
+    # with open ("/home/data/text.translated.detokenized") as trans_text:
+    #     text_ready = trans_text.readlines()
     
     return text_ready
 
@@ -170,7 +200,6 @@ def translate():
     text = request.json.get('text')
     src = request.json.get('sourceLanguageCode')
     tgt = request.json.get('targetLanguageCode')
-
     # # Split sentences using nltk library ('nltk_data' directory needed, located at home)
     sentences = sent_tokenize(text)
     final_text = ""
@@ -179,7 +208,7 @@ def translate():
     # for sentence in sentences:
 
     #     list_of_sentences.append(get_translated_sentence(sentence, src, tgt))
-    list_of_sentences.append(get_translated_sentence(sentences, src, tgt))
+    list_of_sentences = get_translated_sentence(sentences, src, tgt)
     # executor = concurrent.futures.ProcessPoolExecutor(5)
     # translated_sentece = [executor.submit(get_translated_sentence, item,src,tgt) for item in sentences]
     # concurrent.futures.wait(translated_sentece)
@@ -196,9 +225,12 @@ def translate():
     #       list_of_sentences.append(future.result())
 
     # print(list_of_sentences)
-    final_text = "".join(list_of_sentences)
+    final_text = " ".join(list_of_sentences)
 
-   
+    # with open("/home/data/log.txt",'r') as doc:
+    #     text = doc.readlines()
+    #     text = text[1]
+    #     splitted = text.split(" ")[6]
 
     end = time()
     translation_time = end - start

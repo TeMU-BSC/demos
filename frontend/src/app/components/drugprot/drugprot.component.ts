@@ -208,14 +208,14 @@ export class DrugprotComponent implements OnInit {
       INPUTTEXT: this.inputText,
       MODEL: this.ner_type
     }
-    console.log(dic)
+
 
 
     this.dataSvc.getAnnotations(dic).subscribe(data => {
 
       this.response = data
       this.brat = data
-      console.log(this.response)
+
       let annotaciones: [] = data
 
 
@@ -365,7 +365,7 @@ export class DrugprotComponent implements OnInit {
 
 
   changeNER(type: string) {
-    console.log("click")
+
     this.dropResults(type)
     this.toggle[type] = !this.toggle[type]
 
@@ -393,13 +393,13 @@ export class DrugprotComponent implements OnInit {
   }
 
   tabchanged(event) {
-    console.log(event)
-    if (event == 5 && this.ner_type == "gene"){
-      console.log("cambia")
+
+    if (event == 5 && this.ner_type == "gene") {
+
       this.route.navigate(['/drugprot/chemical']).then(page => { window.location.reload(); });
     }
-    if (event == 5 && this.ner_type == "chemical"){
-      console.log("cambia")
+    if (event == 5 && this.ner_type == "chemical") {
+
       this.route.navigate(['/drugprot/gene']).then(page => { window.location.reload(); });
     }
   }

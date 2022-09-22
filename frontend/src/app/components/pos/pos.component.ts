@@ -104,7 +104,7 @@ export class PosComponent implements OnInit {
     this.spacccPosTaggerService
       .getSampleTexts()
       .subscribe(response => {
-        console.log(response)
+
         this.samples = response.data
       })
 
@@ -141,11 +141,11 @@ export class PosComponent implements OnInit {
    * Get the resulting POS tags from our REST API through the Freeling service.
    */
   getPosTags() {
-    console.log(this.freelingForm.value)
+
     this.spacccPosTaggerService.getPosTags(this.freelingForm.value).subscribe(
       // 1. API response
       response => {
-        console.log(response)
+
         this.response = response
 
         // Prepare the words array to display.
@@ -175,8 +175,7 @@ export class PosComponent implements OnInit {
         })
 
         // Generate the download URI
-        console.log(this.response)
-        console.log(this.sanitizer)
+
         this.downloadLink = Utils.generateDownloadJsonUri(
           this.response,
           this.sanitizer

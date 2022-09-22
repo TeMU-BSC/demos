@@ -28,15 +28,20 @@ import { FooterComponent } from './components/footer/footer.component'
 import { TranslatorComponent } from './components/translator/translator.component'
 import { HeaderComponent } from './components/header/header.component'
 import { LoaderComponent } from './components/loader/loader.component'
-import { ProjectsComponent } from './components/projects/projects.component';
+import { ProjectsComponent } from './components/projects/projects.component'
 import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 import { NgxAnnotateTextModule } from 'ngx-annotate-text'
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { LoadingComponent } from './components/loading/loading.component';
-import { BratDisplayComponent } from './components/brat-display/brat-display.component';
-import { DrugprotComponent } from './components/drugprot/drugprot.component';
-import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component';
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { LoadingComponent } from './components/loading/loading.component'
+import { BratDisplayComponent } from './components/brat-display/brat-display.component'
+import { DrugprotComponent } from './components/drugprot/drugprot.component'
+import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
 import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
+import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component';
+import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe'
+
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +58,8 @@ import { SentenceSplitterComponent } from './components/sentence-splitter/senten
     DrugprotComponent,
     NeuroNerComponent,
     SentenceSplitterComponent,
+    SpacyVisualizerComponent,
+    HtmlsanatizerPipe,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +72,7 @@ import { SentenceSplitterComponent } from './components/sentence-splitter/senten
     FlexLayoutModule,
     SimplemattableModule,
     NgxAnnotateTextModule,
-    MatCheckboxModule
+    MatCheckboxModule,
   ],
   providers: [
     LoaderService,

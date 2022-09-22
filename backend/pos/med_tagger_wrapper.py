@@ -71,7 +71,7 @@ class MedTagger:
         Initialize the subprocess that will receive the inputs from the user
         '''
         # Installed docker runs OK in local but does not run inside a docker container
-        self._tagger = subprocess.Popen('docker run -i   bsctemu/med-tagger:1.0.0', shell=True,
+        self._tagger = subprocess.Popen('docker run  --rm -i   bsctemu/med-tagger:1.0.0', shell=True,
                                         stdin=subprocess.PIPE, stdout=subprocess.PIPE)
 
         # # Singularity runs OK

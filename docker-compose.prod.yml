@@ -1,27 +1,104 @@
 version: "3.7"
 services:
-  angular:
-    container_name: demos_frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.prod
-    ports:
-      - "8080:80"
-    restart: always
-  # flask-pos:
-  #   build: ./backend/pos
-  #   container_name: demos_backend_pos
-  #   environment:
-  #     - FLASK_APP=pos.py
-  #     - SAMPLES_DIR=./samples
-  #   command: flask run --host 0.0.0.0
-  #   ports:
-  #     - 5000:5000
+  # angular:
+  #   build: 
+  #     context: ./frontend
+  #     dockerfile: Dockerfile.prod
+  #   container_name: demos_frontend
+  #   # https://codinglatte.com/posts/angular/using-os-environment-variables-in-angular-with-docker/
+  #   # environment:
+  #   #   - POS_API_URL=http://localhost:5000
+  #   #   - TRANSLATOR_API_URL=http://localhost:5001
+  #   #   - PHARMACONER_API_URL=http://localhost:5002
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /var/www/html:/app/dist
   #   restart: always
-  flask-translator:
-    build: ./backend/translator
-    container_name: demos_backend_translator
+  # # freeling-cnio:
+  # #   image: bsctemu/freeling-cnio:1.0.0
+
+  flask-pos:
+    build: ./backend/pos
+    container_name: demos_backend_pos_prod
     environment:
       - SAMPLES_DIR=./samples
-    command: uwsgi app.ini
+    ports:
+      - 8001:5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend/pos:/app
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
+  flask-translator:
+    build: ./backend/translator
+    container_name: demos_backend_translator_prod
+    environment:
+      - SAMPLES_DIR=./samples
+    ports:
+      - 8002:5000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./backend/translator:/app
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
+  # drugprot-chemical:
+  #   build: ./backend/DrugProt_Chemical
+  #   container_name: demos_backend_drugprot_chemical
+  #   environment:
+  #     - FLASK_ENV=development
+  #     - SAMPLES_DIR=./samples
+  #   ports:
+  #     - 8010:5000
+  #   volumes:
+  #     - ./backend/DrugProt_Chemical:/app
+  #   command: flask run --host 0.0.0.0
+
+  drugprot:
+    build: ./backend/DrugProt
+    container_name: demos_backend_drugprot_prod
+    environment:
+      - SAMPLES_DIR=./samples
+    ports:
+      - 8009:5000
+    volumes:
+      - ./backend/DrugProt:/app
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
+
+  # fastapi-ner:
+  #   build: ./backend/ner_api
+  #   container_name: "fastapi-ner"
+  #   ports:
+  #     - "8000:15400"
+  #   volumes:
+  #     - ./backend/ner_api:/app
+
+  flask-ner:
+    build: ./backend/ner
+    container_name: demos_backend_ner_prod
+    environment:
+      - SAMPLES_DIR=./samples
+    ports:
+      - 8003:5000
+    volumes:
+      - ./backend/ner:/app
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
+
+  flask-neuro-ner:
+    build: ./backend/neuro-ner
+    container_name: demos_backend_neuro_ner_prod
+    environment:
+      - SAMPLES_DIR=./samples
+    ports:
+      - 8004:5000
+    volumes:
+      - ./backend/neuro-ner:/app
+      - ./NER-Models:/root/.rbbt/share/models/TeMU/NeuroNER/
+      - ./tls:/tls
+    command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
     restart: always

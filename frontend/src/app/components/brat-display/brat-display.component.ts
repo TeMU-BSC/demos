@@ -21,7 +21,7 @@ export class BratDisplayComponent implements OnInit, OnChanges {
 
 
 
-  bratLocation = 'https://temu.bsc.es/bio-playground';
+  bratLocation = 'https://temu.bsc.es/.bio-playground-VIEJO';
 
   webFontURLs = [
     this.bratLocation + '/static/fonts/Astloch-Bold.ttf',

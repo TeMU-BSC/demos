@@ -27,7 +27,7 @@ export class TranslatorComponent implements OnInit {
   response: TemuResponse
   sourceText: string
   translatedText: string
-  averageScore: number
+  averageScore = ""
   translationTime: number
   downloadFilename: string
   downloadLink: SafeUrl
@@ -145,10 +145,10 @@ export class TranslatorComponent implements OnInit {
       () => {
 
         this.translatedText = this.response['data']['translation']
-        console.log(this.response)
+
 
         // Round down to 4 digits the average pred score and translation time.
-        this.averageScore = Utils.round(this.response.data.predictionScore, 4)
+        this.averageScore = this.response.data.predictionScore
         this.translationTime = Utils.round(
           this.response.data.translationTime,
           4
