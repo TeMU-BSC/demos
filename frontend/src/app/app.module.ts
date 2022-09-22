@@ -38,7 +38,8 @@ import { DrugprotComponent } from './components/drugprot/drugprot.component'
 import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
 import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
 import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component';
-import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe'
+import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe';
+import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component'
 
 
 
@@ -60,6 +61,7 @@ import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe'
     SentenceSplitterComponent,
     SpacyVisualizerComponent,
     HtmlsanatizerPipe,
+    SpacyDoctornlpComponent,
   ],
   imports: [
     BrowserModule,
