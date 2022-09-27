@@ -9,11 +9,12 @@ import numpy as np
 from flask import g, json, request, jsonify
 import spacy
 from spacy import displacy
+from spacy.tokens import Span
 
-from flask_socketio import SocketIO
 
-app.config['SECRET_KEY'] = 'vnkdjnfjknfl1232#BSC'
-socketio = SocketIO(app, cors_allowed_origins="*")
+
+
+
 CORS(app)
 global models
 models = {}
@@ -43,17 +44,7 @@ from spacy.tokenizer import Tokenizer
 from spacy.lang.char_classes import ALPHA, ALPHA_LOWER, ALPHA_UPPER, CONCAT_QUOTES, LIST_ELLIPSES, LIST_ICONS
 from spacy.util import compile_infix_regex, compile_suffix_regex
 
-global texto_prueba
-texto_prueba = "Hola, soy un texto de prueba "
-@socketio.on('prueba_1')
-def prueba_1(text, methods=['GET', 'POST']):
-    texto_prueba = text
-    socketio.emit('prueba_1', texto_prueba)
-    #print a number every second
-    for i in range(10):
-        socketio.sleep(1)
-        socketio.emit('prueba_1', texto_prueba + i)
-    print("Esto es una prueba", texto_prueba)
+
     
 
 @app.route('/spacy_server', methods=['GET'])
@@ -65,6 +56,25 @@ def get_model_info():
     with open("/spacy_models/models_info.json") as json_file:
         data = json.load(json_file)
     return jsonify(data)
+
+@app.route("/get_all_ner_annotations",methods=['POST'])
+def get_all_ner_nnotations():
+    data = request.get_json()
+    model_names = data['MODEL']
+    print("modelos nombres")
+    print(data)
+    text = data['INPUTTEXT']
+    nlp_aux = loadmodels(model_names[0])
+    doc_aux = nlp_aux(text)
+    for model_name  in model_names:
+        nlp = loadmodels(model_name)
+        doc = nlp(text)
+        ents = []
+        for ent in doc.ents:
+            ents.append(Span(doc, ent.start, ent.end, label=ent.label_))
+        doc_aux.spans["sc"] = doc_aux.spans["sc"] + ents
+    return jsonify({"html" : displacy.render(doc_aux, style="span")})
+
 
 @app.route("/get_annotations", methods=['POST'])
 def get_prediction():

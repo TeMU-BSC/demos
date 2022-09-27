@@ -131,6 +131,17 @@ export const PROJECTS: any[] = [
     language: "",
     outputs: [""],
   },
+  {
+    name: 'DoctorNLP v2',
+    description: 'Reconocimiento de entidades basado en nuestro modelo de deep-learning para la detección de procedimientos, enfermedades, sintomas, farmacos en español.',
+    repository: 'https://github.com/TeMU-BSC/PharmaCoNER-Tagger',
+    routerLink: '/doctorNLP', // /'neuroner',
+    model: "doctorNLP",
+    id: "10",
+    short_description: "",
+    language: "es",
+    outputs: [""],
+  },
 
   // {
   //   name: 'Spell Checker',
