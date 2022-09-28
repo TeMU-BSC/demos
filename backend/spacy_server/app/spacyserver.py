@@ -131,6 +131,7 @@ def get_phenotype_annotations():
 
 
 
+
 # @app.route('/get_annotations', methods=['POST'])
 # def tag():
 #     json_input = request.json

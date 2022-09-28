@@ -10,17 +10,20 @@ import { AnnotationSnomed } from '../ner-bsc/ner-bsc.component';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { PhenotypeViewService } from './phenotype-view.service'
 @Component({
   selector: 'app-phenotype-view',
   templateUrl: './phenotype-view.component.html',
   styleUrls: ['./phenotype-view.component.css']
 })
 export class PhenotypeViewComponent implements OnInit {
+  originalAnnotations: any[];
+  originalBRATAnnotations: any[];
   constructor(
     private sanitizer: DomSanitizer,
     private http: HttpClient,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private dataSvc: PhenotypeViewService
   ) {
     this.dataSource = new MatTableDataSource([])
   }
@@ -70,5 +73,50 @@ export class PhenotypeViewComponent implements OnInit {
     })
     this.downloadFilename = 'NER_Predictions.json'
   }
+
+  submitText() {
+    this.loading = true
+    // this.inputText = this.inputText.replace(/\n/g, "\\n")
+    let dic = {
+      // INPUTTEXT: this.sanitizeString(this.inputText)
+      INPUTTEXT: this.inputText,
+      MODELS: ["Phenotypes_1", "Phenotypes_2"],
+    }
+
+
+
+    this.dataSvc.getPhenotypeAnnotations(dic).subscribe(
+      data => {
+        this.brat_annotations = []
+        this.originalAnnotations = []
+        this.response = data
+        let annotaciones: [] = data['INPUTTEXT']
+        annotaciones.map(d => {
+          let newAnnot = []
+
+          newAnnot[0] = d['A-ID']
+          newAnnot[1] = d['B-TYPE']
+          newAnnot[2] = [[parseInt(d['C-START']), parseInt(d['D-END'])]]
+          this.brat_annotations.push(newAnnot)
+
+        })
+        this.originalBRATAnnotations = this.brat_annotations
+        this.docData = {
+          text: this.inputText,
+          entities: this.brat_annotations,
+        }
+      },
+      error => { },
+      () => {
+        this.proccedText = this.inputText
+        this.textSubmitted = true
+        this.ready = true
+        this.loading = false
+        console.log(this.brat_annotations)
+      }
+    )
+  }
+
+
 
 }

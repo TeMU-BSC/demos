@@ -10,10 +10,20 @@
         <mat-card>
           <mat-card-content fxLayout="column">
             <!-- Medical report textarea -->
-            <input type="file" name="textFile" id="textFile" (change)="onChange($event.target.files)" />
+            <input
+              type="file"
+              name="textFile"
+              id="textFile"
+              (change)="onChange($event.target.files)"
+            />
             <mat-form-field fxFill>
-              <textarea matInput [(ngModel)]="inputText" rows="15" placeholder="Por favor introduzca un caso clinico"
-                required>
+              <textarea
+                matInput
+                [(ngModel)]="inputText"
+                rows="15"
+                placeholder="Por favor introduzca un caso clinico"
+                required
+              >
               </textarea>
 
               <!-- Error handling -->
@@ -56,31 +66,47 @@
             </button>
 
             <div class="divider"></div>
-            <button (click)="changeNER('enfermedad')" [ngClass]="{
+            <button
+              (click)="changeNER('enfermedad')"
+              [ngClass]="{
                 'on-enfermedad': toggle['enfermedad'],
                 'off-enfermedad': !toggle['enfermedad']
-              }" class="btn">
+              }"
+              class="btn"
+            >
               ENFERMEDAD
             </button>
             <div class="divider"></div>
-            <button (click)="changeNER('sintoma')" [ngClass]="{
+            <button
+              (click)="changeNER('sintoma')"
+              [ngClass]="{
                 'on-sintoma': toggle['sintoma'],
                 'off-sintoma': !toggle['sintoma']
-              }" class="btn">
+              }"
+              class="btn"
+            >
               SINTOMA
             </button>
             <div class="divider"></div>
-            <button (click)="changeNER('procedimiento')" [ngClass]="{
+            <button
+              (click)="changeNER('procedimiento')"
+              [ngClass]="{
                 'on-procedimiento': toggle['procedimiento'],
                 'off-procedimiento': !toggle['procedimiento']
-              }" class="btn">
+              }"
+              class="btn"
+            >
               PROCEDIMIENTO
             </button>
             <div class="divider"></div>
-            <button (click)="changeNER('farmaco')" [ngClass]="{
+            <button
+              (click)="changeNER('farmaco')"
+              [ngClass]="{
                 'on-farmaco': toggle['farmaco'],
                 'off-farmaco': !toggle['farmaco']
-              }" class="btn">
+              }"
+              class="btn"
+            >
               FARMACO
             </button>
             <div class="divider"></div>
@@ -90,15 +116,18 @@
             <div class="card scroll">
               <div class="card-body">
                 <div *ngIf="project?.model !== 'conjunto'">
-                  <ngx-annotate-text [(annotations)]="annotations" [removable]="false" [text]="proccedText"
-                    annotationClass="my-annotation" #annotateText>
+                  <ngx-annotate-text
+                    [(annotations)]="annotations"
+                    [removable]="false"
+                    [text]="proccedText"
+                    annotationClass="my-annotation"
+                    #annotateText
+                  >
                   </ngx-annotate-text>
                 </div>
                 <div *ngIf="project?.model === 'conjunto'">
-
                   <app-brat-display [bratData]="docData"></app-brat-display>
                 </div>
-
               </div>
             </div>
           </div>
@@ -107,7 +136,12 @@
             <div *ngIf="textSubmitted === true">
               <mat-form-field>
                 <mat-label>Filter</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Virus" #input />
+                <input
+                  matInput
+                  (keyup)="applyFilter($event)"
+                  placeholder="Ex. Virus"
+                  #input
+                />
               </mat-form-field>
 
               <div class="mat-elevation-z8">
@@ -115,15 +149,23 @@
                   <!-- Checkbox Column -->
                   <ng-container matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef>
-                      <mat-checkbox (change)="$event ? masterToggle() : null"
-                        [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="
+                      <mat-checkbox
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
                           selection.hasValue() && !isAllSelected()
-                        " [aria-label]="checkboxLabel()">
+                        "
+                        [aria-label]="checkboxLabel()"
+                      >
                       </mat-checkbox>
                     </th>
                     <td mat-cell *matCellDef="let row">
-                      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
-                        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+                      <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? selection.toggle(row) : null"
+                        [checked]="selection.isSelected(row)"
+                        [aria-label]="checkboxLabel(row)"
+                      >
                       </mat-checkbox>
                     </td>
                   </ng-container>
@@ -143,7 +185,11 @@
                       Snomed Code
                     </th>
 
-                    <td mat-cell *matCellDef="let row" [matTooltip]="getData(row.code)">
+                    <td
+                      mat-cell
+                      *matCellDef="let row"
+                      [matTooltip]="getData(row.code)"
+                    >
                       {{ row.code }}
                     </td>
                   </ng-container>
@@ -190,7 +236,10 @@
                   </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
 
                   <!-- Row shown when there is no matching data. -->
                   <tr class="mat-row" *matNoDataRow>
@@ -200,17 +249,35 @@
                   </tr>
                 </table>
 
-                <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-                <a mat-stroked-button color="primary" class="text-decoration-none" [href]="downloadLink"
-                  [download]="downloadFilename" fxFlex.xs="100%">
+                <mat-paginator
+                  [pageSizeOptions]="[5, 10, 25, 100]"
+                ></mat-paginator>
+                <a
+                  mat-stroked-button
+                  color="primary"
+                  class="text-decoration-none"
+                  [href]="downloadLink"
+                  [download]="downloadFilename"
+                  fxFlex.xs="100%"
+                >
                   JSON<i class="material-icons">file_download</i>
                 </a>
 
-                <button mat-stroked-button color="primary" class="text-decoration-none" (click)="downloadTSV()">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="text-decoration-none"
+                  (click)="downloadTSV()"
+                >
                   TSV <i class="material-icons">file_download</i>
                 </button>
 
-                <button mat-stroked-button color="primary" class="text-decoration-none" (click)="downloadCSV()">
+                <button
+                  mat-stroked-button
+                  color="primary"
+                  class="text-decoration-none"
+                  (click)="downloadCSV()"
+                >
                   CSV <i class="material-icons">file_download</i>
                 </button>
               </div>

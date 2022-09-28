@@ -57,7 +57,30 @@ export class BratDisplayComponent implements OnInit, OnChanges {
       bgColor: '#527259',
       borderColor: 'darken',
       fgColor: "white"
-    }]
+    },
+    {
+      type: 'SINTOMA_ph',
+      labels: ['SINTOMA_ph', 'SINTOMA_ph'],
+      bgColor: '#0C25DA',
+      borderColor: 'darken',
+      fgColor: "white"
+    }
+      ,
+    {
+      type: 'ENFERMEDAD_ph',
+      labels: ['ENFERMEDAD_ph', 'ENFERMEDAD_ph'],
+      bgColor: '#7fa2ff',
+      borderColor: 'darken',
+      fgColor: "white"
+    },
+    {
+      type: 'PHENOTYPE',
+      labels: ['PHENOTYPE', 'PHENOTYPE'],
+      bgColor: '#aa0f0a',
+      borderColor: 'darken',
+      fgColor: "white"
+    },
+    ]
   };
 
 
