@@ -142,6 +142,17 @@ export const PROJECTS: any[] = [
     language: "es",
     outputs: [""],
   },
+  {
+    name: 'PhenoTagIt Advanced',
+    description: 'Place holder for the advanced version of PhenoTagIt',
+    repository: 'https://github.com/TeMU-BSC/PharmaCoNER-Tagger',
+    routerLink: '/phenotype_visualizer', // /'neuroner',
+    model: "phenotype_visualizer",
+    id: "11",
+    short_description: "",
+    language: "es",
+    outputs: [""],
+  },
 
   // {
   //   name: 'Spell Checker',

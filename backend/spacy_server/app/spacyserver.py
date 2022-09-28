@@ -107,6 +107,29 @@ def get_prediction():
     return jsonify({"INPUTTEXT":output,"html" : displacy.render(doc, style="ent", options=options)})
 
 
+@app.route("/get_phenotype_annotations", methods=['POST'])
+def get_phenotype_annotations():
+    json_input = request.json
+    text = json_input['INPUTTEXT'].rstrip()
+    models = json_input['MODELS']
+    n = 0
+    output = []
+    for model in models:
+        nlp = loadmodels(model)
+        doc = nlp(text)
+        for ent in doc.ents:
+            dic = {
+            "A-ID":"T"+str(n),
+            "B-TYPE": ent.label_,
+            "C-START": ent.start_char,
+            "D-END": ent.end_char,
+            "E-text": ent.text,
+             }
+            output.append(dic)
+            n += 1
+    return jsonify({"INPUTTEXT":output,"ents":output})
+
+
 
 # @app.route('/get_annotations', methods=['POST'])
 # def tag():

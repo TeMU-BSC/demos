@@ -13,6 +13,7 @@ import { SentenceSplitterComponent } from './components/sentence-splitter/senten
 import { FooterComponent } from './components/footer/footer.component'
 import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component'
 import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component'
+import { PhenotypeViewComponent } from './components/phenotype-view/phenotype-view.component'
 const routes: Routes = [
   { path: '', component: ProjectsComponent },
   { path: 'sentence-splitter', component: SentenceSplitterComponent },
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'translator', component: TranslatorComponent },
   { path: 'neuro-ner/:id', component: NeuroNerComponent },
   { path: 'doctorNLP', component: SpacyDoctornlpComponent },
+  { path: 'phenotype_visualizer', component: PhenotypeViewComponent },
   {
     path: 'drugprot/:id',
     component: DrugprotComponent,

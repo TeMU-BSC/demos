@@ -39,7 +39,8 @@ import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
 import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
 import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component';
 import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe';
-import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component'
+import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component';
+import { PhenotypeViewComponent } from './components/phenotype-view/phenotype-view.component'
 
 
 
@@ -62,6 +63,7 @@ import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doct
     SpacyVisualizerComponent,
     HtmlsanatizerPipe,
     SpacyDoctornlpComponent,
+    PhenotypeViewComponent,
   ],
   imports: [
     BrowserModule,
