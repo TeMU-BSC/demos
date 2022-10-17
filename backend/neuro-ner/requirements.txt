@@ -1,3 +1,4 @@
+uwsgi
 absl-py==1.0.0
 astor==0.8.1
 blis==0.7.5
