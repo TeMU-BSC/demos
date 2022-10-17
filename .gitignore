@@ -35,3 +35,11 @@ backend/translator/sentencepieceModels/enes_ptSP32k.model
 backend/translator/sentencepieceModels/espt_enSP32k.model
 backend/translator/sentencepieceModels/pten_esSP32k.model
 backend/translator/en/model.bin
+backend/translator/en/source_vocabulary.txt
+.gitignore
+backend/translator/en/source_vocabulary.txt
+.gitignore
+backend/translator/es/source_vocabulary.txt
+backend/translator/pt/source_vocabulary.txt
+.gitignore
+backend/translator/es/source_vocabulary.txt
