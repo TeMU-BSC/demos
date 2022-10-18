@@ -10,9 +10,55 @@ from flask import g, json, request, jsonify
 import spacy
 from spacy import displacy
 from spacy.tokens import Span
+import pandas as pd
 
 
+def normalize(s):
+    replacements = (
+        ("á", "a"),
+        ("é", "e"),
+        ("í", "i"),
+        ("ó", "o"),
+        ("ú", "u"),
+    )
+    for a, b in replacements:
+        s = s.replace(a, b).replace(a.upper(), b.upper())
+    return s
 
+
+HPO = pd.read_csv("HPO_es_master_20220611_v0_updatedfrom220214 - HPO_es_master_20220611_v0_updatedfrom220214.tsv",sep="\t")
+HPO.drop(labels=["syn_type","syn_id","source","branch_1","branch_2","branch_3","branch_4","branch_5"],axis=1,inplace=True)
+HPO_DIC = []
+
+
+for n in range(1,len(HPO)):
+    if pd.isna(HPO.iloc[n,7]) !=True and HPO.iloc[n,5] in (["label","synonym"]):
+        aux_dic = {}
+        aux_dic["label"] = "Fenotipo"
+        aux_dic["id"] = HPO.iloc[n,1]
+        text = HPO.iloc[n,7]
+        text = text.split(" ")
+        pats = []
+        for word in text:
+            pats.append({"LEMMA":normalize(word.lower())})
+        aux_dic["pattern"] = pats
+        HPO_DIC.append(aux_dic)
+
+        if pd.isna(HPO.iloc[n,6]) != True:
+            text = HPO.iloc[n,6]
+            text = text.split(" ")
+            pats = []
+            for word in text:
+                pats.append({"LEMMA":normalize(word.lower())})
+            aux_dic["pattern"] = pats
+            HPO_DIC.append(aux_dic)
+
+global hpo_model
+hpo_model = spacy.load("es_core_news_sm")
+ruler  = hpo_model.add_pipe("entity_ruler")
+patterns = HPO_DIC
+with hpo_model.select_pipes(enable="tagger"):
+    ruler.add_patterns(patterns)
 
 
 CORS(app)
@@ -118,6 +164,18 @@ def get_phenotype_annotations():
         nlp = loadmodels(model)
         doc = nlp(text)
         for ent in doc.ents:
+            dic = {
+            "A-ID":"T"+str(n),
+            "B-TYPE": ent.label_,
+            "C-START": ent.start_char,
+            "D-END": ent.end_char,
+            "E-text": ent.text,
+             }
+            output.append(dic)
+            n += 1
+    doc = hpo_model(normalize(text.lower()))
+    for ent in doc.ents:
+        if ent.label_ == "Fenotipo":
             dic = {
             "A-ID":"T"+str(n),
             "B-TYPE": ent.label_,
