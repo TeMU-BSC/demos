@@ -14,6 +14,7 @@ services:
       - ./frontend:/app
       - ./tls:/tls
     command: ng serve --host 0.0.0.0 --ssl true --ssl-cert "/tls/certs/textmining.bsc.es.pem" --ssl-key "/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
   # freeling-cnio:
   #   image: bsctemu/freeling-cnio:1.0.0
 
@@ -30,6 +31,7 @@ services:
       - ./backend/pos:/app
       - ./tls:/tls
     command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
 
   flask-translator:
     build: ./backend/translator
@@ -44,6 +46,7 @@ services:
       - ./backend/translator:/app
       - ./tls:/tls
     command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
 
   # drugprot-chemical:
   #   build: ./backend/DrugProt_Chemical
@@ -70,6 +73,7 @@ services:
       - ./backend/DrugProt:/app
       - ./tls:/tls
     command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
 
   # fastapi-ner:
   #   build: ./backend/ner_api
@@ -91,6 +95,7 @@ services:
       - ./backend/ner:/app
       - ./tls:/tls
     command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always
 
   # flask-neuro-ner:
   #   build: ./backend/neuro-ner
@@ -119,3 +124,4 @@ services:
       - ./NER-Models:/spacy_models
       - ./tls:/tls
     command: flask run --host 0.0.0.0 --cert="/tls/certs/textmining.bsc.es.pem" --key="/tls/keys/textmining.bsc.es.decrypt.key"
+    restart: always

@@ -9,7 +9,7 @@ WORKDIR /app
 COPY requirements.txt .
 
 # install dependencies
-
+RUN pip install ctranslate2
 RUN pip install -r requirements.txt
 RUN apt-get update
 RUN apt install sentencepiece -y && \
