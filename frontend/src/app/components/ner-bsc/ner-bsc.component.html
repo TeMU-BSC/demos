@@ -113,21 +113,19 @@
           </div>
           <p></p>
           <div class="row ">
-            <div class="card scroll">
-              <div class="card-body">
-                <div *ngIf="project?.model !== 'conjunto'">
-                  <ngx-annotate-text
-                    [(annotations)]="annotations"
-                    [removable]="false"
-                    [text]="proccedText"
-                    annotationClass="my-annotation"
-                    #annotateText
-                  >
-                  </ngx-annotate-text>
-                </div>
-                <div *ngIf="project?.model === 'conjunto'">
-                  <app-brat-display [bratData]="docData"></app-brat-display>
-                </div>
+            <div class="card-body">
+              <div *ngIf="project?.model !== 'conjunto'">
+                <ngx-annotate-text
+                  [(annotations)]="annotations"
+                  [removable]="false"
+                  [text]="proccedText"
+                  annotationClass="my-annotation"
+                  #annotateText
+                >
+                </ngx-annotate-text>
+              </div>
+              <div *ngIf="project?.model === 'conjunto'">
+                <app-brat-display [bratData]="docData"></app-brat-display>
               </div>
             </div>
           </div>

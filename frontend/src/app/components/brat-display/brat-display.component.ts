@@ -97,7 +97,7 @@ export class BratDisplayComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
 
     setTimeout(() => {
-      this.mydiv.nativeElement.innerHTML = '<div id="embedding-entity-example" style="width: 100rem;"></div>'
+      this.mydiv.nativeElement.innerHTML = '<div id="embedding-entity-example" style="display: block; width: 70vw;margin-left: auto;margin-right: auto;"></div>'
       Util.embed('embedding-entity-example', $.extend({}, this.collData),
         $.extend({}, this.bratData), this.webFontURLs);
     }, 10)

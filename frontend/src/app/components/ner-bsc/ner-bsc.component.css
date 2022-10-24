@@ -13,7 +13,7 @@ table {
   width: 100%;
 }
 table.mat-table {
-    display: table;
+  display: table;
 }
 #snomed-table > .ng-star-inserted {
   margin-top: -1rem;
@@ -24,7 +24,7 @@ table.mat-table {
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
-  flex:auto;
+  flex: auto;
   margin: revert;
 }
 table.mat-table {
@@ -49,19 +49,14 @@ th {
   padding: 10px;
 }
 
-.scroll {
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.divider{
-  width:1rem;
-  height:auto;
-  display:inline-block;
+.divider {
+  width: 1rem;
+  height: auto;
+  display: inline-block;
 }
 
 .on-enfermedad {
-  background-color: #DA310C;
+  background-color: #da310c;
   color: white;
 }
 
@@ -76,11 +71,10 @@ th {
 
 .off-sintoma {
   background-color: gray;
-
 }
 
-.on-farmaco{
-  background-color: #0C25DA;
+.on-farmaco {
+  background-color: #0c25da;
   color: white;
 }
 
@@ -89,7 +83,7 @@ th {
 }
 
 .on-procedimiento {
-  background-color: #9FDA0C;
+  background-color: #9fda0c;
   color: white;
 }
 

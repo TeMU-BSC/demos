@@ -53,7 +53,7 @@ for n in range(1,len(HPO)):
             aux_dic["pattern"] = pats
             HPO_DIC.append(aux_dic)
 
-global hpo_model
+
 hpo_model = spacy.load("es_core_news_sm")
 ruler  = hpo_model.add_pipe("entity_ruler")
 patterns = HPO_DIC
@@ -64,6 +64,7 @@ with hpo_model.select_pipes(enable="tagger"):
 CORS(app)
 global models
 models = {}
+models["HPO"] = hpo_model
 def loadmodels(name):
     if name in models.keys():
         return models[name]
@@ -157,35 +158,34 @@ def get_prediction():
 def get_phenotype_annotations():
     json_input = request.json
     text = json_input['INPUTTEXT'].rstrip()
-    models = json_input['MODELS']
+    models = ["Phenotypes_1","Phenotypes_2","HPO"]
     n = 0
     output = []
+    
     for model in models:
         nlp = loadmodels(model)
-        doc = nlp(text)
+        doc = nlp(normalize(text.lower()))
+
+        
         for ent in doc.ents:
-            dic = {
-            "A-ID":"T"+str(n),
-            "B-TYPE": ent.label_,
-            "C-START": ent.start_char,
-            "D-END": ent.end_char,
-            "E-text": ent.text,
-             }
-            output.append(dic)
-            n += 1
-    doc = hpo_model(normalize(text.lower()))
-    for ent in doc.ents:
-        if ent.label_ == "Fenotipo":
-            dic = {
-            "A-ID":"T"+str(n),
-            "B-TYPE": ent.label_,
-            "C-START": ent.start_char,
-            "D-END": ent.end_char,
-            "E-text": ent.text,
-             }
-            output.append(dic)
-            n += 1
-    return jsonify({"INPUTTEXT":output,"ents":output})
+            if ent.label_ not in ["LOC","MISC","PER"]:
+                dic = {
+                "A-ID":"T"+str(n),
+                "B-TYPE": ent.label_,
+                "C-START": ent.start_char,
+                "D-END": ent.end_char,
+                "E-text": text[ent.start_char:ent.end_char].lower(),
+                }
+                output.append(dic)
+                n += 1
+
+    #create table from output  
+    Datos = pd.DataFrame(data=output,columns=["B-TYPE","E-text"])
+    Datos.loc[Datos["B-TYPE"].isin(["ENFERMEDAD_ph","SINTOMA_ph"]),"B-TYPE"] = "PHENOTYPE_2" 
+    Datos2 = pd.DataFrame(Datos.groupby(by=["E-text","B-TYPE"])["B-TYPE"].count()).rename(columns={"B-TYPE": "count"}).reset_index()
+    Datos2 = Datos2.pivot_table("count",["E-text"],"B-TYPE").fillna(0).astype(int)
+    table = Datos2.reset_index().to_dict(orient="record")
+    return jsonify({"INPUTTEXT":output,"TABLE":table})
 
 
 
