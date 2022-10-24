@@ -1,105 +1,43 @@
-.text-box {
-  min-height: 20rem;
+/* Structure */
+.example-container {
+  position: relative;
 }
 
-.ellipsis {
-  max-width: 40rem;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.example-table-container {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
 }
 
 table {
   width: 100%;
 }
-table.mat-table {
-    display: table;
-}
-#snomed-table > .ng-star-inserted {
-  margin-top: -1rem;
-  width: 100%;
+
+.example-loading-shade {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 56px;
+  right: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.title {
-  font-size: 1.5rem;
-  font-weight: bold;
+.example-rate-limit-reached {
+  max-width: 360px;
   text-align: center;
-  flex:auto;
-  margin: revert;
-}
-table.mat-table {
-  display: table;
 }
 
-.mat-form-field {
-  font-size: 14px;
-  width: 100%;
+/* Column Widths */
+.mat-column-number,
+.mat-column-state {
+  max-width: 64px;
 }
 
-td,
-th {
-  width: 25%;
-}
-
-.center {
-  width: 50rem;
-  height: 80rem;
-  margin: auto;
-  margin-top: 5rem;
-  padding: 10px;
-}
-
-.scroll {
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.divider{
-  width:1rem;
-  height:auto;
-  display:inline-block;
-}
-
-.on-enfermedad {
-  background-color: #DA310C;
-  color: white;
-}
-
-.off-enfermedad {
-  background-color: gray;
-}
-
-.on-sintoma {
-  background-color: #527259;
-  color: white;
-}
-
-.off-sintoma {
-  background-color: gray;
-
-}
-
-.on-farmaco{
-  background-color: #0C25DA;
-  color: white;
-}
-
-.off-farmaco {
-  background-color: gray;
-}
-
-.on-procedimiento {
-  background-color: #9FDA0C;
-  color: white;
-}
-
-.off-procedimiento {
-  background-color: gray;
-}
-.center {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -50px;
-  margin-left: -100px;
+.mat-column-created {
+  max-width: 124px;
 }

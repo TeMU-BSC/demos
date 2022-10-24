@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'pos', component: PosComponent },
   { path: 'translator', component: TranslatorComponent },
-  { path: 'neuro-ner/:id', component: NeuroNerComponent },
+  { path: 'neuro-ner', component: NeuroNerComponent },
   { path: 'doctorNLP', component: SpacyDoctornlpComponent },
   { path: 'phenotype_visualizer', component: PhenotypeViewComponent },
   {
