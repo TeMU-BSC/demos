@@ -1,18 +1,18 @@
 doc_id	begin	end	type	extraction
-INPUTTEXT	56	77	ENFERMEDAD	hipertensión arterial
-INPUTTEXT	79	111	ENFERMEDAD	artropatía degenerativa cervical
-INPUTTEXT	113	133	ENFERMEDAD	lumbociática crónica
-INPUTTEXT	135	158	ENFERMEDAD	tuberculosis ganglionar
-INPUTTEXT	187	201	ENFERMEDAD	eritema nudoso
-INPUTTEXT	204	211	ENFERMEDAD	migraña
-INPUTTEXT	740	763	ENFERMEDAD	hipotensa con signos de
-INPUTTEXT	1564	1596	ENFERMEDAD	hipertrofia concéntrica moderada
-INPUTTEXT	1721	1740	ENFERMEDAD	derrame pericárdico
-INPUTTEXT	1830	1841	ENFERMEDAD	miocarditis
-INPUTTEXT	1891	1910	ENFERMEDAD	derrame pericárdico
-INPUTTEXT	2080	2104	ENFERMEDAD	síndrome coronario agudo
-INPUTTEXT	2199	2221	ENFERMEDAD	deterioro hemodinámico
-INPUTTEXT	2241	2270	ENFERMEDAD	actividad eléctrica sin pulso
-INPUTTEXT	2516	2546	ENFERMEDAD	disfunción biventricular grave
-INPUTTEXT	2733	2744	ENFERMEDAD	miocarditis
-INPUTTEXT	3091	3112	ENFERMEDAD	hipoxemia refractaria
+INPUTTEXT	576	594	PROCEDIMIENTO	exploración física
+INPUTTEXT	643	668	PROCEDIMIENTO	auscultación respiratoria
+INPUTTEXT	843	861	PROCEDIMIENTO	electrocardiograma
+INPUTTEXT	947	967	PROCEDIMIENTO	radiografía de tórax
+INPUTTEXT	1099	1118	PROCEDIMIENTO	frotis nasofaríngeo
+INPUTTEXT	1541	1556	PROCEDIMIENTO	ecocardiografía
+INPUTTEXT	2035	2050	PROCEDIMIENTO	coronariografía
+INPUTTEXT	2150	2176	PROCEDIMIENTO	de un catéter de Swan-Ganz
+INPUTTEXT	2284	2310	PROCEDIMIENTO	reanimación cardiopulmonar
+INPUTTEXT	2312	2340	PROCEDIMIENTO	pericardiocentesis emergente
+INPUTTEXT	2342	2360	PROCEDIMIENTO	drenaje de líquido
+INPUTTEXT	2383	2398	PROCEDIMIENTO	de vasopresores
+INPUTTEXT	2465	2479	PROCEDIMIENTO	ecocardiograma
+INPUTTEXT	2609	2672	PROCEDIMIENTO	balón de contrapulsación y oxigenador extracorpóreo de membrana
+INPUTTEXT	2674	2700	PROCEDIMIENTO	ECMO) venoarterial femoral
+INPUTTEXT	2864	2885	PROCEDIMIENTO	tratamiento antiviral
+INPUTTEXT	3067	3071	PROCEDIMIENTO	ECMO

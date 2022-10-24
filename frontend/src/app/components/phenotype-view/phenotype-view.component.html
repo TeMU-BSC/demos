@@ -21,25 +21,28 @@
                 matInput
                 [(ngModel)]="inputText"
                 rows="15"
-                placeholder="Por favor introduzca un caso clinico"
+                maxlength="3000"
+                placeholder="Por favor introduzca un caso clinico, Tamaño max 3000 caracteres"
                 required
               >
               </textarea>
-
-              <!-- Error handling -->
-              <!-- <mat-error *ngIf="f['medicalReport'].errors">
-            <span *ngIf="f['medicalReport'].errors.required">
-              Medical Report is <strong>required</strong>.
-            </span>
-            <span *ngIf="f['medicalReport'].errors.maxlength">
-              Medical Report exeeds the maximum of
-              <strong>{{ MAX_CHARACTERS }} characters</strong>.
-            </span>
-          </mat-error> -->
             </mat-form-field>
-            <button class="btn btn-primary" (click)="submitText()">
-              ENVIAR
-            </button>
+            <div style="display: flex;">
+              <button
+                class="btn btn-primary"
+                style="width: 45%; padding: 1rem; margin: 1rem"
+                (click)="submitText()"
+              >
+                ENVIAR
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="clearText()"
+                style="width: 45%; padding: 1rem; margin: 1rem; "
+              >
+                LIMPIAR
+              </button>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
@@ -56,6 +59,52 @@
             </div>
           </button>
 
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('fenotipo')"
+            [ngClass]="{
+              'on-fenotipo': toggle['fenotipo'],
+              'off-fenotipo': !toggle['fenotipo']
+            }"
+            class="btn"
+          >
+            Fenotipo
+          </button>
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('phenotype')"
+            [ngClass]="{
+              'on-fenotipo-2': toggle['phenotype'],
+              'off-fenotipo-2': !toggle['phenotype']
+            }"
+            class="btn"
+          >
+            Phenotype
+          </button>
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('ENFERMEDAD_ph')"
+            [ngClass]="{
+              'on-fenotipo-3': toggle['ENFERMEDAD_ph'],
+              'off-fenotipo-3': !toggle['ENFERMEDAD_ph']
+            }"
+            class="btn"
+          >
+            ENFERMEDAD_ph
+          </button>
+          <div class="divider"></div>
+          <button
+            (click)="changeNER('SINTOMA_ph')"
+            [ngClass]="{
+              'on-fenotipo-4': toggle['SINTOMA_ph'],
+              'off-fenotipo-4': !toggle['SINTOMA_ph']
+            }"
+            class="btn"
+          >
+            SINTOMA_ph
+          </button>
+          <div class="divider"></div>
+
           <p></p>
           <div class="row ">
             <div class="card scroll">
@@ -68,49 +117,4 @@
       </div>
     </span>
   </span>
-
-  <!--
-  <div class="row mt-3">
-    <div class="col-12 mb-5">
-      <button
-        type="button"
-        class="btn btn-primary mr-2"
-        (click)="addAnnotation('Date', '#0069d9')"
-      >
-        Date
-      </button>
-      <button
-        type="button"
-        class="btn btn-secondary mr-2"
-        (click)="addAnnotation('Time', '#5a6268')"
-      >
-        Time
-      </button>
-      <button
-        type="button"
-        class="btn btn-success mr-2"
-        (click)="addAnnotation('Country', '#28a745')"
-      >
-        Country
-      </button>
-      <button
-        type="button"
-        class="btn btn-danger mr-2"
-        (click)="addAnnotation('City', '#dc3545')"
-      >
-        City
-      </button>
-    </div>
-
-    <div class="col-6">
-      <h2 class="mb-3 display-5">Annotations</h2>
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let a of annotations">
-          start: {{ a.startIndex }}, end: {{ a.endIndex }}, text: "{{
-            a.text
-          }}", label: {{ a.label }}
-        </li>
-      </ul>
-    </div>
-  </div> -->
 </article>

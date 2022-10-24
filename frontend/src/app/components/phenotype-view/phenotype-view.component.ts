@@ -39,10 +39,10 @@ export class PhenotypeViewComponent implements OnInit {
   annotation_mesh: AnnotationSnomed[] = []
   ner_type: string = ''
   toggle = {
-    enfermedad: true,
-    sintoma: true,
-    farmaco: true,
-    procedimiento: true,
+    phenotype: true,
+    fenotipo: true,
+    ENFERMEDAD_ph: true,
+    SINTOMA_ph: true,
   }
   docData = {}
   project: Project
@@ -50,7 +50,7 @@ export class PhenotypeViewComponent implements OnInit {
   response: TemuResponse
 
   brat_annotations: any[] = []
-
+  originalBRATannotatios: any[] = []
   proccedText = ''
   //This variable stores the input from the user, it should be a clinical story in spanish.
   inputText: string =
@@ -100,7 +100,7 @@ export class PhenotypeViewComponent implements OnInit {
           this.brat_annotations.push(newAnnot)
 
         })
-        this.originalBRATAnnotations = this.brat_annotations
+        this.originalBRATannotatios = this.brat_annotations
         this.docData = {
           text: this.inputText,
           entities: this.brat_annotations,
@@ -117,6 +117,33 @@ export class PhenotypeViewComponent implements OnInit {
     )
   }
 
+  clearText() {
+    this.inputText = ''
+  }
+  reset() {
+    this.ready = false
+  }
 
+
+  changeNER(type: string) {
+    this.dropResults(type)
+    this.toggle[type] = !this.toggle[type]
+    this.docData = {
+      text: this.inputText,
+      entities: this.brat_annotations,
+    }
+  }
+
+  dropResults(type) {
+    this.toggle[type]
+      ? (this.brat_annotations = this.brat_annotations.filter(
+        ann => ann[1].toUpperCase() != type.toUpperCase()
+      ))
+      : (this.brat_annotations = this.brat_annotations.concat(
+        this.originalBRATannotatios.filter(
+          ann => ann[1].toUpperCase() == type.toUpperCase()
+        )
+      ))
+  }
 
 }

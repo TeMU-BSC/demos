@@ -40,7 +40,8 @@ import { SentenceSplitterComponent } from './components/sentence-splitter/senten
 import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component';
 import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe';
 import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component';
-import { PhenotypeViewComponent } from './components/phenotype-view/phenotype-view.component'
+import { PhenotypeViewComponent } from './components/phenotype-view/phenotype-view.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 
 
@@ -77,6 +78,7 @@ import { PhenotypeViewComponent } from './components/phenotype-view/phenotype-vi
     SimplemattableModule,
     NgxAnnotateTextModule,
     MatCheckboxModule,
+    NgbModule,
   ],
   providers: [
     LoaderService,

@@ -1,0 +1,104 @@
+.text-box {
+  min-height: 20rem;
+}
+
+.ellipsis {
+  max-width: 40rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+table {
+  width: 100%;
+}
+table.mat-table {
+  display: table;
+}
+#snomed-table > .ng-star-inserted {
+  margin-top: -1rem;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  flex: auto;
+  margin: revert;
+}
+table.mat-table {
+  display: table;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+td,
+th {
+  width: 25%;
+}
+
+.center {
+  width: 50rem;
+  height: 80rem;
+  margin: auto;
+  margin-top: 5rem;
+  padding: 10px;
+}
+
+.scroll {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.divider {
+  width: 1rem;
+  height: auto;
+  display: inline-block;
+}
+
+.on-fenotipo {
+  background-color: #da310c;
+  color: white;
+}
+
+.off-fenotipo {
+  background-color: gray;
+}
+
+.on-fenotipo-2 {
+  background-color: #1bfd9c;
+  color: white;
+}
+
+.off-fenotipo-2 {
+  background-color: gray;
+}
+
+.on-fenotipo-3 {
+  background-color: #0c25da;
+  color: white;
+}
+
+.off-fenotipo-3 {
+  background-color: gray;
+}
+
+.on-fenotipo-4 {
+  background-color: #9fda0c;
+  color: white;
+}
+
+.off-fenotipo-4 {
+  background-color: gray;
+}
+.center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+}

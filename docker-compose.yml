@@ -59,7 +59,6 @@ services:
   #   volumes:
   #     - ./backend/DrugProt_Chemical:/app
   #   command: flask run --host 0.0.0.0
-
   drugprot:
     build: ./backend/DrugProt
     container_name: demos_backend_drugprot

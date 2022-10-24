@@ -43,3 +43,4 @@ backend/translator/es/source_vocabulary.txt
 backend/translator/pt/source_vocabulary.txt
 .gitignore
 backend/translator/es/source_vocabulary.txt
+backend/ner/annots.tsv
