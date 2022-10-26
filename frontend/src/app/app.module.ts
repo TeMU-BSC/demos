@@ -35,7 +35,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox'
 import { LoadingComponent } from './components/loading/loading.component'
 import { BratDisplayComponent } from './components/brat-display/brat-display.component'
 import { DrugprotComponent } from './components/drugprot/drugprot.component'
-import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
+import { NerTableComponent } from './components/ner-table/ner-table'
 import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
 import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component';
 import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe';
@@ -59,7 +59,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
     LoadingComponent,
     BratDisplayComponent,
     DrugprotComponent,
-    NeuroNerComponent,
+    NerTableComponent,
     SentenceSplitterComponent,
     SpacyVisualizerComponent,
     HtmlsanatizerPipe,

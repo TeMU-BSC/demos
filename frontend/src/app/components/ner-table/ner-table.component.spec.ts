@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NeuroNerComponent } from './neuro-ner.component';
+import { NerTableComponent } from './ner-table';
 
-describe('NeuroNerComponent', () => {
-  let component: NeuroNerComponent;
-  let fixture: ComponentFixture<NeuroNerComponent>;
+describe('NerTableComponent', () => {
+  let component: NerTableComponent;
+  let fixture: ComponentFixture<NerTableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NeuroNerComponent ]
+      declarations: [NerTableComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NeuroNerComponent);
+    fixture = TestBed.createComponent(NerTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -8,7 +8,7 @@ import { TranslatorComponent } from './components/translator/translator.componen
 import { ProjectsComponent } from './components/projects/projects.component'
 import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 import { DrugprotComponent } from './components/drugprot/drugprot.component'
-import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
+import { NerTableComponent } from './components/ner-table/ner-table'
 import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
 import { FooterComponent } from './components/footer/footer.component'
 import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component'
@@ -20,7 +20,7 @@ const routes: Routes = [
   { path: 'coming-soon', component: ComingSoonComponent },
   { path: 'pos', component: PosComponent },
   { path: 'translator', component: TranslatorComponent },
-  { path: 'neuro-ner', component: NeuroNerComponent },
+  { path: 'neuro-ner', component: NerTableComponent },
   { path: 'doctorNLP', component: SpacyDoctornlpComponent },
   { path: 'phenotype_visualizer', component: PhenotypeViewComponent },
   {
