@@ -22,48 +22,26 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http'
 import { LoaderInterceptor } from './loader.interceptor'
 
 // Own components
-import { PosComponent } from './components/pos/pos.component'
-import { ComingSoonComponent } from './components/coming-soon/coming-soon.component'
 import { FooterComponent } from './components/footer/footer.component'
-import { TranslatorComponent } from './components/translator/translator.component'
 import { HeaderComponent } from './components/header/header.component'
 import { LoaderComponent } from './components/loader/loader.component'
 import { ProjectsComponent } from './components/projects/projects.component'
-import { NerBscComponent } from './components/ner-bsc/ner-bsc.component'
 import { NgxAnnotateTextModule } from 'ngx-annotate-text'
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { LoadingComponent } from './components/loading/loading.component'
-import { BratDisplayComponent } from './components/brat-display/brat-display.component'
-import { DrugprotComponent } from './components/drugprot/drugprot.component'
-import { NeuroNerComponent } from './components/neuro-ner/neuro-ner.component'
-import { SentenceSplitterComponent } from './components/sentence-splitter/sentence-splitter.component'
-import SpacyVisualizerComponent from './components/spacy-visualizer/spacy-visualizer.component';
 import { HtmlsanatizerPipe } from './pipes/htmlsanatizer.pipe';
-import { SpacyDoctornlpComponent } from './components/spacy-doctornlp/spacy-doctornlp.component';
-import { PhenotypeViewComponent } from './components/phenotype-view/phenotype-view.component'
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PosComponent,
-    ComingSoonComponent,
     FooterComponent,
-    TranslatorComponent,
     HeaderComponent,
     LoaderComponent,
     ProjectsComponent,
-    NerBscComponent,
     LoadingComponent,
-    BratDisplayComponent,
-    DrugprotComponent,
-    NeuroNerComponent,
-    SentenceSplitterComponent,
-    SpacyVisualizerComponent,
     HtmlsanatizerPipe,
-    SpacyDoctornlpComponent,
-    PhenotypeViewComponent,
   ],
   imports: [
     BrowserModule,

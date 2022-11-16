@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  angular:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: demos_frontend
+    ports:
+      - "8004:8080"
+    volumes:
+      - ./:/app
+    restart: unless-stopped

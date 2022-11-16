@@ -8,4 +8,8 @@ import { PROJECTS } from 'src/app/shared/projects'
 })
 export class HeaderComponent {
   demos = PROJECTS
+
+  openDemo(routerLink: string) {
+    window.open(routerLink)
+  }
 }

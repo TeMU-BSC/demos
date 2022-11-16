@@ -4,12 +4,16 @@
     fxLayoutAlign="space-between center"
     style="margin: .5em 0 .5em 0;"
   >
-    <a href="https://www.bsc.es" class="h-100">
-      <img
-        src="assets/images/bsc/BSC-white.svg"
-        alt="Barcelona Supercomputing Center"
-        class="h-100"
-      />
+<!--    <a href="https://www.bsc.es" class="h-100">-->
+<!--      <img-->
+<!--        src="assets/images/bsc/BSC-white.svg"-->
+<!--        alt="Barcelona Supercomputing Center"-->
+<!--        class="h-100"-->
+<!--      />-->
+<!--    </a>-->
+    <a href="https://www.plantl.gob.es/" class="h-100">
+      <img src="assets/images/plantl/plantl.png" alt="Logo del PlanTL" class="h-100 bg-light rounded"
+           style="max-height: 6em">
     </a>
 
     <div>
@@ -21,7 +25,7 @@
         <button
           mat-menu-item
           *ngFor="let demo of demos"
-          [routerLink]="demo.routerLink"
+          (click)="openDemo(demo.routerLink)"
         >
           {{ demo.name }}
         </button>

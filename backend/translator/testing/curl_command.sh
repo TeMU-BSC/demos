@@ -1,1 +1,0 @@
-curl -i -X POST -H "Content-Type: application/json" -d '[{"src": "__opt_src_en __opt_tgt_es This is an example sentence to be translated.", "id": 100}]' http://bsccnio01.bsc.es:5000/translator/translate
