@@ -51,7 +51,7 @@ export const PROJECTS: any[] = [
   },
   {
     name: 'EvalES',
-    description: 'EvalES benchmark consiste en la evaluación de 7 tareas: Named Entity Recognition and Classification (CoNLL-NERC), Part-of-Speech Tagging (UD-POS), Text Classification (MLDoc), Paraphrase Identification (PAWS-X), Semantic Textual Similarity (STS), Question Answering (SQAC), and Textual Entailment (XNLI).',
+    description: 'Colección de recursos para evaluar sistemas de comprensión del lenguaje natural.',
     repository: 'https://github.com/PlanTL-GOB-ES/spanish-benchmark',
     routerLink: 'https://benchmark.plantl.bsc.es/',  // '/pos',
     model: '',
