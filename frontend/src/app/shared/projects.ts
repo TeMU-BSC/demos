@@ -18,7 +18,7 @@ export const PROJECTS: any[] = [
 
   {
     name: 'Anonimizador',
-    description: 'Anonimizador para castellano y catalán de contenidos generados por usuarios en sistemas conversacionales, para limpiar o reemplazar la información personal que puedan contener. Se utilizan gramáticas y modelos neuronales.',
+    description: 'Anonimizador para castellano y catalán de contenidos generados por usuarios en sistemas conversacionales',
     repository: 'https://github.com/TeMU-BSC/AnonymizationPipeline',
     routerLink: 'https://anonimizador.plantl.bsc.es/',  // '/pos',
     model: "",
