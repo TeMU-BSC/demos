@@ -5,10 +5,10 @@
     <mat-card-title>{{ project.name }}</mat-card-title>
       <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
       <mat-card-actions>
-        <a href=" {{project.repository}} " matTooltip="GitHub">
+        <a target="_blank" href="{{project.repository}}" matTooltip="GitHub">
           <i class="fab fa-github"></i>
         </a>
-        <a href=" {{project.routerLink}} " matTooltip="Obrir">
+        <a target="_blank" href="{{project.routerLink}}" matTooltip="Obrir">
           <i class="fa-solid fa-square-up-right"></i>
         </a>
       </mat-card-actions>
