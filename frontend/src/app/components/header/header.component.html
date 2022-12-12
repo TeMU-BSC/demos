@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" fxLayout="column">
+<mat-toolbar fxLayout="column">
   <mat-toolbar-row
     fxLayout="row"
     fxLayoutAlign="space-between center"
@@ -11,25 +11,23 @@
 <!--        class="h-100"-->
 <!--      />-->
 <!--    </a>-->
-    <a href="https://www.plantl.gob.es/" class="h-100">
-      <img src="assets/images/plantl/plantl.png" alt="Logo del PlanTL" class="h-100 bg-light rounded"
+      <img src="assets/images/aina/aina.png" alt="Logo de Aina" class="h-100 rounded"
            style="max-height: 6em">
-    </a>
 
-    <div>
-      <button mat-button routerLink="/">Demos y Evaluaciones</button>
-      <button mat-icon-button [matMenuTriggerFor]="menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #menu="matMenu">
-        <button
-          mat-menu-item
-          *ngFor="let demo of demos"
-          (click)="openDemo(demo.routerLink)"
-        >
-          {{ demo.name }}
-        </button>
-      </mat-menu>
-    </div>
+<!--    <div>-->
+<!--      <button mat-button routerLink="/">Demos y Evaluaciones</button>-->
+<!--      <button mat-icon-button [matMenuTriggerFor]="menu">-->
+<!--        <mat-icon>more_vert</mat-icon>-->
+<!--      </button>-->
+<!--      <mat-menu #menu="matMenu">-->
+<!--        <button-->
+<!--          mat-menu-item-->
+<!--          *ngFor="let demo of demos"-->
+<!--          (click)="openDemo(demo.routerLink)"-->
+<!--        >-->
+<!--          {{ demo.name }}-->
+<!--        </button>-->
+<!--      </mat-menu>-->
+<!--    </div>-->
   </mat-toolbar-row>
 </mat-toolbar>

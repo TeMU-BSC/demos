@@ -1,4 +1,29 @@
-mat-card:hover {
-  cursor: pointer;
-  background-color: aliceblue;
+/*mat-card:hover {*/
+/*  cursor: pointer;*/
+/*  background-color: aliceblue;*/
+/*}*/
+
+/*mat-card {*/
+/*  !*display: flex;*!*/
+/*  !*flex-direction: column;*!*/
+/*}*/
+mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: auto;
+  margin-bottom: 4px !important;
+}
+
+mat-card-subtitle {
+  min-height: 80px;
+}
+
+mat-card {
+  margin: 1em;
+}
+a {color: #326FA2; margin-right: 2rem;}
+
+a i {
+  font-size: x-large;
+
 }

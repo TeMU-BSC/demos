@@ -1,8 +1,16 @@
-<section fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="1em" fxLayout.gt-sm="row wrap"
-  fxLayoutAlign.gt-sm="center stretch" class="p-3">
-  <mat-card *ngFor="let project of projects" (click)="openDemo(project.routerLink)" fxFlex="20" fxFlex.xs="100" class="mb-3"
-    style="min-height: 200px;">
+<section fxLayout="column" fxLayoutAlign="space-around" fxLayout.gt-sm="row wrap"
+  fxLayoutAlign.gt-sm="center stretch" class="p-3 mt-lg-4">
+<!--  <mat-card *ngFor="let project of projects" (click)="openDemo(project.routerLink)" fxFlex="20" fxFlex.xs="100" class="mb-3" style="min-height: 200px;">-->
+  <mat-card *ngFor="let project of projects" fxFlex="24" fxFlex.xs="100" class="mb-3" style="min-height: 200px;">
     <mat-card-title>{{ project.name }}</mat-card-title>
-    <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
+      <mat-card-subtitle>{{ project.description }}</mat-card-subtitle>
+      <mat-card-actions>
+        <a href=" {{project.repository}} " matTooltip="GitHub">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href=" {{project.routerLink}} " matTooltip="Obrir">
+          <i class="fa-solid fa-square-up-right"></i>
+        </a>
+      </mat-card-actions>
   </mat-card>
 </section>

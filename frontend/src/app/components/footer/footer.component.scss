@@ -2,26 +2,15 @@
 @import 'src/app/temu-app-theme.scss';
 
 footer {
-  background-color: mat-color($temu-app-primary);
-}
-
-a {
-  color: mat-color($temu-app-accent);
-
-  // // Get a specific hue for a palette.
-  // // See https://material.io/archive/guidelines/style/color.html#color-color-palette for hues.
-  // background-color: mat-color($accent, 300);
-
-  // // Get a relative color for a hue ('lighter' or 'darker')
-  // outline-color: mat-color($accent, lighter);
-
-  // // Get a contrast color for a hue by adding `-contrast` to any other key.
-  // border-color: mat-color($primary, '100-contrast');
+  background-color: transparent;
 }
 
 a > i {
   font-size: xx-large;
+
 }
+
+a {color: #326FA2;}
 
 .sticky-bottom {
   position: absolute;

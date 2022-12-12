@@ -6,4 +6,8 @@
   position: relative;
   /* height of your footer */
   padding-bottom: 20em;
+  background: rgb(0, 0, 0);
+  background: -moz-linear-gradient(4deg, rgba(0, 0, 0, 1) 0%, rgb(50, 111, 162) 91%);
+  background: -webkit-linear-gradient(4deg, rgba(0, 0, 0, 1) 0%, rgb(50, 111, 162) 91%);
+  background: linear-gradient(4deg, rgba(0, 0, 0, 1) 0%, rgb(50, 111, 162) 91%);
 }
