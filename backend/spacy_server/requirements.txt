@@ -1,7 +1,7 @@
 Flask==2.2.2
 Flask-Cors==3.0.10
 Flask-SocketIO==5.1.2
-ujson==5.1.0
+ujson==5.4.0
 virtualenv==16.7.6
 numpy==1.21.5
 threadpoolctl==3.1.0
