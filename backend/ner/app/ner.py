@@ -177,9 +177,9 @@ def hello():
 @app.route('/get_annotations', methods=['POST'])
 def get_annotations():
     json_input = request.json
-    if json_input['ner_type'] != 'conjunto':
+    if json_input['MODEL'] != 'conjunto':
         global models
-        models = [json_input['ner_type']]
+        models = [json_input['MODEL']]
     else:
         models = ['enfermedad', 'farmaco', 'sintoma', 'procedimiento']
     json_to_file = {
