@@ -11,8 +11,8 @@ from os import environ, path, walk
 from flask import request, jsonify
 from flask_cors import CORS
 from med_tagger_wrapper import MedTagger
-
 from app import app
+
 
 CORS(app)
 MED_TAGGER = MedTagger()

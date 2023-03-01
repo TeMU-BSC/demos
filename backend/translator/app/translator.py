@@ -21,12 +21,25 @@ from nltk import sent_tokenize
 from app import app
 import concurrent.futures
 
+
+import pip
+
+def import_or_install(package):
+    try:
+        __import__(package)
+    except ImportError:
+        pip.main(['install', package])   
+
+import_or_install("ctranslate2")
+import_or_install("sentencepiece")
+import_or_install("nltk")
+import_or_install("pandas")
 import ctranslate2
+import pandas as pd 
+import nltk
 import sentencepiece as spm
-import nltk 
-import pandas as pd
 from nltk import sent_tokenize
-nltk. download('punkt')
+nltk.download('punkt')
 import os
 
 

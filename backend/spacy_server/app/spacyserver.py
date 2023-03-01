@@ -2,9 +2,20 @@ from ast import Global
 import os
 import sys
 import unicodedata
+import pip
+
+def import_or_install(package):
+    try:
+        __import__(package)
+    except ImportError:
+        pip.main(['install', package]) 
+
+
 from flask_cors import CORS,cross_origin
 from flask import Flask, request
 from app import app
+import_or_install("numpy")
+import_or_install("pandas")
 import numpy as np
 from flask import g, json, request, jsonify
 import spacy
@@ -12,6 +23,8 @@ from spacy import displacy
 from spacy.tokens import Span
 import pandas as pd
 
+
+     
 
 def normalize(s):
     replacements = (
@@ -34,7 +47,7 @@ HPO_DIC = []
 for n in range(1,len(HPO)):
     if pd.isna(HPO.iloc[n,7]) !=True and HPO.iloc[n,5] in (["label","synonym"]):
         aux_dic = {}
-        aux_dic["label"] = "Fenotipo"
+        aux_dic["label"] = "HPO"
         aux_dic["id"] = HPO.iloc[n,1]
         text = HPO.iloc[n,7]
         text = text.split(" ")
@@ -168,20 +181,48 @@ def get_phenotype_annotations():
 
         
         for ent in doc.ents:
-            if ent.label_ not in ["LOC","MISC","PER"]:
-                dic = {
-                "A-ID":"T"+str(n),
-                "B-TYPE": ent.label_,
-                "C-START": ent.start_char,
-                "D-END": ent.end_char,
-                "E-text": text[ent.start_char:ent.end_char].lower(),
-                }
+            if ent.label_ not in ["LOC","MISC","PER","ORG"]:
+                if ent.label_ == "HPO":
+                    dic = {
+                    "A-ID":"T"+str(n),
+                    "B-TYPE": "HPO",
+                    "C-START": ent.start_char,
+                    "D-END": ent.end_char,
+                    "E-text":text[ent.start_char:ent.end_char].lower(),
+                    "F-HPO": ent.ent_id_,
+                    }
+                if ent.label_ == "ENFERMEDAD_ph":
+                    dic = {
+                    "A-ID":"T"+str(n),
+                    "B-TYPE": "DISEASE",
+                    "C-START": ent.start_char,
+                    "D-END": ent.end_char,
+                    "E-text":text[ent.start_char:ent.end_char].lower(),
+                    
+                    }
+
+                if ent.label_ == "SINTOMA_ph":
+                    dic = {
+                    "A-ID":"T"+str(n),
+                    "B-TYPE": "SYMPTOM",
+                    "C-START": ent.start_char,
+                    "D-END": ent.end_char,
+                    "E-text":text[ent.start_char:ent.end_char].lower(),
+                    }
+                if ent.label_ == "PHENOTYPE":
+                     dic = {
+                    "A-ID":"T"+str(n),
+                    "B-TYPE": ent.label_,
+                    "C-START": ent.start_char,
+                    "D-END": ent.end_char,
+                    "E-text": text[ent.start_char:ent.end_char].lower(),
+                    }
                 output.append(dic)
                 n += 1
 
     #create table from output  
     Datos = pd.DataFrame(data=output,columns=["B-TYPE","E-text"])
-    Datos.loc[Datos["B-TYPE"].isin(["ENFERMEDAD_ph","SINTOMA_ph"]),"B-TYPE"] = "PHENOTYPE_2" 
+    Datos.loc[Datos["B-TYPE"].isin(["DISEASE","SYMPTOM"]),"B-TYPE"] = "PHENOTYPE_2" 
     Datos2 = pd.DataFrame(Datos.groupby(by=["E-text","B-TYPE"])["B-TYPE"].count()).rename(columns={"B-TYPE": "count"}).reset_index()
     Datos2 = Datos2.pivot_table("count",["E-text"],"B-TYPE").fillna(0).astype(int)
     table = Datos2.reset_index().to_dict(orient="record")
