@@ -166,7 +166,7 @@ export class NerBscComponent implements OnInit {
     let dic = {
       // INPUTTEXT: this.sanitizeString(this.inputText)
       INPUTTEXT: this.inputText,
-      ner_type: this.project.model,
+      MODEL: this.project.model,
     }
 
     this.dataSvc.getAnnotations(dic).subscribe(

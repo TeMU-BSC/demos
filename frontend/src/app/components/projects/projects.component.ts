@@ -26,21 +26,21 @@ export class ProjectsComponent implements OnInit {
   projects = PROJECTS
 
   ngOnInit(): void {
-    this.dataSvc.getModelsInfo().subscribe(
-      data => {
-        let modelds = data
-        modelds.map(d => {
-          if (d["model_type"] == "spacy") {
-            d["routerLink"] = "ner_v2/" + d["route"]
-          }
-        }
-        )
-        this.projects = this.projects.concat(modelds)
-        console.log(this.projects)
-      },
-      error => { },
-      () => { }
-    )
+    // this.dataSvc.getModelsInfo().subscribe(
+    //   data => {
+    //     let modelds = data
+    //     modelds.map(d => {
+    //       if (d["model_type"] == "spacy") {
+    //         d["routerLink"] = "ner_v2/" + d["route"]
+    //       }
+    //     }
+    //     )
+    //     this.projects = this.projects.concat(modelds)
+    //     console.log(this.projects)
+    //   },
+    //   error => { },
+    //   () => { }
+    // )
   }
 
 

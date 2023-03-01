@@ -61,8 +61,8 @@ th {
 }
 
 .on-fenotipo {
-  background-color: #da310c;
-  color: white;
+  background-color: #b6f7dc;
+  color: black;
 }
 
 .off-fenotipo {
@@ -70,8 +70,8 @@ th {
 }
 
 .on-fenotipo-2 {
-  background-color: #1bfd9c;
-  color: white;
+  background-color: #6de5bf;
+  color: black;
 }
 
 .off-fenotipo-2 {
@@ -79,7 +79,7 @@ th {
 }
 
 .on-fenotipo-3 {
-  background-color: #0c25da;
+  background-color: #e56d88;
   color: white;
 }
 
@@ -88,7 +88,7 @@ th {
 }
 
 .on-fenotipo-4 {
-  background-color: #9fda0c;
+  background-color: #6db2e5;
   color: white;
 }
 
@@ -101,4 +101,11 @@ th {
   left: 50%;
   margin-top: -50px;
   margin-left: -100px;
+}
+
+.btn {
+  border: 2px solid rgba(92, 86, 86, 0.534);
+  padding: 14px 28px;
+  font-size: 16px;
+  cursor: pointer;
 }
